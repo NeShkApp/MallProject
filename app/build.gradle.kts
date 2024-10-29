@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-parcelize")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -45,6 +48,32 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    //Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    //Google-Firebase
+    implementation(platform(libs.firebase.bom))
+    // When using the BoM, don't specify versions in Firebase dependencies
+    //Analytics
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+    //Coroutine for FireStore (HZ CHY NADA)
+    implementation(libs.kotlinx.coroutines.play.services)
+
+//    implementation(libs.gms.play.services.gcm)
+
+    //firestore
+    implementation(libs.firebase.firestore.ktx)
+
+    implementation("com.google.android.gms:play-services-base")
+
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
