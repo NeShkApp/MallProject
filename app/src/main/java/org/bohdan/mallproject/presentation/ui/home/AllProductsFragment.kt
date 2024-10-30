@@ -31,13 +31,11 @@ class AllProductsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-        viewModel.getShopItems()
+//        viewModel.getShopItems()
+        viewModel.getAllShopItems()
         viewModel.shopItems.observe(viewLifecycleOwner) {
             it?.let {
-                Log.d("AllProductsFragment", "Received items: ${it.size}")
-                it.forEach { item ->
-                    Log.d("AllProductsFragment", "Item details: ${item.toString()}")
-                }
+                Log.d("AllProductsFragment", "Received items in Fragment: ${it.size}")
                 adapter.shopList = it
             }
         }

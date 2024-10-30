@@ -10,6 +10,7 @@ import org.bohdan.mallproject.domain.model.ShopItem
 
 class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemViewHolder>() {
 
+    // TODO: probably delete notifyDataSetChanged
     var shopList = listOf<ShopItem>()
         set(value) {
             field = value

@@ -68,7 +68,8 @@ dependencies {
 //    implementation(libs.gms.play.services.gcm)
 
     //firestore
-    implementation(libs.firebase.firestore.ktx)
+//    implementation(libs.firebase.firestore.ktx)
+    implementation("com.google.firebase:firebase-firestore")
 
     implementation("com.google.android.gms:play-services-base")
 
