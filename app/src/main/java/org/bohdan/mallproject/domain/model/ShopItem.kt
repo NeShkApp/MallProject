@@ -16,19 +16,14 @@ package org.bohdan.mallproject.domain.model
 
 //FOR TEMPORARY USING
 data class ShopItem(
-    val name: String,
-    val description: String,
-    val category: String,
-    val price: Double,
-    val rating: Float,
-    val imageUrl: String,
-    var id: String = UNDEFINED_ID
-){
-    companion object{
-        const val UNDEFINED_ID = "UNDEFINED"
-    }
+    val name: String = "",
+    val description: String = "",
+    val category: String = "",
+    val price: Double = 0.0,
+    val rating: Float = 0f,
+    val imageUrl: String = "",
+    val id: String = ""
+)
 
-
-}
 
 
