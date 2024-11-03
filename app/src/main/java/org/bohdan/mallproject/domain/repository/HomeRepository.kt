@@ -6,7 +6,6 @@ import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 
 interface HomeRepository {
-//    fun getAllShopItems(): LiveData<List<ShopItem>>
     suspend fun getAllShopItems(): List<ShopItem>
     suspend fun getShopItemById(shopItemId: String): ShopItem
     suspend fun getShopItemByAttributes(

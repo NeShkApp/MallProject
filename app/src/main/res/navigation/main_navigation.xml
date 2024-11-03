@@ -9,5 +9,20 @@
         android:id="@+id/allProducts"
         android:name="org.bohdan.mallproject.presentation.ui.home.AllProductsFragment"
         android:label="fragment_all_products"
-        tools:layout="@layout/fragment_all_products" />
+        tools:layout="@layout/fragment_all_products" >
+        <action
+            android:id="@+id/action_allProducts_to_shopItemDetailsFragment"
+            app:destination="@id/shopItemDetailsFragment"
+            app:popUpTo="@id/allProducts"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopItemDetailsFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.itemdetails.ShopItemDetailsFragment"
+        android:label="fragment_shop_item_details"
+        tools:layout="@layout/fragment_shop_item_details" >
+        <argument
+            android:name="ShopItem"
+            app:argType="org.bohdan.mallproject.domain.model.ShopItem" />
+    </fragment>
 </navigation>

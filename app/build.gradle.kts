@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safe.args)
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
@@ -72,6 +73,11 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
 
     implementation("com.google.android.gms:play-services-base")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
+
 
 
 

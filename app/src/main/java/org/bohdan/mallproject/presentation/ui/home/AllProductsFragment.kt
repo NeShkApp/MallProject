@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.ShopItem
@@ -31,7 +32,6 @@ class AllProductsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-//        viewModel.getShopItems()
         viewModel.getAllShopItems()
         viewModel.shopItems.observe(viewLifecycleOwner) {
             it?.let {
@@ -40,6 +40,16 @@ class AllProductsFragment : Fragment() {
             }
         }
 
+        adapter.onShopItemClickListener = {
+            launchShopItemDetailsFragment(it)
+        }
+    }
+
+
+    private fun launchShopItemDetailsFragment(shopItem: ShopItem) {
+        findNavController().navigate(
+            AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem)
+        )
     }
 
     private fun setupRecyclerView(view: View) {
@@ -47,5 +57,6 @@ class AllProductsFragment : Fragment() {
         adapter = HomeShopItemsAdapter()
         rvShopList.adapter = adapter
     }
+
 
 }

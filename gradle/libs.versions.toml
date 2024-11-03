@@ -40,3 +40,6 @@ play-services-gcm = { module = "com.google.android.gms:play-services-gcm" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
+#new
+navigation-safe-args = { id = "androidx.navigation.safeargs", version = "2.8.3" }
+
