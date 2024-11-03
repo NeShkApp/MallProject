@@ -1,5 +1,8 @@
 package org.bohdan.mallproject.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 //FOR END VERSION OF APP
 //data class ShopItem(
 //    val id: Int,
@@ -15,6 +18,7 @@ package org.bohdan.mallproject.domain.model
 //)
 
 //FOR TEMPORARY USING
+@Parcelize
 data class ShopItem(
     val name: String = "",
     val description: String = "",
@@ -23,7 +27,7 @@ data class ShopItem(
     val rating: Float = 0f,
     val imageUrl: String = "",
     val id: String = ""
-)
+): Parcelable
 
 
 

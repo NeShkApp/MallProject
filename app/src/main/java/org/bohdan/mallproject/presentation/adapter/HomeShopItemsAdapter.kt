@@ -10,6 +10,8 @@ import org.bohdan.mallproject.domain.model.ShopItem
 
 class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemViewHolder>() {
 
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
+
     // TODO: probably delete notifyDataSetChanged
     var shopList = listOf<ShopItem>()
         set(value) {
@@ -39,5 +41,10 @@ class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemV
         val shopItem = shopList[position]
         holder.tvName.text = shopItem.name
         holder.tvPrice.text = shopItem.price.toString()
+        holder.itemView.setOnClickListener {
+            onShopItemClickListener?.invoke(shopItem)
+        }
     }
+
+
 }
