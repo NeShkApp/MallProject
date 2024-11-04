@@ -15,50 +15,7 @@ import java.util.TreeSet
 import kotlin.random.Random
 
 object HomeRepositoryImpl : HomeRepository {
-//    private val db = Firebase.firestore
-
     private val db = FirebaseFirestore.getInstance()
-
-    // TODO: Make normal LiveData with get() -shopItems
-//    private val shopItemsLD = MutableLiveData<List<ShopItem>>()
-//
-//    private val shopItems = sortedSetOf<ShopItem>({o1, o2 -> o1.id.compareTo(o2.id)})
-
-    init {
-//        val items = mutableListOf<ShopItem>()
-//        for (i in 1..10) {
-//            items.add(ShopItem("Product $i",
-//                "Description of Product $i",
-//                "Category $i",
-//                i * 10.0, i.toFloat(),
-//                "Image URL $i"))
-//        }
-//        _shopItems.value = items
-    }
-
-    //working code
-//    override fun getAllShopItems(): LiveData<List<ShopItem>> {
-//        val shopItemsLiveData = MutableLiveData<List<ShopItem>>()
-//
-//        db.collection("shopItems")
-//            .get()
-//            .addOnSuccessListener { result ->
-//                val items = mutableListOf<ShopItem>()
-//                for (document in result) {
-//                    val item = document.toObject(ShopItem::class.java)
-//                    items.add(item.copy(id = document.id))
-//                    Log.d("HomeRepositoryImpl", "Added item =>${item.toString()}")
-//                }
-//                shopItemsLiveData.value = items
-//                Log.d("HomeRepositoryImpl", "Fetched ${items.size} items")
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w("HomeRepositoryImpl", "Error getting documents.", exception)
-//                shopItemsLiveData.value = emptyList()
-//            }
-//
-//        return shopItemsLiveData
-//    }
 
     override suspend fun getAllShopItems(): List<ShopItem> {
         return try {
@@ -88,7 +45,7 @@ object HomeRepositoryImpl : HomeRepository {
         }
     }
 
-
+    // TODO: Do async getting the data from firestore!
     override suspend fun getShopItemByAttributes(
         sortBy: SortBy,
         name: String?,
@@ -98,8 +55,17 @@ object HomeRepositoryImpl : HomeRepository {
         minPrice: Double?,
         maxPrice: Double?,
         minRating: Float?
-    ): LiveData<List<ShopItem>> {
-        TODO("Not yet implemented")
+    ): List<ShopItem> {
+        val snapshot = db.collection("shopItems").get().await()
+        val shopItems = snapshot.documents.mapNotNull {
+            it.toObject(ShopItem::class.java)?.copy(id = it.id)
+        }
+        return when (sortBy) {
+            SortBy.PRICE_ASC -> shopItems.sortedBy { it.price }
+            SortBy.PRICE_DESC -> shopItems.sortedByDescending { it.price }
+            SortBy.RATING -> shopItems.sortedByDescending { it.rating }
+        }
+
     }
 
 }

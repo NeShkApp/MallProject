@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:context=".presentation.ui.home.SortShopItemsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort Options"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_sort_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_sort_price_ascending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: Low to High" />
+
+            <RadioButton
+                android:id="@+id/rb_sort_price_descending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: High to Low" />
+
+            <RadioButton
+                android:id="@+id/rb_sort_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_apply_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apply" />
+    </LinearLayout>
+</FrameLayout>
