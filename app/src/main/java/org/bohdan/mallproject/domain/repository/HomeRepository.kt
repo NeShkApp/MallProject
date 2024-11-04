@@ -17,5 +17,5 @@ interface HomeRepository {
         minPrice: Double? = null,
         maxPrice: Double? = null,
         minRating: Float? = null,
-    ): LiveData<List<ShopItem>>
+    ): List<ShopItem>
 }

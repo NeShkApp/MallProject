@@ -17,10 +17,6 @@ class ShopItemDetailsFragment : Fragment() {
     private val binding: FragmentShopItemDetailsBinding
         get() = _binding ?:throw RuntimeException("FragmentShopItemDetailsBinding == null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +39,6 @@ class ShopItemDetailsFragment : Fragment() {
         binding.tvItemPrice.text = String.format("$%.2f", shopItem.price) // Форматування ціни
         binding.tvItemRating.text = String.format("Rating: %.1f", shopItem.rating)
 
-        // Завантаження зображення товару
         Glide.with(this)
             .load(shopItem.imageUrl)
             .into(binding.imageView)
