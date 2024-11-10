@@ -31,17 +31,17 @@ class ShopItemDetailsFragment : Fragment() {
     }
 
     private fun bindViews() {
-        val shopItem = args.shopItem
-
-        binding.tvItemName.text = shopItem.name
-        binding.tvItemDescription.text = shopItem.description
-        binding.tvItemCategory.text = shopItem.category
-        binding.tvItemPrice.text = String.format("$%.2f", shopItem.price) // Форматування ціни
-        binding.tvItemRating.text = String.format("Rating: %.1f", shopItem.rating)
-
-        Glide.with(this)
-            .load(shopItem.imageUrl)
-            .into(binding.imageView)
+//        val shopItem = args.shopItem
+//
+//        binding.tvItemName.text = shopItem.name
+//        binding.tvItemDescription.text = shopItem.description
+////        binding.tvItemCategory.text = shopItem.category
+//        binding.tvItemPrice.text = String.format("$%.2f", shopItem.price) // Форматування ціни
+//        binding.tvItemRating.text = String.format("Rating: %.1f", shopItem.rating)
+//
+//        Glide.with(this)
+//            .load(shopItem.imageUrl)
+//            .into(binding.imageView)
     }
 
     override fun onDestroyView() {

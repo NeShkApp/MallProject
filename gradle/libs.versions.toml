@@ -39,7 +39,9 @@ play-services-gcm = { module = "com.google.android.gms:play-services-gcm" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+google-services = { id = "com.google.gms.google-services", version = "4.3.15" }
 #new
-navigation-safe-args = { id = "androidx.navigation.safeargs", version = "2.8.3" }
+#navigation-safe-args = { id = "androidx.navigation.safeargs", version = "2.5.3" }
+navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version = "2.5.0" }
+
 

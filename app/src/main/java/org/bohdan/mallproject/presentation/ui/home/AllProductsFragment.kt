@@ -36,7 +36,7 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
         setupRecyclerView(view)
         setupSortAndFilterButtons(view)
 
-        viewModel.loadItemsWithCurrentSortOrder()
+//        viewModel.loadItemsWithCurrentSortOrder()
         viewModel.shopItems.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.shopList = it
@@ -48,31 +48,6 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
         }
 
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        Log.d("AllProductsFragment", "onPause: ")
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        Log.d("AllProductsFragment", "onStop: ")
-//    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        Log.d("AllProductsFragment", "onDestroy: ")
-//    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        Log.d("AllProductsFragment", "onDestroyView: ")
-//    }
-//
-//    override fun onDetach() {
-//        super.onDetach()
-//        Log.d("AllProductsFragment", "onDetach: ")
-//    }
 
     private fun setupSortAndFilterButtons(view: View) {
         val sortButton: Button = view.findViewById(R.id.btn_sort)
