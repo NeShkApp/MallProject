@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.navigation.safe.args)
+    alias(libs.plugins.google.services)
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
+//    id("com.google.gms.google-services")
 }
 
 android {
@@ -80,10 +81,6 @@ dependencies {
 
     //BottomSheetFragment
     implementation("com.google.android.material:material:1.9.0")
-
-
-
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -22,7 +22,6 @@ import kotlinx.parcelize.Parcelize
 data class ShopItem(
     val name: String = "",
     val description: String = "",
-    val category: String = "",
     val price: Double = 0.0,
     val rating: Float = 0f,
     val imageUrl: String = "",

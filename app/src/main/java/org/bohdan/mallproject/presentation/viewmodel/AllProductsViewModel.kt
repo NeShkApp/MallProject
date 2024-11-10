@@ -27,10 +27,6 @@ class AllProductsViewModel : ViewModel() {
     val shopItems: LiveData<List<ShopItem>>
         get() = _shopItems
 
-//    private val _shopItemById = MutableLiveData<ShopItem>()
-//    val shopItemById: LiveData<ShopItem>
-//        get() = _shopItemById
-
     private val _currentSortOrder = MutableLiveData<SortBy?>()
     val currentSortOrder: LiveData<SortBy?>
         get() = _currentSortOrder

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/allProducts">
+    app:startDestination="@id/categoriesFragment">
 
     <fragment
         android:id="@+id/allProducts"
@@ -24,5 +24,30 @@
         <argument
             android:name="ShopItem"
             app:argType="org.bohdan.mallproject.domain.model.ShopItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.home.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_subcategoriesFragment"
+            app:destination="@id/subcategoriesFragment" />
+        <argument
+            android:name="category"
+            app:argType="org.bohdan.mallproject.domain.model.Category" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/subcategoriesFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.home.SubcategoriesFragment"
+        android:label="fragment_subcategories"
+        tools:layout="@layout/fragment_subcategories" >
+        <action
+            android:id="@+id/action_subcategoriesFragment_to_allProducts"
+            app:destination="@id/allProducts" />
+        <argument
+            android:name="category"
+            app:argType="org.bohdan.mallproject.domain.model.Category" />
     </fragment>
 </navigation>

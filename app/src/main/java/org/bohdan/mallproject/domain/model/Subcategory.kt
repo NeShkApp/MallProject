@@ -1,0 +1,12 @@
+package org.bohdan.mallproject.domain.model
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Subcategory(
+    val name: String = "",
+    val categoryId: String = "",
+    val id: String = "",
+    val products: List<String> = listOf()
+): Parcelable
