@@ -1,5 +1,6 @@
 package org.bohdan.mallproject.presentation.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,18 +11,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.bohdan.mallproject.data.HomeRepositoryImpl
+import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
+import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemByAttributesUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemByIdUseCase
+import org.bohdan.mallproject.domain.usecase.home.GetShopItemsByFiltersUseCase
 import org.bohdan.mallproject.presentation.ui.home.SortShopItemsFragment
 
-class AllProductsViewModel : ViewModel() {
+class AllProductsViewModel(
+    private val application: Application,
+    private val category: Category?,
+    private val subcategory: Subcategory?,
+    private val searchQuery: String?
+) : ViewModel() {
     private val homeRepository = HomeRepositoryImpl
 
     private val getAllShopItemsUseCase = GetAllShopItemsUseCase(homeRepository)
     private val getShopItemByAttributes = GetShopItemByAttributesUseCase(homeRepository)
+    private val getShopItemsByFilters = GetShopItemsByFiltersUseCase(homeRepository)
 
     private val _shopItems = MutableLiveData<List<ShopItem>>()
     val shopItems: LiveData<List<ShopItem>>
@@ -32,10 +42,27 @@ class AllProductsViewModel : ViewModel() {
         get() = _currentSortOrder
 
     init {
-        loadItemsWithCurrentSortOrder()
+//        loadItemsWithCurrentSortOrder()
+        loadShopItemsByFilters(category, subcategory, searchQuery)
+//        loadShopItemsByFilters(category, null, "a")
     }
 
-    fun loadItemsWithCurrentSortOrder() {
+    private fun loadShopItemsByFilters(
+        category: Category?,
+        subcategory: Subcategory?,
+        searchQuery: String?
+    ){
+        viewModelScope.launch(Dispatchers.IO){
+            val items = try {
+                getShopItemsByFilters(category, subcategory, searchQuery)
+            } catch (e: Exception) {
+                emptyList()
+            }
+            _shopItems.postValue(items)
+        }
+    }
+
+    private fun loadItemsWithCurrentSortOrder() {
         viewModelScope.launch(Dispatchers.IO) {
             val items = try {
                 val sortOrder = _currentSortOrder.value

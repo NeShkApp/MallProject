@@ -30,7 +30,7 @@ class CategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding =  FragmentCategoriesBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,8 +38,8 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-        viewModel.categories.observe(viewLifecycleOwner){categories ->
-            categories?.let{
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            categories?.let {
                 adapter.categories = it
             }
         }
@@ -50,9 +50,15 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun launchSubcategoriesFragment(category: Category) {
-        Log.d("CategoriesFragment", "Launching SubcategoriesFragment with category: ${category.toString()}")
+        Log.d(
+            "CategoriesFragment",
+            "Launching SubcategoriesFragment with category: ${category.toString()}"
+        )
         findNavController().navigate(
-            CategoriesFragmentDirections.actionCategoriesFragmentToSubcategoriesFragment(category)
+            CategoriesFragmentDirections.actionCategoriesFragmentToSubcategoriesFragment(
+                category,
+                null.toString()
+            )
         )
         Log.d("CategoriesFragmentDirections", "launchSubcategoriesFragment: worked")
     }

@@ -15,6 +15,15 @@
             app:destination="@id/shopItemDetailsFragment"
             app:popUpTo="@id/allProducts"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="category"
+            app:argType="org.bohdan.mallproject.domain.model.Category" />
+        <argument
+            android:name="subcategory"
+            app:argType="org.bohdan.mallproject.domain.model.Subcategory" />
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/shopItemDetailsFragment"
@@ -36,6 +45,9 @@
         <argument
             android:name="category"
             app:argType="org.bohdan.mallproject.domain.model.Category" />
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
 
     </fragment>
     <fragment
@@ -49,5 +61,8 @@
         <argument
             android:name="category"
             app:argType="org.bohdan.mallproject.domain.model.Category" />
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
     </fragment>
 </navigation>

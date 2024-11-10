@@ -23,4 +23,9 @@ interface HomeRepository {
     ): List<ShopItem>
 //    suspend fun getSubcategoriesNamesByCategoryId(categoryId: String): List<String>
     suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory>
+    suspend fun getShopItemsByFilters(
+        category: Category?,
+        subcategory: Subcategory?,
+        searchQuery: String?
+    ): List<ShopItem>
 }
