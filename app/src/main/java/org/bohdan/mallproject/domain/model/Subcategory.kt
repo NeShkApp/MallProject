@@ -8,5 +8,5 @@ data class Subcategory(
     val name: String = "",
     val categoryId: String = "",
     val id: String = "",
-    val products: List<String> = listOf()
+    val productIds: List<String> = emptyList()
 ): Parcelable

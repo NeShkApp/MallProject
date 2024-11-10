@@ -10,18 +10,29 @@ import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.presentation.adapter.HomeShopItemsAdapter
 import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
+import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModelFactory
 
 class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener {
     private lateinit var adapter: HomeShopItemsAdapter
 
-        private val viewModel: AllProductsViewModel by lazy {
-        ViewModelProvider(this)[AllProductsViewModel::class.java]
+    private val args by navArgs<AllProductsFragmentArgs>()
+    private val viewModel: AllProductsViewModel by lazy {
+        ViewModelProvider(
+            this,
+            AllProductsViewModelFactory(
+                requireActivity().application,
+                args.category,
+                args.subcategory,
+                args.searchQuery
+            )
+        )[AllProductsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -36,17 +47,23 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
         setupRecyclerView(view)
         setupSortAndFilterButtons(view)
 
-//        viewModel.loadItemsWithCurrentSortOrder()
-        viewModel.shopItems.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.shopList = it
+        Log.d("AllProductsFragment", "Category: ${args.category}")
+        Log.d("AllProductsFragment", "Subcategory: ${args.subcategory}")
+        Log.d("AllProductsFragment", "SearchQuery: ${args.searchQuery}")
+
+        observeData()
+
+    }
+
+    private fun observeData() {
+        viewModel.shopItems.observe(viewLifecycleOwner) { products ->
+            if (products.isNotEmpty()) {
+                adapter.shopList = products
+                adapter.onShopItemClickListener = { shopItem ->
+                    launchShopItemDetailsFragment(shopItem)
+                }
             }
         }
-
-        adapter.onShopItemClickListener = {
-            launchShopItemDetailsFragment(it)
-        }
-
     }
 
     private fun setupSortAndFilterButtons(view: View) {

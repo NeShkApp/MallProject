@@ -12,6 +12,7 @@ import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.databinding.FragmentSubcategoriesBinding
 import org.bohdan.mallproject.domain.model.Category
+import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.presentation.adapter.CategoriesAdapter
 import org.bohdan.mallproject.presentation.adapter.SubcategoriesAdapter
 import org.bohdan.mallproject.presentation.viewmodel.CategoriesViewModel
@@ -57,7 +58,7 @@ class SubcategoriesFragment : Fragment() {
         }
 
         adapter.onSubcategoryClickListener = {
-            launchProductsFragment()
+            launchProductsFragment(it, null)
         }
     }
 
@@ -71,9 +72,13 @@ class SubcategoriesFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchProductsFragment() {
+    private fun launchProductsFragment(subcategory: Subcategory, searchQuery: String?) {
         findNavController().navigate(
-            SubcategoriesFragmentDirections.actionSubcategoriesFragmentToAllProducts()
+            SubcategoriesFragmentDirections.actionSubcategoriesFragmentToAllProducts(
+                args.category,
+                subcategory,
+                searchQuery.toString()
+            )
         )
     }
 

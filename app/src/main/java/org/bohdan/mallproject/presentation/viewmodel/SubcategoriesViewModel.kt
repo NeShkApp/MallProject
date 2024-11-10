@@ -40,6 +40,9 @@ class SubcategoriesViewModel(
             }catch (e: Exception){
                 emptyList()
             }
+            subcategories.forEach { subcategory ->
+                Log.d("SubcategoriesViewModel", "Subcategory: $subcategory")
+            }
             _subcategories.postValue(subcategories)
         }
     }
