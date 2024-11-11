@@ -1,10 +1,13 @@
 package org.bohdan.mallproject.presentation.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -51,6 +54,35 @@ class SubcategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
+        binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
+
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()) {
+                    binding.etSearch.imeOptions = EditorInfo.IME_ACTION_NONE
+                } else {
+                    binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val searchQuery = binding.etSearch.text.toString().trim()
+
+                if (searchQuery.isNotEmpty()) {
+                    launchProductsFragment(null, searchQuery)
+                }
+                true
+            } else {
+                false
+            }
+        }
+
         viewModel.subcategories.observe(viewLifecycleOwner) { subcategory ->
             subcategory?.let {
                 adapter.subcategories = it
@@ -72,14 +104,18 @@ class SubcategoriesFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchProductsFragment(subcategory: Subcategory, searchQuery: String?) {
-        findNavController().navigate(
-            SubcategoriesFragmentDirections.actionSubcategoriesFragmentToAllProducts(
-                args.category,
-                subcategory,
-                searchQuery.toString()
+    private fun launchProductsFragment(subcategory: Subcategory?, searchQuery: String?) {
+        val currentDestination = findNavController().currentDestination?.id
+        if (currentDestination == R.id.subcategoriesFragment) {
+            findNavController().navigate(
+                SubcategoriesFragmentDirections.actionSubcategoriesFragmentToAllProducts(
+                    args.category,
+                    subcategory,
+                    searchQuery
+                )
             )
-        )
+        }
     }
+
 
 }

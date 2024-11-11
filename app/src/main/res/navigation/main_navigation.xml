@@ -6,24 +6,30 @@
     app:startDestination="@id/categoriesFragment">
 
     <fragment
-        android:id="@+id/allProducts"
+        android:id="@+id/allProductsFragment"
         android:name="org.bohdan.mallproject.presentation.ui.home.AllProductsFragment"
         android:label="fragment_all_products"
         tools:layout="@layout/fragment_all_products" >
         <action
             android:id="@+id/action_allProducts_to_shopItemDetailsFragment"
             app:destination="@id/shopItemDetailsFragment"
-            app:popUpTo="@id/allProducts"
+            app:popUpTo="@id/allProductsFragment"
             app:popUpToInclusive="false" />
         <argument
             android:name="category"
-            app:argType="org.bohdan.mallproject.domain.model.Category" />
+            app:argType="org.bohdan.mallproject.domain.model.Category"
+            app:nullable="true"/>
         <argument
             android:name="subcategory"
-            app:argType="org.bohdan.mallproject.domain.model.Subcategory" />
+            app:argType="org.bohdan.mallproject.domain.model.Subcategory"
+            app:nullable="true"/>
         <argument
             android:name="searchQuery"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_allProductsFragment_to_filterShopItemsFragment"
+            app:destination="@id/filterShopItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/shopItemDetailsFragment"
@@ -42,12 +48,9 @@
         <action
             android:id="@+id/action_categoriesFragment_to_subcategoriesFragment"
             app:destination="@id/subcategoriesFragment" />
-        <argument
-            android:name="category"
-            app:argType="org.bohdan.mallproject.domain.model.Category" />
-        <argument
-            android:name="searchQuery"
-            app:argType="string" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_allProducts"
+            app:destination="@id/allProductsFragment" />
 
     </fragment>
     <fragment
@@ -57,12 +60,27 @@
         tools:layout="@layout/fragment_subcategories" >
         <action
             android:id="@+id/action_subcategoriesFragment_to_allProducts"
-            app:destination="@id/allProducts" />
+            app:destination="@id/allProductsFragment" />
         <argument
             android:name="category"
             app:argType="org.bohdan.mallproject.domain.model.Category" />
+    </fragment>
+    <dialog
+        android:id="@+id/filterShopItemsFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.home.FilterShopItemsFragment"
+        android:label="fragment_filter_shop_items"
+        tools:layout="@layout/fragment_filter_shop_items">
+        <argument
+            android:name="category"
+            app:argType="org.bohdan.mallproject.domain.model.Category"
+            app:nullable="true"/>
+        <argument
+            android:name="subcategory"
+            app:argType="org.bohdan.mallproject.domain.model.Subcategory"
+            app:nullable="true"/>
         <argument
             android:name="searchQuery"
-            app:argType="string" />
-    </fragment>
+            app:argType="string"
+            app:nullable="true"/>
+    </dialog>
 </navigation>
