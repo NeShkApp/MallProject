@@ -11,21 +11,11 @@ interface HomeRepository {
     suspend fun getAllShopItems(): List<ShopItem>
     suspend fun getShopItemById(shopItemId: String): ShopItem
     suspend fun getAllCategories(): List<Category>
-    suspend fun getShopItemByAttributes(
-        sortBy: SortBy,
-        name: String? = null,
-        hasDiscount: Boolean? = null,
-        availableInStock: Boolean = false,
-        category: String? = null,
-        minPrice: Double? = null,
-        maxPrice: Double? = null,
-        minRating: Float? = null,
-    ): List<ShopItem>
-//    suspend fun getSubcategoriesNamesByCategoryId(categoryId: String): List<String>
     suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory>
     suspend fun getShopItemsByFilters(
         category: Category?,
         subcategory: Subcategory?,
         searchQuery: String?
     ): List<ShopItem>
+    fun sortShopItems(items: List<ShopItem>, sortBy: SortBy?) : List<ShopItem>
 }

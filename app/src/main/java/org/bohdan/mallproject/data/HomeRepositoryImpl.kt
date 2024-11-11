@@ -35,7 +35,6 @@ object HomeRepositoryImpl : HomeRepository {
         }
     }
 
-
     override suspend fun getShopItemById(shopItemId: String): ShopItem {
         return try {
             val document = db.collection("shopItems").document(shopItemId).get().await()
@@ -45,29 +44,6 @@ object HomeRepositoryImpl : HomeRepository {
             Log.e("HomeRepositoryImpl", "Error getting document by ID", e)
             throw e
         }
-    }
-
-    // TODO: Do async getting the data from firestore!
-    override suspend fun getShopItemByAttributes(
-        sortBy: SortBy,
-        name: String?,
-        hasDiscount: Boolean?,
-        availableInStock: Boolean,
-        category: String?,
-        minPrice: Double?,
-        maxPrice: Double?,
-        minRating: Float?
-    ): List<ShopItem> {
-        val snapshot = db.collection("products").get().await()
-        val shopItems = snapshot.documents.mapNotNull {
-            it.toObject(ShopItem::class.java)?.copy(id = it.id)
-        }
-        return when (sortBy) {
-            SortBy.PRICE_ASC -> shopItems.sortedBy { it.price }
-            SortBy.PRICE_DESC -> shopItems.sortedByDescending { it.price }
-            SortBy.RATING -> shopItems.sortedByDescending { it.rating }
-        }
-
     }
 
     override suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory> {
@@ -94,7 +70,6 @@ object HomeRepositoryImpl : HomeRepository {
                 }
             }
 
-            // Логуємо отриманий список підкатегорій
             Log.d("HomeRepositoryImpl", "Total fetched subcategories: ${subcategories.size}")
             subcategories
 
@@ -107,9 +82,10 @@ object HomeRepositoryImpl : HomeRepository {
     override suspend fun getShopItemsByFilters(
         category: Category?,
         subcategory: Subcategory?,
-        searchQuery: String?
+        searchQuery: String?,
     ): List<ShopItem> {
         return try {
+            val actualQuery = if (searchQuery.isNullOrEmpty()) null else searchQuery
 
             val shopItems = subcategory?.let {
                 val productIds = subcategory.productIds
@@ -130,9 +106,13 @@ object HomeRepositoryImpl : HomeRepository {
                 snapshot.documents.mapNotNull { document ->
                     document.toObject(ShopItem::class.java)?.copy(id = document.id)
                 }
-            } ?: emptyList()
+            } ?: getAllShopItems()
 
-            searchQuery?.let { query ->
+            shopItems.forEach{
+                Log.d("HomeRepositoryImpl", "getShopItemsByFilters: ${it.toString()}")
+            }
+
+            actualQuery?.let { query ->
                 shopItems.filter { it.name.contains(query, ignoreCase = true) }
             } ?: shopItems
 
@@ -141,55 +121,6 @@ object HomeRepositoryImpl : HomeRepository {
             emptyList()
         }
     }
-
-
-
-//    override suspend fun getShopItemsByFilters(
-//        category: Category?,
-//        subcategory: Subcategory?,
-//        searchQuery: String?
-//    ): List<ShopItem> {
-//        return try {
-//            subcategory?.let {
-//                val productIds = subcategory.productIds
-//                val query = db.collection("products")
-//                    .whereIn(FieldPath.documentId(), productIds)
-//
-//                searchQuery?.let {
-//                    query.whereGreaterThanOrEqualTo("name", it)
-//                        .whereLessThanOrEqualTo("name", it + "\uf8ff")
-//                }
-//
-//                val snapshot = query.get().await()
-//
-//                snapshot.documents.mapNotNull { document ->
-//                    document.toObject(ShopItem::class.java)?.copy(id = document.id)
-//                }
-//            } ?: run {
-//                category?.let {
-//                    val subcategories = getSubcategoriesByCategory(it)
-//                    val allProductIds = subcategories.flatMap { it.productIds }
-//                    val query = db.collection("products")
-//                        .whereIn(FieldPath.documentId(), allProductIds)
-//
-//                    searchQuery?.let {
-//                        query.whereGreaterThanOrEqualTo("name", it)
-//                            .whereLessThanOrEqualTo("name", it + "\uf8ff")
-//                    }
-//
-//                    val snapshot = query.get().await()
-//
-//                    snapshot.documents.mapNotNull { document ->
-//                        document.toObject(ShopItem::class.java)?.copy(id = document.id)
-//                    }
-//                } ?: emptyList()
-//            }
-//
-//        } catch (e: Exception) {
-//            Log.e("HomeRepositoryImpl", "getShopItemsByFilters: ", e)
-//            emptyList()
-//        }
-//    }
 
     override suspend fun getAllCategories(): List<Category> {
         return try {
@@ -204,5 +135,18 @@ object HomeRepositoryImpl : HomeRepository {
             emptyList()
         }
     }
+
+    override fun sortShopItems(
+        items: List<ShopItem>,
+        sortBy: SortBy?
+    ): List<ShopItem> {
+        return when (sortBy) {
+            SortBy.PRICE_ASC -> items.sortedBy { it.price }
+            SortBy.PRICE_DESC -> items.sortedByDescending { it.price }
+            SortBy.RATING -> items.sortedByDescending { it.rating }
+            else -> items
+        }
+    }
+
 
 }

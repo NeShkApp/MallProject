@@ -24,7 +24,6 @@ class SubcategoriesViewModel(
 
     private val getSubcategoriesByCategoryUseCase = GetSubcategoriesByCategoryUseCase(homeRepository)
 
-
     private val _subcategories = MutableLiveData<List<Subcategory>>()
     val subcategories: LiveData<List<Subcategory>>
         get() = _subcategories
@@ -46,4 +45,6 @@ class SubcategoriesViewModel(
             _subcategories.postValue(subcategories)
         }
     }
+
+
 }

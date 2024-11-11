@@ -36,17 +36,4 @@ class CategoriesViewModel: ViewModel() {
         }
     }
 
-//    fun loadSubcategories(category: Category) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                Log.d("CategoriesViewModel", "category: ${category.toString()} ")
-//                val subcategoryNames = homeRepository.getSubcategoriesByCategory(category)
-//                subcategoryNames.forEach { name ->
-//                    Log.d("CategoriesViewModel", "Subcategory name: $name")
-//                }
-//            } catch (e: Exception) {
-//                Log.e("CategoriesViewModel", "Error loading subcategory names", e)
-//            }
-//        }
-//    }
 }

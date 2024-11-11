@@ -6,26 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.home.AllProductsFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_search"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_margin="10dp"
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:hint="Search"
+        android:inputType="textCapWords"
+        android:lines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="10dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search"
-            android:inputType="textCapWords"
-            android:lines="1"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_sort"
@@ -33,9 +24,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="Sort"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_filter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_search" />
+        app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+    <Button
+        android:id="@+id/btn_filter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Filter"
+        app:layout_constraintStart_toEndOf="@id/btn_sort"
+        app:layout_constraintTop_toBottomOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_shop_list"

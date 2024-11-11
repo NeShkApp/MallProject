@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
+import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.presentation.adapter.HomeShopItemsAdapter
 import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
 import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModelFactory
@@ -45,7 +46,7 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
-        setupSortAndFilterButtons(view)
+        setupSortButton(view)
 
         Log.d("AllProductsFragment", "Category: ${args.category}")
         Log.d("AllProductsFragment", "Subcategory: ${args.subcategory}")
@@ -66,7 +67,7 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
         }
     }
 
-    private fun setupSortAndFilterButtons(view: View) {
+    private fun setupSortButton(view: View) {
         val sortButton: Button = view.findViewById(R.id.btn_sort)
         sortButton.setOnClickListener {
             val currentSort = viewModel.currentSortOrder.value
@@ -75,9 +76,7 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
                 "SortBottomSheetFragment"
             )
         }
-
     }
-
 
     private fun launchShopItemDetailsFragment(shopItem: ShopItem) {
         findNavController().navigate(
