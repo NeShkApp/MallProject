@@ -83,4 +83,19 @@
             app:argType="string"
             app:nullable="true"/>
     </dialog>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.cart.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>

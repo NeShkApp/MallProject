@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "1000727510745",
     "project_id": "mallproject-61c8c",
-    "storage_bucket": "mallproject-61c8c.appspot.com"
+    "storage_bucket": "mallproject-61c8c.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,20 @@
           "package_name": "org.bohdan.mallproject"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1000727510745-2l9ida1s69f1gunjnf9honc329pvg5e2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.bohdan.mallproject",
+            "certificate_hash": "9140885b8a6ac31fc513effcb1aaf266ac4b7d9f"
+          }
+        },
+        {
+          "client_id": "1000727510745-1r9t07buhiincrdaj7ai5hk8mk0198dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyChhC9YQU8ILAfMOHqlrY3Pg4_HwkmnYIA"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000727510745-1r9t07buhiincrdaj7ai5hk8mk0198dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
