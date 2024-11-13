@@ -57,7 +57,7 @@ dependencies {
 
     //Google-Firebase
     implementation(platform(libs.firebase.bom))
-    // When using the BoM, don't specify versions in Firebase dependencies
+
     //Analytics
     implementation("com.google.firebase:firebase-analytics-ktx")
 
@@ -66,6 +66,10 @@ dependencies {
 
     //Coroutine for FireStore (HZ CHY NADA)
     implementation(libs.kotlinx.coroutines.play.services)
+    //auth
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.google.android.gms:play-services-auth:20.3.0")
 
 //    implementation(libs.gms.play.services.gcm)
 

@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.WriteBatch
 import org.bohdan.mallproject.R
@@ -18,10 +23,22 @@ import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setupBottomNavController()
+
+    }
+
+    private fun setupBottomNavController() {
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.home_container) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNavigationView.setupWithNavController(navController)
+    }
+}
+
 
 //        val db = FirebaseFirestore.getInstance()
 //
@@ -176,7 +193,7 @@ class MainActivity : AppCompatActivity() {
 //        addProductsBatch(products)
 
 
-    }
+//    }
 
 
 //    fun addProductsBatch(products: List<ShopItem>) {
@@ -203,4 +220,4 @@ class MainActivity : AppCompatActivity() {
 //
 //}
 
-}
+//}
