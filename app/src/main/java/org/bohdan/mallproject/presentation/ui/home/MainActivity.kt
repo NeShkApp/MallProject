@@ -1,5 +1,6 @@
 package org.bohdan.mallproject.presentation.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.WriteBatch
 import org.bohdan.mallproject.R
@@ -19,9 +21,20 @@ import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.repository.HomeRepository
 import org.bohdan.mallproject.presentation.adapter.HomeShopItemsAdapter
+import org.bohdan.mallproject.presentation.ui.auth.LoginActivity
 import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

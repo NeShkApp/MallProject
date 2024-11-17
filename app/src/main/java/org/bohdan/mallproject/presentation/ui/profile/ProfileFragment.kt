@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.presentation.viewmodel.auth.LoginActivity
+import org.bohdan.mallproject.presentation.ui.auth.LoginActivity
 
 class ProfileFragment : Fragment() {
 

@@ -1,23 +1,24 @@
-//package org.bohdan.mallproject.presentation.viewmodel.auth
-//
-//import androidx.lifecycle.ViewModel
-//import androidx.lifecycle.ViewModelProvider
-//import org.bohdan.mallproject.domain.repository.AuthRepository
-//import org.bohdan.mallproject.domain.usecase.auth.LoginUseCase
-//import org.bohdan.mallproject.domain.usecase.auth.LogoutUseCase
-//import org.bohdan.mallproject.domain.usecase.auth.RegisterUseCase
-//
-//class AuthViewModelFactory(
-//    private val loginUseCase: LoginUseCase,
-//    private val registerUseCase: RegisterUseCase,
-//    private val logoutUseCase: LogoutUseCase
-//) : ViewModelProvider.Factory {
-//
-//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//        if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-//            @Suppress("UNCHECKED_CAST")
-//            return AuthViewModel(loginUseCase, registerUseCase, logoutUseCase) as T
-//        }
-//        throw IllegalArgumentException("Unknown ViewModel class")
-//    }
-//}
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import org.bohdan.mallproject.domain.repository.AuthRepository
+import org.bohdan.mallproject.domain.usecase.auth.CreateUserInFirestoreUseCase
+import org.bohdan.mallproject.domain.usecase.auth.GoogleSignInUseCase
+import org.bohdan.mallproject.domain.usecase.auth.LoginUseCase
+import org.bohdan.mallproject.domain.usecase.auth.MonitorEmailVerificationUseCase
+import org.bohdan.mallproject.domain.usecase.auth.RegisterUseCase
+import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
+
+class AuthViewModelFactory(
+    private val authRepository: AuthRepository
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return AuthViewModel(
+            LoginUseCase(authRepository),
+            RegisterUseCase(authRepository),
+            GoogleSignInUseCase(authRepository),
+            CreateUserInFirestoreUseCase(authRepository),
+            MonitorEmailVerificationUseCase(authRepository)
+        ) as T
+    }
+}
