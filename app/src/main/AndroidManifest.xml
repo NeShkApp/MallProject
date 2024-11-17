@@ -16,7 +16,7 @@
         android:theme="@style/Theme.MallProject"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.viewmodel.auth.LoginActivity"
+            android:name=".presentation.ui.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +27,11 @@
         <activity
             android:name=".presentation.ui.home.MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            </intent-filter>
         </activity>
     </application>
 
