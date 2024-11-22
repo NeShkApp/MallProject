@@ -1,11 +1,10 @@
-package org.bohdan.mallproject.presentation.adapter
+package org.bohdan.mallproject.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.Subcategory
 

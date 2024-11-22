@@ -13,8 +13,7 @@
         <action
             android:id="@+id/action_allProducts_to_shopItemDetailsFragment"
             app:destination="@id/shopItemDetailsFragment"
-            app:popUpTo="@id/allProductsFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/allProductsFragment" />
         <argument
             android:name="category"
             app:argType="org.bohdan.mallproject.domain.model.Category"
@@ -33,12 +32,17 @@
     </fragment>
     <fragment
         android:id="@+id/shopItemDetailsFragment"
-        android:name="org.bohdan.mallproject.presentation.ui.itemdetails.ShopItemDetailsFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.item_details.ShopItemDetailsFragment"
         android:label="fragment_shop_item_details"
         tools:layout="@layout/fragment_shop_item_details" >
+        <action
+            android:id="@+id/action_shopItemDetailsFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/categoriesFragment"
+            app:popUpToInclusive="false" />
         <argument
-            android:name="ShopItem"
-            app:argType="org.bohdan.mallproject.domain.model.ShopItem" />
+            android:name="shopItemId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
@@ -97,5 +101,9 @@
         android:id="@+id/cartFragment"
         android:name="org.bohdan.mallproject.presentation.ui.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_shopItemDetailsFragment"
+            app:destination="@id/shopItemDetailsFragment" />
+    </fragment>
 </navigation>

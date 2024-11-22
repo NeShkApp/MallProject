@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.presentation.adapter
+package org.bohdan.mallproject.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View

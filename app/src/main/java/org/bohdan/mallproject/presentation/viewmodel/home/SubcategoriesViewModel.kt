@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.presentation.viewmodel
+package org.bohdan.mallproject.presentation.viewmodel.home
 
 import android.app.Application
 import android.util.Log
@@ -9,12 +9,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.data.HomeRepositoryImpl
-import org.bohdan.mallproject.data.HomeRepositoryImpl.getSubcategoriesByCategory
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetSubcategoriesByCategoryUseCase
-import org.bohdan.mallproject.presentation.ui.home.CategoriesFragment
 
 class SubcategoriesViewModel(
     private val application: Application,

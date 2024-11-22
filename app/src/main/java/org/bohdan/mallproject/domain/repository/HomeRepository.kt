@@ -9,7 +9,7 @@ import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 
 interface HomeRepository {
     suspend fun getAllShopItems(): List<ShopItem>
-    suspend fun getShopItemById(shopItemId: String): ShopItem
+//    suspend fun getShopItemById(shopItemId: String): ShopItem
     suspend fun getAllCategories(): List<Category>
     suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory>
     suspend fun getShopItemsByFilters(

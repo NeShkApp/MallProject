@@ -56,7 +56,11 @@ class AuthRepositoryImpl(
     }
 
 
-    override suspend fun createUserInFirestore(userId: String, email: String, name: String?): Result<Unit> {
+    override suspend fun createUserInFirestore(
+        userId: String,
+        email: String,
+        name: String?
+    ): Result<Unit> {
         return try {
             val user = hashMapOf(
                 "email" to email,

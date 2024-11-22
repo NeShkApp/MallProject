@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
-    <!-- ImageView для зображення товару -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -13,64 +13,118 @@
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@mipmap/ic_launcher"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- TextView для назви товару -->
     <TextView
         android:id="@+id/tv_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:textColor="@android:color/black"
+        android:gravity="center" />
 
-    <!-- TextView для опису товару -->
     <TextView
         android:id="@+id/tv_item_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/tv_item_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center" />
 
-    <!-- TextView для категорії товару -->
-    <TextView
-        android:id="@+id/tv_item_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
-
-    <!-- TextView для ціни товару -->
     <TextView
         android:id="@+id/tv_item_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@android:color/holo_green_dark"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_category"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_item_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:textColor="@android:color/holo_green_dark" />
 
-    <!-- TextView для рейтингу товару -->
-    <TextView
-        android:id="@+id/tv_item_rating"
-        android:layout_width="0dp"
+    <RadioGroup
+        android:id="@+id/radioGroup_colors"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tv_item_price"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_color_brown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color1"
+            android:buttonTint="@android:color/holo_orange_dark" />
+
+        <RadioButton
+            android:id="@+id/rb_color_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color2"
+            android:buttonTint="@android:color/black"
+            android:layout_marginStart="16dp" />
+    </RadioGroup>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:backgroundTint="#FFBF00"
+        android:stepSize="0.1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup_colors" />
+
+    <Button
+        android:id="@+id/btn_add_to_cart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add to cart"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_remove_from_cart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Remove from cart"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

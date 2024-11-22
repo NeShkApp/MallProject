@@ -1,18 +1,14 @@
 package org.bohdan.mallproject.presentation.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioGroup
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.analytics.FirebaseAnalytics.Param.PRICE
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.SortBy
-import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
 
 class SortShopItemsFragment(
     private val listener: SortOptionListener,

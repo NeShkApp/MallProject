@@ -3,26 +3,14 @@ package org.bohdan.mallproject.presentation.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.WriteBatch
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.data.HomeRepositoryImpl
-import org.bohdan.mallproject.domain.model.ShopItem
-import org.bohdan.mallproject.domain.repository.HomeRepository
-import org.bohdan.mallproject.presentation.adapter.HomeShopItemsAdapter
-import org.bohdan.mallproject.presentation.ui.auth.LoginActivity
-import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
+import org.bohdan.mallproject.presentation.ui.auth.AuthActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser == null) {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -41,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupBottomNavController()
-
     }
 
     private fun setupBottomNavController() {
@@ -49,8 +36,43 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.home_container) as NavHostFragment
         val navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
+
+
+        // TODO: FIX THE NAVIGATION BUG
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.categoriesFragment -> {
+                    Log.d("MainActivity", "Categories icon clicked")
+                    // Перехід до фрагменту Categories
+                    findNavController(R.id.home_container).navigate(R.id.categoriesFragment)
+                    true
+                }
+                R.id.favoriteFragment -> {
+                    Log.d("MainActivity", "Favorite icon clicked")
+                    // Перехід до фрагменту Favorites
+                    findNavController(R.id.home_container).navigate(R.id.favoriteFragment)
+                    true
+                }
+                R.id.cartFragment -> {
+                    Log.d("MainActivity", "Cart icon clicked")
+                    // Перехід до фрагменту Cart
+                    findNavController(R.id.home_container).navigate(R.id.cartFragment)
+                    true
+                }
+                R.id.profileFragment -> {
+                    Log.d("MainActivity", "Profile icon clicked")
+                    // Перехід до фрагменту Profile
+                    findNavController(R.id.home_container).navigate(R.id.profileFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+
     }
 }
+
 
 
 //        val db = FirebaseFirestore.getInstance()
