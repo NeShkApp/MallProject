@@ -12,15 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.databinding.FragmentSubcategoriesBinding
-import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.presentation.adapter.CategoriesAdapter
-import org.bohdan.mallproject.presentation.adapter.SubcategoriesAdapter
-import org.bohdan.mallproject.presentation.viewmodel.CategoriesViewModel
-import org.bohdan.mallproject.presentation.viewmodel.SubcategoriesViewModel
-import org.bohdan.mallproject.presentation.viewmodel.SubcategoriesViewModelFactory
+import org.bohdan.mallproject.presentation.adapters.SubcategoriesAdapter
+import org.bohdan.mallproject.presentation.viewmodel.home.SubcategoriesViewModel
+import org.bohdan.mallproject.presentation.viewmodel.home.SubcategoriesViewModelFactory
 
 class SubcategoriesFragment : Fragment() {
 

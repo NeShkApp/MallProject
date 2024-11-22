@@ -35,16 +35,16 @@ object HomeRepositoryImpl : HomeRepository {
         }
     }
 
-    override suspend fun getShopItemById(shopItemId: String): ShopItem {
-        return try {
-            val document = db.collection("shopItems").document(shopItemId).get().await()
-            document.toObject(ShopItem::class.java)?.copy(id = document.id)
-                ?: throw NoSuchElementException("Shop item with ID $shopItemId not found.")
-        } catch (e: Exception) {
-            Log.e("HomeRepositoryImpl", "Error getting document by ID", e)
-            throw e
-        }
-    }
+//    override suspend fun getShopItemById(shopItemId: String): ShopItem {
+//        return try {
+//            val document = db.collection("shopItems").document(shopItemId).get().await()
+//            document.toObject(ShopItem::class.java)?.copy(id = document.id)
+//                ?: throw NoSuchElementException("Shop item with ID $shopItemId not found.")
+//        } catch (e: Exception) {
+//            Log.e("HomeRepositoryImpl", "Error getting document by ID", e)
+//            throw e
+//        }
+//    }
 
     override suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory> {
         return try {

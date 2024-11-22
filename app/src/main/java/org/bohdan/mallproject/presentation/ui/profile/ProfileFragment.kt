@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.presentation.ui.auth.LoginActivity
+import org.bohdan.mallproject.presentation.ui.auth.AuthActivity
 
 class ProfileFragment : Fragment() {
 
@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
         sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
 
         // Переходимо на екран входу
-        val intent = Intent(activity, LoginActivity::class.java)
+        val intent = Intent(activity, AuthActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         requireActivity().finish()

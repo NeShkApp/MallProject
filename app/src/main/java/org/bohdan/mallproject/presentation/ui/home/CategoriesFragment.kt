@@ -3,7 +3,6 @@ package org.bohdan.mallproject.presentation.ui.home
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.domain.model.Category
-import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.presentation.adapter.CategoriesAdapter
-import org.bohdan.mallproject.presentation.viewmodel.CategoriesViewModel
+import org.bohdan.mallproject.presentation.adapters.CategoriesAdapter
+import org.bohdan.mallproject.presentation.viewmodel.home.CategoriesViewModel
 
 class CategoriesFragment : Fragment() {
 
@@ -50,12 +47,9 @@ class CategoriesFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Перевірка, чи є текст в полі
                 if (s.isNullOrEmpty()) {
-                    // Якщо текст порожній, приховуємо кнопку "Search" на клавіатурі
                     binding.etSearch.imeOptions = EditorInfo.IME_ACTION_NONE
                 } else {
-                    // Якщо текст не порожній, показуємо кнопку "Search" на клавіатурі
                     binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
                 }
             }
@@ -63,13 +57,11 @@ class CategoriesFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Обробка натискання на кнопку "Готово" на клавіатурі
         binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val searchQuery = binding.etSearch.text.toString().trim()
 
                 if (searchQuery.isNotEmpty()) {
-                    // Перехід до фрагмента всіх продуктів, якщо є запит
                     launchAllProductFragment(searchQuery)
                 }
                 true
@@ -95,6 +87,9 @@ class CategoriesFragment : Fragment() {
     ) {
         val currentDestination = findNavController().currentDestination?.id
         if (currentDestination == R.id.categoriesFragment) {
+            //new
+            findNavController().popBackStack(R.id.categoriesFragment, true)
+            //new
             findNavController().navigate(
                 CategoriesFragmentDirections.actionCategoriesFragmentToAllProducts(
                     null,

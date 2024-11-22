@@ -12,13 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
-import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.presentation.adapter.HomeShopItemsAdapter
-import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModel
-import org.bohdan.mallproject.presentation.viewmodel.AllProductsViewModelFactory
+import org.bohdan.mallproject.presentation.adapters.HomeShopItemsAdapter
+import org.bohdan.mallproject.presentation.viewmodel.home.AllProductsViewModel
+import org.bohdan.mallproject.presentation.viewmodel.home.AllProductsViewModelFactory
 
 class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener {
     private lateinit var adapter: HomeShopItemsAdapter
@@ -80,7 +78,8 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
 
     private fun launchShopItemDetailsFragment(shopItem: ShopItem) {
         findNavController().navigate(
-            AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem)
+//            AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem)
+            AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem.id)
         )
     }
 

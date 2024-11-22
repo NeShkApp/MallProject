@@ -1,15 +1,12 @@
-package org.bohdan.mallproject.presentation.viewmodel
+package org.bohdan.mallproject.presentation.viewmodel.home
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.data.HomeRepositoryImpl.sortShopItems
 import org.bohdan.mallproject.domain.model.Category
@@ -17,9 +14,7 @@ import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
-import org.bohdan.mallproject.domain.usecase.home.GetShopItemByIdUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemsByFiltersUseCase
-import org.bohdan.mallproject.presentation.ui.home.SortShopItemsFragment
 
 class AllProductsViewModel(
     private val application: Application,

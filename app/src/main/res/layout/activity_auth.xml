@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:paddingTop="16dp"
-        android:text="Хочете зареєструватись?"
+        android:text="Haven't You already registered?"
         android:textColor="?attr/colorPrimary" />
 
     <Button

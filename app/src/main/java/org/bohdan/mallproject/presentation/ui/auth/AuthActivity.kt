@@ -9,23 +9,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.databinding.ActivityLoginBinding
+import org.bohdan.mallproject.databinding.ActivityAuthBinding
 import org.bohdan.mallproject.presentation.ui.home.MainActivity
 import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+class AuthActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAuthBinding
 
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 100
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -64,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.switchText.setOnClickListener {
@@ -143,11 +139,11 @@ class LoginActivity : AppCompatActivity() {
         if (isLoginMode) {
             binding.loginButton.visibility = View.VISIBLE
             binding.registerButton.visibility = View.GONE
-            binding.switchText.text = "Хочете зареєструватись?"
+            binding.switchText.text = "Haven't You already registered?"
         } else {
             binding.loginButton.visibility = View.GONE
             binding.registerButton.visibility = View.VISIBLE
-            binding.switchText.text = "Хочете залогуватись?"
+            binding.switchText.text = "Do You want to login?"
         }
     }
 
@@ -173,6 +169,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "LoginActivity"
+        private const val TAG = "AuthActivity"
     }
 }
