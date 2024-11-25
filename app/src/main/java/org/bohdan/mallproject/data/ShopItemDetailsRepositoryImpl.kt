@@ -5,8 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.repository.ShopItemDetailsRepository
+import javax.inject.Inject
 
-class ShopItemDetailsRepositoryImpl(
+class ShopItemDetailsRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ): ShopItemDetailsRepository {
     override suspend fun getShopItemDetailsById(shopItemId: String): ShopItem {

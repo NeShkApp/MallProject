@@ -9,17 +9,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.domain.usecase.auth.CreateUserInFirestoreUseCase
 import org.bohdan.mallproject.domain.usecase.auth.GoogleSignInUseCase
 import org.bohdan.mallproject.domain.usecase.auth.LoginUseCase
 import org.bohdan.mallproject.domain.usecase.auth.MonitorEmailVerificationUseCase
 import org.bohdan.mallproject.domain.usecase.auth.RegisterUseCase
+import javax.inject.Inject
 
-class AuthViewModel(
+@HiltViewModel
+class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
     private val googleSignInUseCase: GoogleSignInUseCase,

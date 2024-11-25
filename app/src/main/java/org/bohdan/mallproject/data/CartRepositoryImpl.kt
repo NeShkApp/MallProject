@@ -7,8 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.repository.CartRepository
+import javax.inject.Inject
 
-class CartRepositoryImpl(
+class CartRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : CartRepository {

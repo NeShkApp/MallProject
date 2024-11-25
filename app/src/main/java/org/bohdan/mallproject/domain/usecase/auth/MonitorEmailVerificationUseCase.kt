@@ -1,13 +1,10 @@
 package org.bohdan.mallproject.domain.usecase.auth
 
-import AuthRepositoryImpl
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.domain.repository.AuthRepository
+import javax.inject.Inject
 
-class MonitorEmailVerificationUseCase(
+class MonitorEmailVerificationUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
 

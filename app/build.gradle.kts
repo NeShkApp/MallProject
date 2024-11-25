@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.google.services)
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
-
 android {
     namespace = "org.bohdan.mallproject"
     compileSdk = 34
@@ -40,6 +40,9 @@ android {
     buildFeatures{
         viewBinding = true
     }
+}
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -84,6 +87,10 @@ dependencies {
 
     //BottomSheetFragment
     implementation("com.google.android.material:material:1.9.0")
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

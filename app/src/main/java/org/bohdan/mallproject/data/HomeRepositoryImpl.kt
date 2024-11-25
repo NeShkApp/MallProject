@@ -1,24 +1,14 @@
 package org.bohdan.mallproject.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.domain.repository.HomeRepository
-import java.util.TreeSet
-import kotlin.random.Random
 
 object HomeRepositoryImpl : HomeRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -34,17 +24,6 @@ object HomeRepositoryImpl : HomeRepository {
             emptyList()
         }
     }
-
-//    override suspend fun getShopItemById(shopItemId: String): ShopItem {
-//        return try {
-//            val document = db.collection("shopItems").document(shopItemId).get().await()
-//            document.toObject(ShopItem::class.java)?.copy(id = document.id)
-//                ?: throw NoSuchElementException("Shop item with ID $shopItemId not found.")
-//        } catch (e: Exception) {
-//            Log.e("HomeRepositoryImpl", "Error getting document by ID", e)
-//            throw e
-//        }
-//    }
 
     override suspend fun getSubcategoriesByCategory(category: Category): List<Subcategory> {
         return try {

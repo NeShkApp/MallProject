@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.domain.model.ShopItem
@@ -11,13 +12,15 @@ import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
 import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
 import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
 import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
+import javax.inject.Inject
 
-class ShopItemDetailsViewModel(
-    private val shopItemId: String,
+@HiltViewModel
+class ShopItemDetailsViewModel @Inject constructor(
     private val getShopItemDetailsByIdUseCase: GetShopItemDetailsByIdUseCase,
     private val addItemToCartUseCase: AddItemToCartUseCase,
     private val removeItemFromCartUseCase: RemoveItemFromCartUseCase,
     private val checkIfItemInCartUseCase: CheckIfItemInCartUseCase,
+
 //    private val addItemToFavoritesUseCase: AddItemToFavoritesUseCase,
 //    private val removeItemFromFavoritesUseCase: RemoveItemFromFavoritesUseCase,
 //    private val checkIfItemInFavorites: CheckIfItemInFavoritesUseCase
@@ -38,11 +41,7 @@ class ShopItemDetailsViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    init {
-        loadShopItemById(shopItemId)
-    }
-
-    private fun loadShopItemById(shopItemId: String) {
+    fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
             try {
