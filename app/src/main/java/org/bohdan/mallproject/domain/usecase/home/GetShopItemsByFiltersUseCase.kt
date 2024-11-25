@@ -4,8 +4,9 @@ import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.domain.repository.HomeRepository
+import javax.inject.Inject
 
-class GetShopItemsByFiltersUseCase(
+class GetShopItemsByFiltersUseCase @Inject constructor(
     private val homeRepository: HomeRepository
 ) {
     suspend operator fun invoke(

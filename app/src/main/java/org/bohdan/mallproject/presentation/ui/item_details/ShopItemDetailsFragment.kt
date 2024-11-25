@@ -1,52 +1,24 @@
 package org.bohdan.mallproject.presentation.ui.item_details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.data.CartRepositoryImpl
-import org.bohdan.mallproject.data.ShopItemDetailsRepositoryImpl
 import org.bohdan.mallproject.databinding.FragmentShopItemDetailsBinding
-import org.bohdan.mallproject.domain.model.ShopItem
-import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
-import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
-import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
-import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
 import org.bohdan.mallproject.presentation.viewmodel.item_details.ShopItemDetailsViewModel
-import org.bohdan.mallproject.presentation.viewmodel.item_details.ShopItemDetailsViewModelFactory
 
+@AndroidEntryPoint
 class ShopItemDetailsFragment : Fragment() {
     private val args by navArgs<ShopItemDetailsFragmentArgs>()
 
-    private val viewModel: ShopItemDetailsViewModel by lazy {
-        val firestore = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-
-        val shopItemDetailsRepository = ShopItemDetailsRepositoryImpl(firestore)
-        val cartRepository = CartRepositoryImpl(auth, firestore)
-
-        // TODO: create DI object for easier views' models implementation
-        val factory = ShopItemDetailsViewModelFactory(
-            args.shopItemId,
-            GetShopItemDetailsByIdUseCase(shopItemDetailsRepository),
-            AddItemToCartUseCase(cartRepository),
-            RemoveItemFromCartUseCase(cartRepository),
-            CheckIfItemInCartUseCase(cartRepository)
-        )
-        ViewModelProvider(
-            this, factory
-        )[ShopItemDetailsViewModel::class.java]
-    }
+    private val viewModel: ShopItemDetailsViewModel by viewModels()
 
     private var _binding: FragmentShopItemDetailsBinding? = null
     private val binding: FragmentShopItemDetailsBinding
@@ -64,6 +36,8 @@ class ShopItemDetailsFragment : Fragment() {
 
         setupObservers()
         setupListeners()
+
+        viewModel.loadShopItemById(args.shopItemId)
     }
 
     private fun setupObservers() {

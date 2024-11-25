@@ -9,9 +9,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.presentation.ui.auth.AuthActivity
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onStart() {

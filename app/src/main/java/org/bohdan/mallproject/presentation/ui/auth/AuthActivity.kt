@@ -1,13 +1,21 @@
 package org.bohdan.mallproject.presentation.ui.auth
 
 import AuthRepositoryImpl
-import AuthViewModelFactory
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -15,26 +23,40 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_I
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.data.CartRepositoryImpl
 import org.bohdan.mallproject.databinding.ActivityAuthBinding
+import org.bohdan.mallproject.databinding.FragmentShopItemDetailsBinding
+import org.bohdan.mallproject.domain.model.ShopItem
+import org.bohdan.mallproject.domain.repository.ShopItemDetailsRepository
+import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
+import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
+import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
+import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
 import org.bohdan.mallproject.presentation.ui.home.MainActivity
 import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
 
+@AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
 
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 100
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    private val viewModel: AuthViewModel by lazy {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val firestore = FirebaseFirestore.getInstance()
+    private val viewModel: AuthViewModel by viewModels()
 
-        val authRepository = AuthRepositoryImpl(firebaseAuth, firestore)
-        val factory = AuthViewModelFactory(authRepository)
-
-        ViewModelProvider(this, factory)[AuthViewModel::class.java]
-    }
+//    private val viewModel: AuthViewModel by lazy {
+//        val firebaseAuth = FirebaseAuth.getInstance()
+//        val firestore = FirebaseFirestore.getInstance()
+//
+//        val authRepository = AuthRepositoryImpl(firebaseAuth, firestore)
+//        val factory = AuthViewModelFactory(authRepository)
+//
+//        ViewModelProvider(this, factory)[AuthViewModel::class.java]
+//    }
 
 
     private var email: String = ""

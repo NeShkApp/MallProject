@@ -1,20 +1,19 @@
 package org.bohdan.mallproject.presentation.ui.cart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import org.bohdan.mallproject.R
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.databinding.FragmentCartBinding
-import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.presentation.adapters.CartAdapter
 import org.bohdan.mallproject.presentation.viewmodel.cart.CartViewModel
 
+@AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var adapter: CartAdapter
 
