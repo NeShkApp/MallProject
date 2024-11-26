@@ -8,21 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.presentation.adapters.CategoriesAdapter
 import org.bohdan.mallproject.presentation.viewmodel.home.CategoriesViewModel
 
+@AndroidEntryPoint
 class CategoriesFragment : Fragment() {
 
     private lateinit var adapter: CategoriesAdapter
 
-    private val viewModel: CategoriesViewModel by lazy {
-        ViewModelProvider(this)[CategoriesViewModel::class.java]
-    }
+    private val viewModel: CategoriesViewModel by viewModels()
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding: FragmentCategoriesBinding

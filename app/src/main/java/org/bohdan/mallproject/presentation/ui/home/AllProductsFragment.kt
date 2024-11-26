@@ -7,32 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.presentation.adapters.HomeShopItemsAdapter
 import org.bohdan.mallproject.presentation.viewmodel.home.AllProductsViewModel
-import org.bohdan.mallproject.presentation.viewmodel.home.AllProductsViewModelFactory
 
+@AndroidEntryPoint
 class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener {
     private lateinit var adapter: HomeShopItemsAdapter
 
-    private val args by navArgs<AllProductsFragmentArgs>()
-    private val viewModel: AllProductsViewModel by lazy {
-        ViewModelProvider(
-            this,
-            AllProductsViewModelFactory(
-                requireActivity().application,
-                args.category,
-                args.subcategory,
-                args.searchQuery
-            )
-        )[AllProductsViewModel::class.java]
-    }
+//    private val args by navArgs<AllProductsFragmentArgs>()
+    private val viewModel: AllProductsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,17 +34,20 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
         return inflater.inflate(R.layout.fragment_all_products, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+//        viewModel.savedStateHandle["category"] = args.category
+//        viewModel.savedStateHandle["subcategory"] = args.subcategory
+//        viewModel.savedStateHandle["searchQuery"] = args.searchQuery
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
         setupSortButton(view)
 
-        Log.d("AllProductsFragment", "Category: ${args.category}")
-        Log.d("AllProductsFragment", "Subcategory: ${args.subcategory}")
-        Log.d("AllProductsFragment", "SearchQuery: ${args.searchQuery}")
-
         observeData()
-
     }
 
     private fun observeData() {
@@ -61,6 +57,12 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
                 adapter.onShopItemClickListener = { shopItem ->
                     launchShopItemDetailsFragment(shopItem)
                 }
+            }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+            message?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -78,7 +80,6 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
 
     private fun launchShopItemDetailsFragment(shopItem: ShopItem) {
         findNavController().navigate(
-//            AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem)
             AllProductsFragmentDirections.actionAllProductsToShopItemDetailsFragment(shopItem.id)
         )
     }

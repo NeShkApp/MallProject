@@ -8,31 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentSubcategoriesBinding
 import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.presentation.adapters.SubcategoriesAdapter
 import org.bohdan.mallproject.presentation.viewmodel.home.SubcategoriesViewModel
-import org.bohdan.mallproject.presentation.viewmodel.home.SubcategoriesViewModelFactory
 
+@AndroidEntryPoint
 class SubcategoriesFragment : Fragment() {
 
     private lateinit var adapter: SubcategoriesAdapter
 
     private val args by navArgs<SubcategoriesFragmentArgs>()
 
-    private val viewModel: SubcategoriesViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SubcategoriesViewModelFactory(
-                args.category,
-                requireActivity().application
-            )
-        )[SubcategoriesViewModel::class.java]
-    }
+    private val viewModel: SubcategoriesViewModel by viewModels()
 
     private var _binding: FragmentSubcategoriesBinding? = null
     private val binding: FragmentSubcategoriesBinding
@@ -79,8 +73,8 @@ class SubcategoriesFragment : Fragment() {
             }
         }
 
-        viewModel.subcategories.observe(viewLifecycleOwner) { subcategory ->
-            subcategory?.let {
+        viewModel.subcategories.observe(viewLifecycleOwner) {
+            it?.let {
                 adapter.subcategories = it
             }
         }
