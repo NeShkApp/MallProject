@@ -4,17 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.domain.model.Category
+import org.bohdan.mallproject.domain.repository.HomeRepository
 import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
+import javax.inject.Inject
 
-class CategoriesViewModel: ViewModel() {
-    private val homeRepository = HomeRepositoryImpl
+@HiltViewModel
+class CategoriesViewModel @Inject constructor(
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+) : ViewModel() {
 
-    private val getAllCategories = GetAllCategoriesUseCase(homeRepository)
+
 
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>>
@@ -27,7 +32,7 @@ class CategoriesViewModel: ViewModel() {
     private fun loadCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             val categories = try {
-                getAllCategories()
+                getAllCategoriesUseCase()
             } catch (e: Exception) {
                 emptyList()
             }

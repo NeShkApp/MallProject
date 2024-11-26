@@ -3,29 +3,42 @@ package org.bohdan.mallproject.presentation.viewmodel.home
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.data.HomeRepositoryImpl
-import org.bohdan.mallproject.data.HomeRepositoryImpl.sortShopItems
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.model.Subcategory
+import org.bohdan.mallproject.domain.repository.HomeRepository
+import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemsByFiltersUseCase
+import org.bohdan.mallproject.domain.usecase.home.GetSubcategoriesByCategoryUseCase
+import org.bohdan.mallproject.domain.usecase.home.SortShopItemsByFiltersUseCase
+import javax.inject.Inject
 
-class AllProductsViewModel(
-    private val application: Application,
-    private val category: Category?,
-    private val subcategory: Subcategory?,
-    private val searchQuery: String?
+@HiltViewModel
+class AllProductsViewModel @Inject constructor(
+    private val sortShopItemsByFiltersUseCase: SortShopItemsByFiltersUseCase,
+    private val getShopItemsByFiltersUseCase: GetShopItemsByFiltersUseCase,
+    private val getSubcategoriesByCategoryUseCase: GetSubcategoriesByCategoryUseCase,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+    private val getAllShopItemsUseCase: GetAllShopItemsUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val homeRepository = HomeRepositoryImpl
 
-    private val getAllShopItemsUseCase = GetAllShopItemsUseCase(homeRepository)
-    private val getShopItemsByFilters = GetShopItemsByFiltersUseCase(homeRepository)
+    private val category: Category? = savedStateHandle.get<Category>("category")
+    private val subcategory: Subcategory? = savedStateHandle.get<Subcategory>("subcategory")
+    private val searchQuery: String? = savedStateHandle.get<String>("searchQuery")
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
 
     private val _shopItems = MutableLiveData<List<ShopItem>>()
     val shopItems: LiveData<List<ShopItem>>
@@ -43,7 +56,6 @@ class AllProductsViewModel(
     val subcategories: LiveData<List<Subcategory>>
         get() = _subcategories
 
-    //new
     private val _currentCategory = MutableLiveData<Category?>()
     val currentCategory: LiveData<Category?>
         get() = _currentCategory
@@ -58,13 +70,12 @@ class AllProductsViewModel(
 
     init {
         loadShopItemsByFilters(category, subcategory, searchQuery)
-//        loadCategories()
     }
 
     private fun loadCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val categoriesList = homeRepository.getAllCategories()
+                val categoriesList = getAllCategoriesUseCase()
                 _categories.postValue(categoriesList)
             } catch (e: Exception) {
                 _categories.postValue(emptyList())
@@ -75,7 +86,7 @@ class AllProductsViewModel(
     private fun loadSubcategories(category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val subcategoriesList = homeRepository.getSubcategoriesByCategory(category)
+                val subcategoriesList = getSubcategoriesByCategoryUseCase(category)
                 _subcategories.postValue(subcategoriesList)
             } catch (e: Exception) {
                 _subcategories.postValue(emptyList())
@@ -83,29 +94,28 @@ class AllProductsViewModel(
         }
     }
 
-        private fun loadShopItemsByFilters(
+    private fun loadShopItemsByFilters(
         category: Category?,
         subcategory: Subcategory?,
         searchQuery: String?
-    ){
-        viewModelScope.launch(Dispatchers.IO){
-            val items = try {
-                getShopItemsByFilters(category, subcategory, searchQuery)
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
+                val sortedItems = sortShopItemsByFiltersUseCase(items, _currentSortOrder.value)
+                _shopItems.postValue(sortedItems)
             } catch (e: Exception) {
-                emptyList()
+                _errorMessage.postValue(e.message)
             }
-            val sortedItems = sortShopItems(items, _currentSortOrder.value)
-            _shopItems.postValue(sortedItems)
         }
     }
 
-    // TODO: change to only sort the list and not to find by filters for second time!
     fun updateSortOrder(sortBy: SortBy) {
         _currentSortOrder.value = sortBy
-        loadShopItemsByFilters(
-            category, subcategory, searchQuery
-        )
-        //sort
+        val items = _shopItems.value ?: return
+        val sortedItems = sortShopItemsByFiltersUseCase(items, sortBy)
+        _shopItems.postValue(sortedItems)
     }
+
 
 }
