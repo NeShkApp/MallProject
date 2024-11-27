@@ -19,7 +19,10 @@ class HomeRepositoryImpl @Inject constructor(
         return try {
             val snapshot = db.collection("products").get().await()
             snapshot.documents.mapNotNull { document ->
-                document.toObject(ShopItem::class.java)?.copy(id = document.id)
+                val item = document.toObject(ShopItem::class.java)
+                item?.copy(
+                    id = document.id
+                )
             }
         } catch (e: Exception) {
             Log.e("HomeRepositoryImpl", "Error getting documents", e)
@@ -75,7 +78,8 @@ class HomeRepositoryImpl @Inject constructor(
                 val snapshot = query.get().await()
 
                 snapshot.documents.mapNotNull { document ->
-                    document.toObject(ShopItem::class.java)?.copy(id = document.id)
+                    document.toObject(ShopItem::class.java)?.copy(
+                        id = document.id)
                 }
             } ?: category?.let { cat ->
                 val subcategories = getSubcategoriesByCategory(cat)
@@ -85,7 +89,8 @@ class HomeRepositoryImpl @Inject constructor(
                 val snapshot = query.get().await()
 
                 snapshot.documents.mapNotNull { document ->
-                    document.toObject(ShopItem::class.java)?.copy(id = document.id)
+                    document.toObject(ShopItem::class.java)?.copy(
+                        id = document.id)
                 }
             } ?: getAllShopItems()
 

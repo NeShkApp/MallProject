@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.databinding.FragmentCartBinding
@@ -17,11 +18,9 @@ import org.bohdan.mallproject.presentation.viewmodel.cart.CartViewModel
 class CartFragment : Fragment() {
     private lateinit var adapter: CartAdapter
 
-    private val viewModel: CartViewModel by lazy{
-        ViewModelProvider(this)[CartViewModel::class.java]
-    }
+    private val viewModel: CartViewModel by viewModels()
 
-    private var _binding: FragmentCartBinding?= null
+    private var _binding: FragmentCartBinding? = null
     private val binding: FragmentCartBinding
         get() = _binding ?: throw RuntimeException("FragmentCartBinding == null")
 
@@ -40,9 +39,7 @@ class CartFragment : Fragment() {
         binding.recyclerViewCart.adapter = adapter
 
         setupObservers()
-
         setupClickListeners()
-
     }
 
     private fun setupClickListeners() {
@@ -56,12 +53,31 @@ class CartFragment : Fragment() {
             viewModel.removeCartItem(it.id)
             Toast.makeText(requireContext(), "Item removed from cart", Toast.LENGTH_SHORT).show()
         }
+
+        adapter.onQuantityChangedListener = { shopItem ->
+            viewModel.updateSelectedQuantity(shopItem.id, shopItem.selectedQuantity)
+        }
+
+
     }
 
     private fun setupObservers() {
-        viewModel.cartItems.observe(viewLifecycleOwner){
+        viewModel.cartItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+            if (message != null) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
 
     override fun onResume() {

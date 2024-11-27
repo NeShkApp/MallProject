@@ -101,7 +101,8 @@ class AllProductsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
+//                val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
+                val items = getAllShopItemsUseCase()
                 val sortedItems = sortShopItemsByFiltersUseCase(items, _currentSortOrder.value)
                 _shopItems.postValue(sortedItems)
             } catch (e: Exception) {
