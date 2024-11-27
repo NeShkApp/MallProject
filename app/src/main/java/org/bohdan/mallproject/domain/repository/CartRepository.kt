@@ -7,4 +7,6 @@ interface CartRepository {
     suspend fun removeItemFromCart(shopItemId: String)
     suspend fun isItemInCart(shopItemId: String): Boolean
     suspend fun getCartItems(): List<ShopItem>
+    suspend fun updateSelectedQuantity(shopItemId: String, quantity: Int)
+
 }

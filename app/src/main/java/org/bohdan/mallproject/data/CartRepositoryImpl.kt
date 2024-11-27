@@ -21,32 +21,62 @@ class CartRepositoryImpl @Inject constructor(
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
-                userDoc.update("cart", FieldValue.arrayUnion(shopItemId)).await()
-            } catch (e: FirebaseFirestoreException) {
-                println("Error adding item to cart: ${e.message}")
+                val userCart = userDoc.get().await().get("cart") as? MutableMap<String, Int> ?: mutableMapOf()
+
+                userCart[shopItemId] = (userCart[shopItemId] ?: 0) + 1
+
+                userDoc.update("cart", userCart).await()
             } catch (e: Exception) {
-                println("Unexpected error: ${e.message}")
+                println("Error adding item to cart: ${e.message}")
             }
         } else {
             println("User not authenticated")
         }
     }
 
+
     override suspend fun removeItemFromCart(shopItemId: String) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
-                userDoc.update("cart", FieldValue.arrayRemove(shopItemId)).await()
-            } catch (e: FirebaseFirestoreException) {
-                println("Error removing item from cart: ${e.message}")
+                userDoc.update("cart.$shopItemId", FieldValue.delete()).await()
             } catch (e: Exception) {
-                println("Unexpected error: ${e.message}")
+                println("Error removing item from cart: ${e.message}")
             }
-        } else {
-            println("User not authenticated")
         }
     }
+
+
+    // TODO: add stockQuantity check due to getting cart items.
+    override suspend fun getCartItems(): List<ShopItem> {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            try {
+                val userDoc = usersCollection.document(userId)
+                val cartMap = userDoc.get().await().get("cart") as? Map<String, Int> ?: return emptyList()
+
+                val productsCollection = firestore.collection("products")
+                return cartMap.mapNotNull { (productId, quantity) ->
+                    try {
+                        val productSnapshot = productsCollection.document(productId).get().await()
+                        productSnapshot.toObject(ShopItem::class.java)?.copy(
+                            id = productId,
+                            selectedQuantity = quantity
+                        )
+                    } catch (e: Exception) {
+                        println("Error fetching product with ID $productId: ${e.message}")
+                        null
+                    }
+                }
+            } catch (e: Exception) {
+                println("Error fetching cart items: ${e.message}")
+            }
+        }
+        return emptyList()
+    }
+
+
 
     override suspend fun isItemInCart(shopItemId: String): Boolean {
         val userId = auth.currentUser?.uid
@@ -54,7 +84,7 @@ class CartRepositoryImpl @Inject constructor(
             try {
                 val userDoc = usersCollection.document(userId)
                 val documentSnapshot = userDoc.get().await()
-                val cartItems = documentSnapshot.get("cart") as? List<String>
+                val cartItems = documentSnapshot.get("cart") as? Map<String, Int>
                 return cartItems?.contains(shopItemId) ?: false
             } catch (e: FirebaseFirestoreException) {
                 println("Error checking item in cart: ${e.message}")
@@ -67,36 +97,18 @@ class CartRepositoryImpl @Inject constructor(
         return false
     }
 
-    override suspend fun getCartItems(): List<ShopItem> {
+    override suspend fun updateSelectedQuantity(shopItemId: String, quantity: Int) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
-                val documentSnapshot = userDoc.get().await()
-                val cartItemsIds = documentSnapshot.get("cart") as? List<String>
-
-                if (!cartItemsIds.isNullOrEmpty()) {
-                    val productsCollection = firestore.collection("products")
-                    val items = cartItemsIds.mapNotNull { itemId ->
-                        try {
-                            val productSnapshot = productsCollection.document(itemId).get().await()
-                            productSnapshot.toObject(ShopItem::class.java)?.copy(id = productSnapshot.id)
-                        } catch (e: Exception) {
-                            println("Error fetching product with ID $itemId: ${e.message}")
-                            null
-                        }
-                    }
-                    return items
-                }
-            } catch (e: FirebaseFirestoreException) {
-                println("Error fetching cart items: ${e.message}")
+                userDoc.update("cart.$shopItemId", quantity).await()
             } catch (e: Exception) {
-                println("Unexpected error: ${e.message}")
+                println("Error updating item quantity: ${e.message}")
             }
         } else {
             println("User not authenticated")
         }
-        return emptyList()
     }
 
 }
