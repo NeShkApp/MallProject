@@ -34,7 +34,11 @@ class CartAdapter : ListAdapter<ShopItem, CartAdapter.CartViewHolder>(ShopItemDi
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val shopItem = getItem(position)
-        holder.bind(shopItem)
+        if (shopItem != null) {
+            holder.bind(shopItem)
+        } else {
+            Log.e("CartAdapter", "ShopItem is null at position $position")
+        }
     }
 
     class CartViewHolder(

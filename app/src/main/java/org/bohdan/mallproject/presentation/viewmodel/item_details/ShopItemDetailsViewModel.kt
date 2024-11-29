@@ -41,6 +41,13 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _isAddToCartEnabled = MutableLiveData<Boolean>()
+    val isAddToCartEnabled: LiveData<Boolean> get() = _isAddToCartEnabled
+
+    fun checkStockAvailability(shopItem: ShopItem) {
+        _isAddToCartEnabled.value = shopItem.quantityInStock > 0
+    }
+
     fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
@@ -48,7 +55,7 @@ class ShopItemDetailsViewModel @Inject constructor(
                 val item = getShopItemDetailsByIdUseCase(shopItemId)
                 _shopItem.postValue(item)
                 _isInCart.postValue(checkIfItemInCartUseCase(shopItemId))
-
+                checkStockAvailability(item)
             } catch (e: Exception) {
                 _errorMessage.postValue("Error fetching item to cart: ${e.message}")
             }finally {

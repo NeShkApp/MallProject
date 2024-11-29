@@ -48,6 +48,8 @@ class ShopItemDetailsFragment : Fragment() {
             binding.tvItemPrice.text = String.format("$%.2f", shopItem.price)
             binding.ratingBar.rating = shopItem.rating
             Glide.with(this).load(shopItem.imageUrl).into(binding.imageView)
+
+            viewModel.checkStockAvailability(shopItem)
         }
 
         viewModel.isInCart.observe(viewLifecycleOwner) { isInCart ->
@@ -58,6 +60,16 @@ class ShopItemDetailsFragment : Fragment() {
                 binding.btnAddToCart.visibility = View.VISIBLE
                 binding.btnRemoveFromCart.visibility = View.GONE
             }
+        }
+
+        viewModel.isAddToCartEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            binding.btnAddToCart.isEnabled = isEnabled
+            binding.btnAddToCart.text = if (isEnabled) "Add to Cart" else "Out of Stock"
+        }
+
+        viewModel.isAddToCartEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            binding.btnAddToCart.isEnabled = isEnabled
+            binding.btnAddToCart.text = if (isEnabled) "Add to Cart" else "Out of Stock"
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
