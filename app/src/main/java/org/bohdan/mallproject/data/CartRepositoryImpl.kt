@@ -111,4 +111,24 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun calculateTotalPrice(): Double {
+        val userId = auth.currentUser?.uid
+        if(userId != null){
+            try{
+                var totalPrice = 0.0
+                val items = getCartItems()
+                items.forEach{
+                    totalPrice+= it.price * it.selectedQuantity
+                }
+                return totalPrice
+            }catch (e: Exception){
+                println("Error calculating total amount: ${e.message}")
+            }
+        }else{
+            println("User not authenticated")
+
+        }
+        return 0.0
+    }
+
 }

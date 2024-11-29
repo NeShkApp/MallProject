@@ -40,6 +40,9 @@ class CartFragment : Fragment() {
 
         setupObservers()
         setupClickListeners()
+
+        viewModel.getCartItems()
+        viewModel.calculateTotalPrice()
     }
 
     private fun setupClickListeners() {
@@ -51,11 +54,13 @@ class CartFragment : Fragment() {
 
         adapter.onRemoveClickListener = {
             viewModel.removeCartItem(it.id)
+            viewModel.calculateTotalPrice()
             Toast.makeText(requireContext(), "Item removed from cart", Toast.LENGTH_SHORT).show()
         }
 
         adapter.onQuantityChangedListener = { shopItem ->
             viewModel.updateSelectedQuantity(shopItem.id, shopItem.selectedQuantity)
+            viewModel.calculateTotalPrice()
         }
 
 
@@ -64,6 +69,7 @@ class CartFragment : Fragment() {
     private fun setupObservers() {
         viewModel.cartItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            viewModel.calculateTotalPrice()
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
@@ -76,6 +82,10 @@ class CartFragment : Fragment() {
             if (message != null) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
+        }
+
+        viewModel.totalPrice.observe(viewLifecycleOwner){
+            binding.totalPriceText.text = String.format("Total: $%.2f", it)
         }
 
     }
