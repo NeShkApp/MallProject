@@ -105,5 +105,53 @@
         <action
             android:id="@+id/action_cartFragment_to_shopItemDetailsFragment"
             app:destination="@id/shopItemDetailsFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutDetailsFragment"
+            app:destination="@id/checkoutDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutDetailsFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.checkout.CheckoutDetailsFragment"
+        android:label="CheckoutDetailsFragment" >
+        <action
+            android:id="@+id/action_checkoutDetailsFragment_to_orderSummaryFragment"
+            app:destination="@id/checkoutSummaryFragment" />
+        <argument
+            android:name="shopItems"
+            app:argType="org.bohdan.mallproject.domain.model.ShopItem[]"
+            app:nullable="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutSummaryFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.checkout.CheckoutSummaryFragment"
+        android:label="fragment_order_summary"
+        tools:layout="@layout/fragment_checkout_summary">
+        <argument
+            android:name="clientName"
+            app:argType="string" />
+        <argument
+            android:name="address"
+            app:argType="string" />
+        <argument
+            android:name="paymentMethod"
+            app:argType="string" />
+        <argument
+            android:name="shopItems"
+            app:argType="org.bohdan.mallproject.domain.model.ShopItem[]"
+            app:nullable="false"/>
+        <action
+            android:id="@+id/action_orderSummaryFragment_to_checkoutResultFragment"
+            app:destination="@id/checkoutResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutResultFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.checkout.CheckoutResultFragment"
+        android:label="CheckoutResultFragment" >
+        <argument
+            android:name="transactionResult"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_checkoutResultFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
     </fragment>
 </navigation>

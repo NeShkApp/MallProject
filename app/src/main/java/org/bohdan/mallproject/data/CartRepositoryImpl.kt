@@ -15,13 +15,14 @@ class CartRepositoryImpl @Inject constructor(
 ) : CartRepository {
 
     private val usersCollection = firestore.collection("users")
+    private val userId = auth.currentUser?.uid
 
     override suspend fun addItemToCart(shopItemId: String) {
-        val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
-                val userCart = userDoc.get().await().get("cart") as? MutableMap<String, Int> ?: mutableMapOf()
+                val userCart =
+                    userDoc.get().await().get("cart") as? MutableMap<String, Int> ?: mutableMapOf()
 
                 userCart[shopItemId] = (userCart[shopItemId] ?: 0) + 1
 
@@ -36,7 +37,6 @@ class CartRepositoryImpl @Inject constructor(
 
 
     override suspend fun removeItemFromCart(shopItemId: String) {
-        val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
@@ -47,14 +47,12 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-
-    // TODO: add stockQuantity check due to getting cart items.
     override suspend fun getCartItems(): List<ShopItem> {
-        val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
-                val cartMap = userDoc.get().await().get("cart") as? Map<String, Int> ?: return emptyList()
+                val cartMap =
+                    userDoc.get().await().get("cart") as? Map<String, Int> ?: return emptyList()
 
                 val productsCollection = firestore.collection("products")
                 return cartMap.mapNotNull { (productId, quantity) ->
@@ -77,9 +75,7 @@ class CartRepositoryImpl @Inject constructor(
     }
 
 
-
     override suspend fun isItemInCart(shopItemId: String): Boolean {
-        val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
@@ -98,7 +94,6 @@ class CartRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateSelectedQuantity(shopItemId: String, quantity: Int) {
-        val userId = auth.currentUser?.uid
         if (userId != null) {
             try {
                 val userDoc = usersCollection.document(userId)
@@ -112,23 +107,51 @@ class CartRepositoryImpl @Inject constructor(
     }
 
     override suspend fun calculateTotalPrice(): Double {
-        val userId = auth.currentUser?.uid
-        if(userId != null){
-            try{
+        if (userId != null) {
+            try {
                 var totalPrice = 0.0
                 val items = getCartItems()
-                items.forEach{
-                    totalPrice+= it.price * it.selectedQuantity
+                items.forEach {
+                    totalPrice += it.price * it.selectedQuantity
                 }
                 return totalPrice
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 println("Error calculating total amount: ${e.message}")
             }
-        }else{
+        } else {
             println("User not authenticated")
 
         }
         return 0.0
+    }
+
+    override suspend fun updateProductQuantityInStock(shopItemId: String, newQuantity: Int) {
+        if (userId != null) {
+            try {
+                val productDoc = firestore.collection("products").document(shopItemId)
+                productDoc.update("quantityInStock", newQuantity).await()
+                println("Product quantity updated successfully for productId: $shopItemId")
+            } catch (e: Exception) {
+                println("Error updating product quantity in stock: ${e.message}")
+            }
+        } else {
+            println("User not authenticated")
+        }
+    }
+
+    override suspend fun clearCart() {
+        if (userId != null) {
+            try {
+                val cartRef = firestore.collection("users")
+                    .document(userId)
+
+                cartRef.update("cart", hashMapOf<String, Any>()).await()
+            } catch (e: Exception) {
+                println("Error clearing cart: ${e.message}")
+            }
+        } else {
+            println("User not authenticated")
+        }
     }
 
 }
