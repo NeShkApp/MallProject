@@ -9,5 +9,6 @@ interface CartRepository {
     suspend fun getCartItems(): List<ShopItem>
     suspend fun updateSelectedQuantity(shopItemId: String, quantity: Int)
     suspend fun calculateTotalPrice(): Double
-
+    suspend fun updateProductQuantityInStock(shopItemId: String, newQuantity: Int)
+    suspend fun clearCart()
 }

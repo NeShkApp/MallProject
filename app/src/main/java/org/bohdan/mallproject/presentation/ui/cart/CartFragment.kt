@@ -1,6 +1,7 @@
 package org.bohdan.mallproject.presentation.ui.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,9 @@ import androidx.fragment.app.viewModels
 
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import org.bohdan.mallproject.databinding.FragmentCartBinding
+import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.presentation.adapters.CartAdapter
 import org.bohdan.mallproject.presentation.viewmodel.cart.CartViewModel
 
@@ -34,6 +37,23 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TODO: fix unnecessary calls of releaseCartItems!!! 
+        if (viewModel.isRestored) {
+            viewModel.getCartItems()
+            val items = viewModel.cartItems.value?.let {
+                viewModel.getAvailableCartItems(
+                    it
+                )
+            }
+            if (items != null) {
+                viewModel.releaseCartItems(items)
+            }
+            Log.d("CartFragment", "Fragment state restored via ViewModel")
+        }else {
+            Log.d("CartFragment", "Fragment created anew")
+            viewModel.isRestored = true
+        }
 
         adapter = CartAdapter()
         binding.recyclerViewCart.adapter = adapter
@@ -63,12 +83,17 @@ class CartFragment : Fragment() {
             viewModel.calculateTotalPrice()
         }
 
+        binding.buttonCheckout.setOnClickListener {
+            viewModel.checkAndStartCheckout()
+        }
 
     }
 
     private fun setupObservers() {
+
         viewModel.cartItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            viewModel.updateCartEmptyState()
             viewModel.calculateTotalPrice()
         }
 
@@ -81,17 +106,52 @@ class CartFragment : Fragment() {
         viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
             if (message != null) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                viewModel.resetToastMessage()
             }
         }
 
-        viewModel.totalPrice.observe(viewLifecycleOwner){
+        viewModel.totalPrice.observe(viewLifecycleOwner) {
             binding.totalPriceText.text = String.format("Total: $%.2f", it)
         }
 
+        viewModel.navigateToCheckout.observe(viewLifecycleOwner) {
+            if (it == true) {
+                viewModel.getCartItems()
+                val items = viewModel.cartItems.value?.let {
+                    viewModel.getAvailableCartItems(
+                        it
+                    )
+                }
+                if (items != null) {
+                    viewModel.reserveCartItems(items)
+                    findNavController().navigate(
+                        CartFragmentDirections.actionCartFragmentToCheckoutDetailsFragment(items.toTypedArray())
+                    )
+                }
+                viewModel.resetNavigateToCheckout()
+//                viewModel.resetToastMessage()
+            }
+        }
+
+        viewModel.isCartEmpty.observe(viewLifecycleOwner) {
+            binding.buttonCheckout.isEnabled = !it
+        }
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        val items = viewModel.cartItems.value
+        items?.let {
+            runBlocking {
+                viewModel.releaseCartItemsBlocking(items)
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getCartItems()
     }
+
 }
