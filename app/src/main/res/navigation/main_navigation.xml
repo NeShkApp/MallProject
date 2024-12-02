@@ -96,7 +96,13 @@
         android:id="@+id/profileFragment"
         android:name="org.bohdan.mallproject.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_authActivity"
+            app:destination="@id/authActivity"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="org.bohdan.mallproject.presentation.ui.cart.CartFragment"
@@ -154,4 +160,9 @@
             android:id="@+id/action_checkoutResultFragment_to_categoriesFragment"
             app:destination="@id/categoriesFragment" />
     </fragment>
+    <activity
+        android:id="@+id/authActivity"
+        android:name="org.bohdan.mallproject.presentation.ui.auth.AuthActivity"
+        android:label="AuthActivity" />
+
 </navigation>
