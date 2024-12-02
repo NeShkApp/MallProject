@@ -48,32 +48,13 @@ class AuthActivity : AppCompatActivity() {
 
     private val viewModel: AuthViewModel by viewModels()
 
-//    private val viewModel: AuthViewModel by lazy {
-//        val firebaseAuth = FirebaseAuth.getInstance()
-//        val firestore = FirebaseFirestore.getInstance()
-//
-//        val authRepository = AuthRepositoryImpl(firebaseAuth, firestore)
-//        val factory = AuthViewModelFactory(authRepository)
-//
-//        ViewModelProvider(this, factory)[AuthViewModel::class.java]
-//    }
-
-
     private var email: String = ""
     private var password: String = ""
 
-    private lateinit var auth: FirebaseAuth
     private var isLoginMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val currentUser = FirebaseAuth.getInstance().currentUser
-//
-//        if (currentUser != null) {
-//            viewModel.navigateToMainActivity()
-//            return
-//        }
 
         val googleSignInOptions = GoogleSignInOptions.Builder(DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -188,6 +169,11 @@ class AuthActivity : AppCompatActivity() {
     private fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 
     companion object {
