@@ -26,6 +26,7 @@ class ProfileOptionsAdapter(
     }
 
     fun submitList(newOptions: List<ProfileOption>) {
+        options.clear()
         options.addAll(newOptions)
         notifyDataSetChanged()
     }
