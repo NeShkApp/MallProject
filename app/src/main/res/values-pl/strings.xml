@@ -1,0 +1,30 @@
+<resources>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Hasło</string>
+    <string name="login_button">Zaloguj się</string>
+    <string name="register_button">Zarejestruj się</string>
+    <string name="switch_to_register">Nie masz jeszcze konta?</string>
+    <string name="switch_to_login">Chcesz się zalogować?</string>
+    <string name="google_sign_in_button">Zaloguj się przez Google</string>
+    <string name="login_error_empty_fields">Proszę podać email i hasło</string>
+    <string name="login_error_invalid_credentials">Niepoprawne hasło lub email</string>
+    <string name="login_error_no_user">Nie znaleziono użytkownika z tym adresem email</string>
+    <string name="login_error_general">Błąd logowania</string>
+    <string name="register_error_general">Rejestracja nie powiodła się</string>
+    <string name="verification_email_sent">Email weryfikacyjny wysłano do %1$s. Proszę zweryfikować email.</string>
+    <string name="google_sign_in_error">Logowanie przez Google nie powiodło się: %1$s</string>
+    <string name="google_sign_in_success">Logowanie przez Google zakończone sukcesem!</string>
+    <string name="sign_in_successful">Zalogowano pomyślnie!</string>
+    <string name="email_verification_reminder">Proszę zweryfikować swój adres email!</string>
+
+    <string name="create_user_error">Nie udało się stworzyć konta. Proszę spróbować ponownie</string>
+    <string name="verify_email_error">Nie udało się zweryfikować maila. Proszę spróbować ponownie</string>
+
+    <string name="profile">Konto</string>
+    <string name="theme">Tema</string>
+    <string name="language">Język</string>
+    <string name="logout">Wylogować się</string>
+
+    <string name="buy">Do kasy</string>
+    <string name="total">Razem:</string>
+</resources>

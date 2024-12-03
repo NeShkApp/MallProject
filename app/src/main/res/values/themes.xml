@@ -7,17 +7,45 @@
 <!--    <style name="Theme.MallProject" parent="Base.Theme.MallProject" />-->
 <!--</resources>-->
 
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+<!--<resources>-->
+<!--    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">-->
+<!--        <item name="android:windowBackground">@color/lightBackground</item>-->
+<!--        <item name="android:textColorPrimary">@color/black</item>-->
+<!--        <item name="colorAccent">@color/yellow</item>-->
+<!--        <item name="android:buttonStyle">@style/ButtonStyle</item>-->
+<!--    </style>-->
+
+<!--    <style name="ButtonStyle">-->
+<!--        <item name="android:backgroundTint">@color/yellow</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--    </style>-->
+<!--</resources>-->
+
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Базова тема для додатка -->
+    <style name="Base.Theme.MallProject" parent="Theme.Material3.DayNight.NoActionBar">
+<!--    <style name="Base.Theme.MallProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
         <item name="android:windowBackground">@color/lightBackground</item>
         <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/darkBackground</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/yellow</item>
+        <!-- Стиль для кнопок -->
         <item name="android:buttonStyle">@style/ButtonStyle</item>
+        <!-- Стиль для навігаційної панелі -->
+        <item name="android:navigationBarColor">@color/darkBackground</item>
+        <item name="android:navigationBarDividerColor">@color/yellow</item>
     </style>
 
-    <style name="ButtonStyle">
+    <!-- Стиль для кнопок -->
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
         <item name="android:backgroundTint">@color/yellow</item>
         <item name="android:textColor">@color/black</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+        <item name="android:padding">12dp</item>
     </style>
 </resources>
-

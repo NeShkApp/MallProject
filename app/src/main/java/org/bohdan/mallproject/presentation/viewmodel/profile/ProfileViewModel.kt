@@ -1,73 +1,59 @@
 package org.bohdan.mallproject.presentation.viewmodel.profile
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.model.ProfileOption
-import org.bohdan.mallproject.domain.usecase.settings.LoadThemePreferenceUseCase
-import org.bohdan.mallproject.domain.usecase.settings.SaveThemePreferenceUseCase
+import org.bohdan.mallproject.domain.usecase.auth.LogoutUseCase
+import org.bohdan.mallproject.domain.usecase.settings.ChangeThemeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val auth: FirebaseAuth,
-    private val loadThemePreferenceUseCase: LoadThemePreferenceUseCase,
-    private val saveThemePreferenceUseCase: SaveThemePreferenceUseCase
+    private val changeThemeUseCase: ChangeThemeUseCase,
+    private val logoutUseCase: LogoutUseCase,
 ): ViewModel() {
     private val _options = MutableLiveData<List<ProfileOption>>()
     val options: LiveData<List<ProfileOption>> get() = _options
 
-    private val _isDarkMode = MutableLiveData<Boolean>()
-    val isDarkMode: LiveData<Boolean> get() = _isDarkMode
+    private val _languageChanged = MutableLiveData<Boolean>()
+    val languageChanged: LiveData<Boolean> get() = _languageChanged
+
 
     init {
         loadOptions()
-        _isDarkMode.value = loadThemePreference()
     }
 
-    fun changeTheme(isDarkMode: Boolean) {
-        if (_isDarkMode.value != isDarkMode) {
-            _isDarkMode.value = isDarkMode
-            saveThemePreference(isDarkMode)
+    fun loadOptions() {
+        _options.value = listOf(
+            ProfileOption(ProfileOption.PROFILE, R.string.profile, R.drawable.ic_info),
+            ProfileOption(ProfileOption.THEME, R.string.theme, R.drawable.ic_settings),
+            ProfileOption(ProfileOption.CHANGE_LANGUAGE, R.string.language, R.drawable.ic_language),
+            ProfileOption(ProfileOption.LOGOUT, R.string.logout, R.drawable.ic_logout)
+        )
+    }
 
-            if (isDarkMode) {
-                Log.d("ProfileViewModel", "Changing to dark mode")
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                Log.d("ProfileViewModel", "Changing to light mode")
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    fun logout() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                logoutUseCase()
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error logout", e)
             }
         }
     }
 
-
-    fun saveThemePreference(isDarkMode: Boolean) {
-        saveThemePreferenceUseCase(isDarkMode)
-    }
-
-    fun loadThemePreference(): Boolean {
-        return loadThemePreferenceUseCase()
-    }
-
-    private fun loadOptions() {
-        _options.value = listOf(
-            ProfileOption(ProfileOption.PROFILE, "Profile", R.drawable.ic_info),
-            ProfileOption(ProfileOption.SETTINGS, "Settings", R.drawable.ic_settings),
-            ProfileOption(ProfileOption.CHANGE_LANGUAGE, "Language", R.drawable.ic_language),
-            ProfileOption(ProfileOption.LOGOUT, "Logout", R.drawable.ic_logout)
-        )
-    }
-
-    // TODO: create and import LogoutUseCase and implement here
-    fun logout() {
-        auth.signOut()
+    fun toggleTheme() {
+        Log.d("ProfileViewModel", "Toggle theme called")
+        changeThemeUseCase()
     }
 }

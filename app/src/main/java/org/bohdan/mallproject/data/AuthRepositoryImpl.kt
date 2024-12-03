@@ -98,4 +98,12 @@ class AuthRepositoryImpl @Inject constructor(
         return Result.failure(Exception("Email verification monitoring stopped unexpectedly"))
     }
 
+    override suspend fun logout() {
+        try{
+            auth.signOut()
+        }catch (e: Exception){
+            throw RuntimeException("Logout was failed. Error: ${e.message}")
+        }
+    }
+
 }

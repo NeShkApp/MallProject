@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.bohdan.mallproject.R
 import org.bohdan.mallproject.domain.usecase.auth.CreateUserInFirestoreUseCase
 import org.bohdan.mallproject.domain.usecase.auth.GoogleSignInUseCase
 import org.bohdan.mallproject.domain.usecase.auth.LoginUseCase
@@ -25,16 +26,16 @@ class AuthViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
     private val googleSignInUseCase: GoogleSignInUseCase,
     private val createUserInFirestoreUseCase: CreateUserInFirestoreUseCase,
-    private val monitorEmailVerificationUseCase: MonitorEmailVerificationUseCase
-) : ViewModel() {
+    private val monitorEmailVerificationUseCase: MonitorEmailVerificationUseCase,
+    ) : ViewModel() {
 
     private val _user = MutableLiveData<FirebaseUser?>()
     val user: LiveData<FirebaseUser?> get() = _user
 
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> get() = _message
+    private val _messageId = MutableLiveData<Int>()
+    val messageId: LiveData<Int> get() = _messageId
 
-    private val _navigateToMainActivity = MutableLiveData<Boolean>()
+    private val _navigateToMainActivity = MutableLiveData<Boolean>(false)
     val navigateToMainActivity: LiveData<Boolean> get() = _navigateToMainActivity
 
     fun login(email: String, password: String) {
@@ -47,14 +48,14 @@ class AuthViewModel @Inject constructor(
                 } else {
                     val exception = result.exceptionOrNull()
                     val errorMessage = when (exception) {
-                        is FirebaseAuthInvalidCredentialsException -> "Incorrect password or email"
-                        is FirebaseAuthInvalidUserException -> "No user found with this email"
-                        else -> "Login error"
+                        is FirebaseAuthInvalidCredentialsException -> R.string.login_error_invalid_credentials
+                        is FirebaseAuthInvalidUserException -> R.string.login_error_no_user
+                        else -> R.string.login_error_general
                     }
-                    _message.postValue(errorMessage)
+                    _messageId.postValue(errorMessage)
                 }
             } catch (exception: Exception) {
-                _message.postValue(exception.message ?: "Login error")
+                _messageId.postValue(R.string.login_error_general)
             }
         }
     }
@@ -83,11 +84,11 @@ class AuthViewModel @Inject constructor(
 
                 firebaseUser?.let { user ->
                     createUserInFirestore(user.uid, user.email ?: "")
-                    _message.postValue("Verification email sent to ${user.email}. Please verify your email.")
+                    _messageId.postValue(R.string.verification_email_sent)
                     monitorEmailVerification()
                 }
             } else {
-                _message.postValue(result.exceptionOrNull()?.message ?: "Registration failed")
+                _messageId.postValue(R.string.register_error_general)
             }
         }
     }
@@ -96,10 +97,10 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = googleSignInUseCase(account)
             if (result.isSuccess) {
-                _message.postValue("Google Sign-in was successfully!")
+                _messageId.postValue(R.string.google_sign_in_success)
                 _navigateToMainActivity.postValue(true)
             } else {
-                _message.postValue(result.exceptionOrNull()?.message ?: "Google Sign-In failed")
+                _messageId.postValue(R.string.google_sign_in_error)
             }
         }
     }
@@ -109,7 +110,8 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = createUserInFirestoreUseCase(userId, email)
             if (result.isFailure) {
-                _message.value = result.exceptionOrNull()?.message
+//                _message.value = result.exceptionOrNull()?.message
+                _messageId.value = R.string.create_user_error
             }
         }
     }
@@ -121,7 +123,8 @@ class AuthViewModel @Inject constructor(
                 _user.postValue(verifiedUser)
                 navigateToMainActivity()
             }.onFailure { error ->
-                _message.postValue(error.message)
+//                _message.postValue(error.message)
+                _messageId.postValue(R.string.verify_email_error)
             }
         }
     }

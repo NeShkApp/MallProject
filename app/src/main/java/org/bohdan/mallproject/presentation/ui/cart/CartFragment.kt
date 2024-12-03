@@ -111,7 +111,7 @@ class CartFragment : Fragment() {
         }
 
         viewModel.totalPrice.observe(viewLifecycleOwner) {
-            binding.totalPriceText.text = String.format("Total: $%.2f", it)
+            binding.totalPriceNumber.text = String.format("$%.2f", it)
         }
 
         viewModel.navigateToCheckout.observe(viewLifecycleOwner) {

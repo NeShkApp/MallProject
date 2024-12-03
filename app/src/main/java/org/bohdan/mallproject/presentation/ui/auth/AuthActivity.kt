@@ -1,41 +1,19 @@
 package org.bohdan.mallproject.presentation.ui.auth
 
-import AuthRepositoryImpl
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.data.CartRepositoryImpl
 import org.bohdan.mallproject.databinding.ActivityAuthBinding
-import org.bohdan.mallproject.databinding.FragmentShopItemDetailsBinding
-import org.bohdan.mallproject.domain.model.ShopItem
-import org.bohdan.mallproject.domain.repository.ShopItemDetailsRepository
-import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
-import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
-import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
-import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
 import org.bohdan.mallproject.presentation.ui.home.MainActivity
 import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
 
@@ -78,22 +56,21 @@ class AuthActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.message.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        viewModel.messageId.observe(this) {
+            it?.let {
+                val message = getString(it)
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.user.observe(this) { firebaseUser ->
             firebaseUser?.let {
                 if (it.isEmailVerified) {
-                    Toast.makeText(this, "Sign in successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.sign_in_successful), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Please verify your email address!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.email_verification_reminder), Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-
-        viewModel.message.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
 
         binding.googleSignInButton.setOnClickListener {
@@ -125,7 +102,7 @@ class AuthActivity : AppCompatActivity() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.register(email, password)
         } else {
-            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -133,7 +110,7 @@ class AuthActivity : AppCompatActivity() {
         if(email.isNotEmpty() && password.isNotEmpty()){
             viewModel.login(email, password)
         }else{
-            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -142,11 +119,11 @@ class AuthActivity : AppCompatActivity() {
         if (isLoginMode) {
             binding.loginButton.visibility = View.VISIBLE
             binding.registerButton.visibility = View.GONE
-            binding.switchText.text = "Haven't You already registered?"
+            binding.switchText.text = getString(R.string.switch_to_register)
         } else {
             binding.loginButton.visibility = View.GONE
             binding.registerButton.visibility = View.VISIBLE
-            binding.switchText.text = "Do You want to login?"
+            binding.switchText.text = getString(R.string.switch_to_login)
         }
     }
 
@@ -161,7 +138,7 @@ class AuthActivity : AppCompatActivity() {
                     viewModel.signInWithGoogle(it)
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google Sign-In Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.google_sign_in_error, e.message), Toast.LENGTH_SHORT).show()
             }
         }
     }

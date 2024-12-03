@@ -34,15 +34,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/fragmentName"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragmentName"
                 tools:listitem="@layout/item_cart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Фіксований контейнер для кнопки та суми -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/checkoutContainer"
         android:layout_width="match_parent"
@@ -58,22 +58,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Total: $0.00"
+            android:text="@string/total"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/totalPriceNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="$0.00"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/totalPriceText"
+            app:layout_constraintStart_toEndOf="@+id/totalPriceText"
+            app:layout_constraintTop_toTopOf="@+id/totalPriceText" />
 
         <Button
             android:id="@+id/buttonCheckout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
-            android:text="Buy"
-            app:layout_constraintStart_toEndOf="@id/totalPriceText"
+            android:text="@string/buy"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/totalPriceNumber"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
