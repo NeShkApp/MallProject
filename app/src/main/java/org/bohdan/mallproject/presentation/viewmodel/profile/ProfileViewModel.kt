@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val changeThemeUseCase: ChangeThemeUseCase,
+//    private val changeThemeUseCase: ChangeThemeUseCase,
     private val logoutUseCase: LogoutUseCase,
 ): ViewModel() {
     private val _options = MutableLiveData<List<ProfileOption>>()
@@ -52,8 +52,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun toggleTheme() {
-        Log.d("ProfileViewModel", "Toggle theme called")
-        changeThemeUseCase()
-    }
+//    fun toggleTheme() {
+//        Log.d("ProfileViewModel", "Toggle theme called")
+//        changeThemeUseCase()
+//    }
+
 }

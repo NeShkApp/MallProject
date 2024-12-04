@@ -17,7 +17,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.play.integrity.internal.c
 import dagger.hilt.android.AndroidEntryPoint
+import org.bohdan.mallproject.LanguagePreferences
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.ThemePreferences
 import org.bohdan.mallproject.databinding.FragmentProfileBinding
 import org.bohdan.mallproject.domain.model.ProfileOption
 import org.bohdan.mallproject.presentation.adapters.ProfileOptionsAdapter
@@ -40,7 +42,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("ProfileFragment", "onCreateView called")
+//        Log.d("ProfileFragment", "onCreateView called")
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -48,7 +50,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ProfileFragment", "onViewCreated called")
+//        Log.d("ProfileFragment", "onViewCreated called")
 
         setupRecyclerView()
         observeViewModel()
@@ -56,7 +58,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        Log.d("ProfileFragment", "setupRecyclerView called")
+//        Log.d("ProfileFragment", "setupRecyclerView called")
         optionsAdapter = ProfileOptionsAdapter { option ->
             handleOptionClick(option)
         }
@@ -76,29 +78,28 @@ class ProfileFragment : Fragment() {
             optionsAdapter.submitList(localizedOptions)
         }
 
-//        viewModel.languageChanged.observe(viewLifecycleOwner) {
-//            if (it) {
-//                // Оновлюємо список опцій на основі нової локалізації
-//                viewModel.loadOptions()
-//            }
-//        }
     }
 
     private fun handleOptionClick(option: ProfileOption) {
-        Log.d("ProfileFragment", "Option clicked: ${option.id}")
+//        Log.d("ProfileFragment", "Option clicked: ${option.id}")
         when (option.id) {
             ProfileOption.PROFILE -> {
                 // Реалізуйте обробку перегляду профілю
             }
             ProfileOption.THEME -> {
-                viewModel.toggleTheme()
-//                restartActivity()
+//                viewModel.toggleTheme()
+                val isCurrentlyDarkMode = ThemePreferences.isDarkMode(requireContext())
+                val newTheme = !isCurrentlyDarkMode // Перемикаємо тему
+                ThemePreferences.saveThemePreference(requireContext(), newTheme)
+
+                recreateActivityWithConfiguration()
             }
             ProfileOption.CHANGE_LANGUAGE -> {
                 showLanguageSelectionDialog()
+
             }
             ProfileOption.LOGOUT -> {
-                Log.d("ProfileFragment", "Logout option selected")
+//                Log.d("ProfileFragment", "Logout option selected")
                 val builder = AlertDialog.Builder(binding.root.context)
                 builder.setTitle("Confirm Logout")
                     .setMessage("Are you sure you want to logout?")
@@ -119,6 +120,37 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun recreateActivityWithConfiguration() {
+        // Оновлюємо мову та тему
+        applyConfiguration()
+
+        // Перезавантажуємо активність для застосування змін
+        requireActivity().recreate()
+    }
+
+
+
+    private fun applyConfiguration() {
+        // Тема
+        val isDarkMode = ThemePreferences.isDarkMode(requireContext())
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
+
+        // Мова
+        val languageCode = LanguagePreferences.getLanguage(requireContext())
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = requireContext().resources.configuration
+        config.setLocale(locale)
+
+        requireActivity().resources.updateConfiguration(config, requireActivity().resources.displayMetrics)
+    }
+
     private fun showLanguageSelectionDialog() {
         val languages = arrayOf("English", "Polski")
         val languageCodes = arrayOf("en", "pl")
@@ -126,31 +158,17 @@ class ProfileFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle("Select Language")
             .setItems(languages) { dialog, which ->
-                // TODO: MAKE TRANSLATION GREAT AGAIN
                 val selectedLanguageCode = languageCodes[which]
-                saveLanguageToPreferences(selectedLanguageCode)
-                setLocale(requireActivity(), selectedLanguageCode)
+                LanguagePreferences.saveLanguage(requireContext(), selectedLanguageCode)
 
-                restartActivity()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
 
                 dialog.dismiss()
             }
             .create()
             .show()
-    }
-
-    private fun saveLanguageToPreferences(languageCode: String) {
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("languageCode", languageCode).apply()
-    }
-
-    private fun setLocale(activity: Activity, langCode: String) {
-        val locale = Locale(langCode)
-        Locale.setDefault(locale)
-        val resources = activity.resources
-        val config = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
 
@@ -161,12 +179,8 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("ProfileFragment", "onDestroyView called")
+//        Log.d("ProfileFragment", "onDestroyView called")
         _binding = null
     }
 
-    private fun restartActivity() {
-        requireActivity().finish()
-        requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-    }
 }
