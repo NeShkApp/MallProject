@@ -75,15 +75,15 @@ class AuthViewModel @Inject constructor(
         _navigateToMainActivity.postValue(true)
     }
 
-    fun register(email: String, password: String) {
+    fun register(username: String, email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = registerUseCase(email, password)
+            val result = registerUseCase(username, email, password)
             if (result.isSuccess) {
                 val firebaseUser = result.getOrNull()
                 _user.postValue(firebaseUser)
 
                 firebaseUser?.let { user ->
-                    createUserInFirestore(user.uid, user.email ?: "")
+                    createUserInFirestore(user.displayName.toString(), user.uid, user.email ?: "")
                     _messageId.postValue(R.string.verification_email_sent)
                     monitorEmailVerification()
                 }
@@ -106,9 +106,9 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    private fun createUserInFirestore(userId: String, email: String) {
+    private fun createUserInFirestore(username: String, userId: String, email: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = createUserInFirestoreUseCase(userId, email)
+            val result = createUserInFirestoreUseCase(username, userId, email)
             if (result.isFailure) {
 //                _message.value = result.exceptionOrNull()?.message
                 _messageId.value = R.string.create_user_error

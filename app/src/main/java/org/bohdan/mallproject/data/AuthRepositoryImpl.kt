@@ -1,7 +1,11 @@
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
@@ -22,16 +26,40 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun registerWithEmail(email: String, password: String): Result<FirebaseUser> {
+    override suspend fun registerWithEmail(
+        username: String,
+        email: String,
+        password: String
+    ): Result<FirebaseUser> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user ?: throw Exception("User not found")
+
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build()
+
+            firebaseUser.updateProfile(profileUpdates).await()
 
             firebaseUser.sendEmailVerification().await()
 
             Result.success(firebaseUser)
         } catch (e: Exception) {
-            Result.failure(e)
+            Log.e("RegisterError", "Error during registration: ${e.message}", e)
+
+            val errorMessage = when (e) {
+                is FirebaseAuthInvalidCredentialsException -> {
+                    when {
+                        email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email address format"
+                        password.length < 6 -> "Password must be at least 6 characters long"
+                        else -> "Invalid credentials"
+                    }
+                }
+                is FirebaseAuthUserCollisionException -> "User with this email already exists"
+                else -> "An unknown error occurred"
+            }
+
+            Result.failure(Exception(errorMessage))
         }
     }
 
@@ -44,7 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
             val userDoc = firestore.collection("users").document(firebaseUser.uid).get().await()
 
             if (!userDoc.exists()) {
-                val createUserResult = createUserInFirestore(firebaseUser.uid, firebaseUser.email ?: "", firebaseUser.displayName)
+                val createUserResult = createUserInFirestore(firebaseUser.displayName.toString(), firebaseUser.uid, firebaseUser.email ?: "")
                 if (createUserResult.isFailure) {
                     return Result.failure(createUserResult.exceptionOrNull() ?: Exception("Failed to create user in Firestore"))
                 }
@@ -58,14 +86,15 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override suspend fun createUserInFirestore(
+        username: String,
         userId: String,
         email: String,
-        name: String?
     ): Result<Unit> {
         return try {
             val user = hashMapOf(
+                "name" to username,
                 "email" to email,
-                "name" to (name ?: "Anonymous"),
+//                "name" to (name ?: "Anonymous"),
                 "userId" to userId
             )
 
