@@ -52,9 +52,4 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-//    fun toggleTheme() {
-//        Log.d("ProfileViewModel", "Toggle theme called")
-//        changeThemeUseCase()
-//    }
-
 }

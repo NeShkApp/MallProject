@@ -159,17 +159,15 @@ class ProfileFragment : Fragment() {
             .setTitle("Select Language")
             .setItems(languages) { dialog, which ->
                 val selectedLanguageCode = languageCodes[which]
-                LanguagePreferences.saveLanguage(requireContext(), selectedLanguageCode)
+                LanguagePreferences.saveLanguage(requireContext(), selectedLanguageCode)  // Збереження вибраної мови
 
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
-
+                requireActivity().recreate()
                 dialog.dismiss()
             }
             .create()
             .show()
     }
+
 
 
     private fun logout() {
