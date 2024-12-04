@@ -1,6 +1,7 @@
-package org.bohdan.mallproject
+package org.bohdan.mallproject.utils
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 
 object ThemePreferences {
 
@@ -14,6 +15,16 @@ object ThemePreferences {
 
     fun isDarkMode(context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(KEY_IS_DARK_MODE, false) // Default: Light mode
+        return sharedPreferences.getBoolean(KEY_IS_DARK_MODE, false)
+    }
+
+    fun setAppTheme(context: Context) {
+        val isDarkMode = isDarkMode(context)
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

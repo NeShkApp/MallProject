@@ -3,14 +3,13 @@ package org.bohdan.mallproject.presentation.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import org.bohdan.mallproject.BaseActivity
+import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.presentation.ui.auth.AuthActivity
 

@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
-import org.bohdan.mallproject.BaseActivity
+import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ActivityAuthBinding
 import org.bohdan.mallproject.presentation.ui.home.MainActivity

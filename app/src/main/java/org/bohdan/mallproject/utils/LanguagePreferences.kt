@@ -1,6 +1,7 @@
-package org.bohdan.mallproject
+package org.bohdan.mallproject.utils
 
 import android.content.Context
+import java.util.Locale
 
 object LanguagePreferences {
 
@@ -15,5 +16,15 @@ object LanguagePreferences {
     fun getLanguage(context: Context): String {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getString(KEY_LANGUAGE_CODE, "en") ?: "en"
+    }
+
+    fun updateLocale(context: Context, languageCode: String): Context {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = context.resources.configuration
+        config.setLocale(locale)
+
+        return context.createConfigurationContext(config)
     }
 }
