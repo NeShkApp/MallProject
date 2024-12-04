@@ -26,6 +26,7 @@ class AuthActivity : BaseActivity() {
 
     private val viewModel: AuthViewModel by viewModels()
 
+    private var username: String = ""
     private var email: String = ""
     private var password: String = ""
 
@@ -55,9 +56,10 @@ class AuthActivity : BaseActivity() {
 
 
         binding.registerButton.setOnClickListener {
+            username = binding.usernameInput.text.toString().trim()
             email = binding.emailInput.text.toString().trim()
             password = binding.passwordInput.text.toString().trim()
-            registerUser(email, password)
+            registerUser(username, email, password)
         }
 
         binding.loginButton.setOnClickListener {
@@ -114,9 +116,9 @@ class AuthActivity : BaseActivity() {
 //        finish()
 //    }
 
-    private fun registerUser(email: String, password: String) {
-        if (email.isNotEmpty() && password.isNotEmpty()) {
-            viewModel.register(email, password)
+    private fun registerUser(username: String, email: String, password: String) {
+        if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
+            viewModel.register(username, email, password)
         } else {
             Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_LONG).show()
         }
@@ -133,10 +135,12 @@ class AuthActivity : BaseActivity() {
     private fun toggleLoginRegisterMode() {
         isLoginMode = !isLoginMode
         if (isLoginMode) {
+            binding.usernameInput.visibility = View.GONE
             binding.loginButton.visibility = View.VISIBLE
             binding.registerButton.visibility = View.GONE
             binding.switchText.text = getString(R.string.switch_to_register)
         } else {
+            binding.usernameInput.visibility = View.VISIBLE
             binding.loginButton.visibility = View.GONE
             binding.registerButton.visibility = View.VISIBLE
             binding.switchText.text = getString(R.string.switch_to_login)

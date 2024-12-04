@@ -11,9 +11,18 @@ import javax.inject.Inject
 
 interface AuthRepository {
     suspend fun loginWithEmail(email: String, password: String): Result<FirebaseUser>
-    suspend fun registerWithEmail(email: String, password: String): Result<FirebaseUser>
+    suspend fun registerWithEmail(
+        username: String,
+        email: String,
+        password: String
+    ): Result<FirebaseUser>
     suspend fun signInWithGoogle(account: GoogleSignInAccount): Result<FirebaseUser>
-    suspend fun createUserInFirestore(userId: String, email: String, name: String? = null): Result<Unit>
+    suspend fun createUserInFirestore(
+        username: String,
+        userId: String,
+        email: String,
+//        name: String? = null
+    ): Result<Unit>
     suspend fun monitorEmailVerification(): Result<FirebaseUser>
     suspend fun logout()
 }

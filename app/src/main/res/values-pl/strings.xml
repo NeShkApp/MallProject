@@ -6,7 +6,7 @@
     <string name="switch_to_register">Nie masz jeszcze konta?</string>
     <string name="switch_to_login">Chcesz się zalogować?</string>
     <string name="google_sign_in_button">Zaloguj się przez Google</string>
-    <string name="login_error_empty_fields">Proszę podać email i hasło</string>
+    <string name="login_error_empty_fields">Proszę podać email, hasło i imie</string>
     <string name="login_error_invalid_credentials">Niepoprawne hasło lub email</string>
     <string name="login_error_no_user">Nie znaleziono użytkownika z tym adresem email</string>
     <string name="login_error_general">Błąd logowania</string>
@@ -27,4 +27,5 @@
 
     <string name="buy">Do kasy</string>
     <string name="total">Razem:</string>
+    <string name="username">Username</string>
 </resources>

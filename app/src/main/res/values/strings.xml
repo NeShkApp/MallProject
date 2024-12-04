@@ -8,7 +8,7 @@
     <string name="switch_to_login">Already a member? Log in</string>
     <string name="google_sign_in_button">Sign In with Google</string>
 
-    <string name="login_error_empty_fields">Please enter email and password</string>
+    <string name="login_error_empty_fields">Please enter email, password, and username</string>
     <string name="login_error_invalid_credentials">Incorrect password or email</string>
     <string name="login_error_no_user">No user found with this email</string>
     <string name="login_error_general">Login error</string>
@@ -30,4 +30,5 @@
     <string name="logout">Logout</string>
     <string name="buy">Buy</string>
     <string name="total">Total:</string>
+    <string name="username">Username</string>
 </resources>
