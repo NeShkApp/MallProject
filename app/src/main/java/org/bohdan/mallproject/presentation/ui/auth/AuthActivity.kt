@@ -5,20 +5,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
+import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ActivityAuthBinding
 import org.bohdan.mallproject.presentation.ui.home.MainActivity
 import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
 
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity() {
     private lateinit var binding: ActivityAuthBinding
 
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 100
@@ -34,12 +34,7 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val googleSignInOptions = GoogleSignInOptions.Builder(DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+        initializeGoogleKey()
 
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -48,6 +43,31 @@ class AuthActivity : AppCompatActivity() {
             toggleLoginRegisterMode()
         }
 
+        setupObservers()
+        setupListeners()
+
+    }
+
+    private fun setupListeners() {
+        binding.googleSignInButton.setOnClickListener {
+            signInWithGoogle()
+        }
+
+
+        binding.registerButton.setOnClickListener {
+            email = binding.emailInput.text.toString().trim()
+            password = binding.passwordInput.text.toString().trim()
+            registerUser(email, password)
+        }
+
+        binding.loginButton.setOnClickListener {
+            email = binding.emailInput.text.toString().trim()
+            password = binding.passwordInput.text.toString().trim()
+            loginUser(email, password)
+        }
+    }
+
+    private fun setupObservers() {
         viewModel.navigateToMainActivity.observe(this) {
             if (it == true) {
                 val intent = Intent(this, MainActivity::class.java)
@@ -66,30 +86,26 @@ class AuthActivity : AppCompatActivity() {
         viewModel.user.observe(this) { firebaseUser ->
             firebaseUser?.let {
                 if (it.isEmailVerified) {
-                    Toast.makeText(this, getString(R.string.sign_in_successful), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.sign_in_successful), Toast.LENGTH_SHORT)
+                        .show()
                 } else {
-                    Toast.makeText(this, getString(R.string.email_verification_reminder), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.email_verification_reminder),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
+    }
 
-        binding.googleSignInButton.setOnClickListener {
-            signInWithGoogle()
-        }
+    private fun initializeGoogleKey() {
+        val googleSignInOptions = GoogleSignInOptions.Builder(DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
 
-
-        binding.registerButton.setOnClickListener {
-            email = binding.emailInput.text.toString().trim()
-            password = binding.passwordInput.text.toString().trim()
-            registerUser(email, password)
-        }
-
-        binding.loginButton.setOnClickListener {
-            email = binding.emailInput.text.toString().trim()
-            password = binding.passwordInput.text.toString().trim()
-            loginUser(email, password)
-        }
-
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
 //    private fun navigateToMainActivity() {

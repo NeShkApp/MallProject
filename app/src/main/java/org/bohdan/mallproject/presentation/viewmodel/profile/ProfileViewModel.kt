@@ -1,9 +1,7 @@
 package org.bohdan.mallproject.presentation.viewmodel.profile
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,29 +9,25 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.bohdan.mallproject.utils.LanguagePreferences
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.utils.ThemePreferences
 import org.bohdan.mallproject.domain.model.ProfileOption
 import org.bohdan.mallproject.domain.usecase.auth.LogoutUseCase
-import org.bohdan.mallproject.domain.usecase.settings.ChangeThemeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val changeThemeUseCase: ChangeThemeUseCase,
     private val logoutUseCase: LogoutUseCase,
 ): ViewModel() {
     private val _options = MutableLiveData<List<ProfileOption>>()
     val options: LiveData<List<ProfileOption>> get() = _options
 
-    private val _languageChanged = MutableLiveData<Boolean>()
-    val languageChanged: LiveData<Boolean> get() = _languageChanged
-
-
     init {
         loadOptions()
     }
 
-    fun loadOptions() {
+    private fun loadOptions() {
         _options.value = listOf(
             ProfileOption(ProfileOption.PROFILE, R.string.profile, R.drawable.ic_info),
             ProfileOption(ProfileOption.THEME, R.string.theme, R.drawable.ic_settings),
@@ -52,8 +46,14 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun toggleTheme() {
-        Log.d("ProfileViewModel", "Toggle theme called")
-        changeThemeUseCase()
+    fun toggleTheme(context: Context) {
+        val isCurrentlyDarkMode = ThemePreferences.isDarkMode(context)
+        val newTheme = !isCurrentlyDarkMode
+        ThemePreferences.saveThemePreference(context, newTheme)
     }
+
+    fun changeLanguage(context: Context, languageCode: String) {
+        LanguagePreferences.saveLanguage(context, languageCode)
+    }
+
 }
