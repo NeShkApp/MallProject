@@ -78,7 +78,11 @@ class ProfileFragment : Fragment() {
             }
             ProfileOption.CHANGE_LANGUAGE -> {
                 showLanguageSelectionDialog()
-
+            }
+            ProfileOption.ORDERS -> {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToOrdersFragment()
+                )
             }
             ProfileOption.LOGOUT -> {
                 val builder = AlertDialog.Builder(binding.root.context)

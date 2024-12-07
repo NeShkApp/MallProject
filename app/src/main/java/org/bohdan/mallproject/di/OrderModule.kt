@@ -10,6 +10,7 @@ import org.bohdan.mallproject.data.CartRepositoryImpl
 import org.bohdan.mallproject.data.OrderRepositoryImpl
 import org.bohdan.mallproject.domain.repository.CartRepository
 import org.bohdan.mallproject.domain.repository.OrderRepository
+import org.bohdan.mallproject.domain.repository.ShopItemDetailsRepository
 import javax.inject.Singleton
 
 @Module
@@ -20,8 +21,13 @@ object OrderModule {
     @Singleton
     fun provideOrderRepository(
         auth: FirebaseAuth,
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
+        shopItemDetailsRepository: ShopItemDetailsRepository
     ): OrderRepository {
-        return OrderRepositoryImpl(auth, firestore)
+        return OrderRepositoryImpl(
+            auth,
+            firestore,
+            shopItemDetailsRepository
+        )
     }
 }

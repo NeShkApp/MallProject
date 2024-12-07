@@ -10,6 +10,7 @@ data class ProfileOption(
         const val PROFILE = 1
         const val THEME = 2
         const val CHANGE_LANGUAGE = 3
-        const val LOGOUT = 4
+        const val ORDERS = 4
+        const val LOGOUT = 5
     }
 }

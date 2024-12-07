@@ -102,6 +102,9 @@
             app:destination="@id/authActivity"
             app:launchSingleTop="true"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -164,5 +167,14 @@
         android:id="@+id/authActivity"
         android:name="org.bohdan.mallproject.presentation.ui.auth.AuthActivity"
         android:label="AuthActivity" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="org.bohdan.mallproject.presentation.orders.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" >
+        <action
+            android:id="@+id/action_ordersFragment_to_shopItemDetailsFragment"
+            app:destination="@id/shopItemDetailsFragment" />
+    </fragment>
 
 </navigation>

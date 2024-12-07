@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.databinding.ItemShopEnabledBinding
 import org.bohdan.mallproject.domain.model.ShopItem
 
 class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemViewHolder>() {
@@ -19,18 +20,23 @@ class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemV
             notifyDataSetChanged()
         }
 
-    class ShopItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvName = view.findViewById<TextView>(R.id.tv_name)
-        val tvPrice = view.findViewById<TextView>(R.id.tv_price)
+    class ShopItemViewHolder(
+        private val binding: ItemShopEnabledBinding
+    ) :RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(shopItem: ShopItem){
+            binding.tvName.text = shopItem.name
+            binding.tvPrice.text = shopItem.price.toString()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_shop_enabled,
+        val binding = ItemShopEnabledBinding.inflate(
+            LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return ShopItemViewHolder(view)
+        return ShopItemViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -39,8 +45,7 @@ class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemV
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopItem = shopList[position]
-        holder.tvName.text = shopItem.name
-        holder.tvPrice.text = shopItem.price.toString()
+        holder.bind(shopItem)
         holder.itemView.setOnClickListener {
             onShopItemClickListener?.invoke(shopItem)
         }
