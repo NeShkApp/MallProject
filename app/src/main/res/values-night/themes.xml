@@ -31,8 +31,9 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <style name="Base.Theme.MallProject" parent="Theme.Material3.Dark.NoActionBar">-->
-    <style name="Base.Theme.MallProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.Theme.MallProject" parent="Theme.Material3.Dark.NoActionBar">
+<!--    <style name="Base.Theme.MallProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--    <style name="Base.Theme.MallProject" parent="Theme.AppCompat.Light">-->
         <!-- Основні кольори -->
         <item name="android:windowBackground">@color/darkBackground</item>
         <item name="android:textColorPrimary">@color/white</item>
