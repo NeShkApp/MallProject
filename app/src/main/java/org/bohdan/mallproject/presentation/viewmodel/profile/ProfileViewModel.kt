@@ -32,6 +32,7 @@ class ProfileViewModel @Inject constructor(
             ProfileOption(ProfileOption.PROFILE, R.string.profile, R.drawable.ic_info),
             ProfileOption(ProfileOption.THEME, R.string.theme, R.drawable.ic_settings),
             ProfileOption(ProfileOption.CHANGE_LANGUAGE, R.string.language, R.drawable.ic_language),
+            ProfileOption(ProfileOption.ORDERS, R.string.orders, R.drawable.ic_orders),
             ProfileOption(ProfileOption.LOGOUT, R.string.logout, R.drawable.ic_logout)
         )
     }

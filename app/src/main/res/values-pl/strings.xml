@@ -28,4 +28,5 @@
     <string name="buy">Do kasy</string>
     <string name="total">Razem:</string>
     <string name="username">Username</string>
+    <string name="orders">Orders</string>
 </resources>
