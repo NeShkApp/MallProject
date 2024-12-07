@@ -1,8 +1,18 @@
 package org.bohdan.mallproject.presentation.ui.home
 
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -12,9 +22,40 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.presentation.ui.auth.AuthActivity
+import org.bohdan.mallproject.utils.AirplaneModeReceiver
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+
+//    private val airplaneModeReceiver = AirplaneModeReceiver { isAirplaneModeOn ->
+//        if (isAirplaneModeOn) {
+//            showCheckInternetDialog()
+//        }else {
+//            dismissDialog()
+//        }
+//    }
+//    private var checkInternetDialog: AlertDialog? = null
+//
+//    private fun showCheckInternetDialog() {
+//        val builder = AlertDialog.Builder(this)
+//        val dialogView = layoutInflater.inflate(R.layout.check_internet_dialog, null)
+//
+//        builder.setView(dialogView)
+//        val btnRetry = dialogView.findViewById<Button>(R.id.btn_retry)
+//
+//        btnRetry.setOnClickListener {
+//            Toast.makeText(this, "Retrying...", Toast.LENGTH_SHORT).show()
+//        }
+//
+//        builder.setCancelable(false)
+//        checkInternetDialog = builder.show()
+//    }
+//
+//    private fun dismissDialog() {
+//        checkInternetDialog?.dismiss()
+//        checkInternetDialog = null
+//    }
+//
 
     override fun onStart() {
         super.onStart()
@@ -29,6 +70,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        registerReceiver(airplaneModeReceiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
 
         setupBottomNavController()
     }
@@ -71,8 +114,13 @@ class MainActivity : BaseActivity() {
             }
         }
 
-
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        unregisterReceiver(airplaneModeReceiver)
+    }
+
 }
 
 
