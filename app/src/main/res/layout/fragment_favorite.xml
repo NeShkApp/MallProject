@@ -5,9 +5,42 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.favorite.FavoriteFragment">
 
-    <TextView
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Favorite fragment" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp">
 
+        <TextView
+            android:id="@+id/tv_EmptyFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your favorite list is empty. Go shop for something you love!"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/goToShopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go to Shop" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoritesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:listitem="@layout/item_favorite" />
 </FrameLayout>

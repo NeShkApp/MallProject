@@ -44,6 +44,8 @@ class CartRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 println("Error removing item from cart: ${e.message}")
             }
+        } else{
+            throw IllegalStateException("User ID is null")
         }
     }
 

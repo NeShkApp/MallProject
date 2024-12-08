@@ -91,7 +91,14 @@
         android:id="@+id/favoriteFragment"
         android:name="org.bohdan.mallproject.presentation.ui.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_shopItemDetailsFragment"
+            app:destination="@id/shopItemDetailsFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="org.bohdan.mallproject.presentation.ui.profile.ProfileFragment"

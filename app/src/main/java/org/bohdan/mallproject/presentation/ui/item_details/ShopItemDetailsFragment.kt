@@ -1,6 +1,7 @@
 package org.bohdan.mallproject.presentation.ui.item_details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,10 +35,10 @@ class ShopItemDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadShopItemById(args.shopItemId)
+
         setupObservers()
         setupListeners()
-
-        viewModel.loadShopItemById(args.shopItemId)
     }
 
     private fun setupObservers() {
@@ -62,33 +63,39 @@ class ShopItemDetailsFragment : Fragment() {
             }
         }
 
-        viewModel.isAddToCartEnabled.observe(viewLifecycleOwner) { isEnabled ->
-            binding.btnAddToCart.isEnabled = isEnabled
-            binding.btnAddToCart.text = if (isEnabled) "Add to Cart" else "Out of Stock"
+        viewModel.isInFavorite.observe(viewLifecycleOwner) { isInFavorite ->
+            if (isInFavorite == true) {
+                binding.btnAddToFavorite.text = "Remove from Favorites"
+                binding.btnAddToFavorite.setOnClickListener {
+                    viewModel.removeItemFromFavorite(args.shopItemId)
+                    Toast.makeText(requireContext(), "Item removed from favorites", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                binding.btnAddToFavorite.text = "Add to Favorites"
+                binding.btnAddToFavorite.setOnClickListener {
+                    viewModel.addItemToFavorite(args.shopItemId)
+                    Toast.makeText(requireContext(), "Item added to favorites", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+
 
         viewModel.isAddToCartEnabled.observe(viewLifecycleOwner) { isEnabled ->
             binding.btnAddToCart.isEnabled = isEnabled
             binding.btnAddToCart.text = if (isEnabled) "Add to Cart" else "Out of Stock"
         }
+
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
+                binding.contentLayout.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
-                binding.tvItemName.visibility = View.GONE
-                binding.tvItemDescription.visibility = View.GONE
-                binding.tvItemPrice.visibility = View.GONE
-                binding.ratingBar.visibility = View.GONE
-                binding.btnAddToCart.visibility = View.GONE
-                binding.btnRemoveFromCart.visibility = View.GONE
             } else {
+                binding.contentLayout.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
-                binding.tvItemName.visibility = View.VISIBLE
-                binding.tvItemDescription.visibility = View.VISIBLE
-                binding.tvItemPrice.visibility = View.VISIBLE
-                binding.ratingBar.visibility = View.VISIBLE
             }
         }
+
     }
 
     private fun setupListeners() {
@@ -102,13 +109,8 @@ class ShopItemDetailsFragment : Fragment() {
             Toast.makeText(requireContext(), "Item removed from cart", Toast.LENGTH_SHORT).show()
         }
 
-        binding.radioGroupColors.setOnCheckedChangeListener { _, checkedId ->
-            val color = when (checkedId) {
-                R.id.rb_color_brown -> "Brown"
-                R.id.rb_color_black -> "Black"
-                else -> "Unknown"
-            }
-            Toast.makeText(requireContext(), "Selected color: $color", Toast.LENGTH_SHORT).show()
+        binding.btnAddToFavorite.setOnClickListener {
+            viewModel.addItemToFavorite(args.shopItemId)
         }
     }
 
