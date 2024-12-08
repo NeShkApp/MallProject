@@ -11,6 +11,9 @@ import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
 import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
 import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
+import org.bohdan.mallproject.domain.usecase.favorite.AddItemToFavoriteUseCase
+import org.bohdan.mallproject.domain.usecase.favorite.IsItemInFavoriteUseCase
+import org.bohdan.mallproject.domain.usecase.favorite.RemoveItemFromFavoriteUseCase
 import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
 import javax.inject.Inject
 
@@ -20,10 +23,9 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val addItemToCartUseCase: AddItemToCartUseCase,
     private val removeItemFromCartUseCase: RemoveItemFromCartUseCase,
     private val checkIfItemInCartUseCase: CheckIfItemInCartUseCase,
-
-//    private val addItemToFavoritesUseCase: AddItemToFavoritesUseCase,
-//    private val removeItemFromFavoritesUseCase: RemoveItemFromFavoritesUseCase,
-//    private val checkIfItemInFavorites: CheckIfItemInFavoritesUseCase
+    private val addItemToFavoriteUseCase: AddItemToFavoriteUseCase,
+    private val isItemInFavoriteUseCase: IsItemInFavoriteUseCase,
+    private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase
 ) : ViewModel() {
 
     private val _shopItem = MutableLiveData<ShopItem>()
@@ -32,8 +34,8 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val _isInCart = MutableLiveData<Boolean?>()
     val isInCart: LiveData<Boolean?> = _isInCart
 
-//    private val _isFavorite = MutableLiveData<Boolean>()
-//    val isFavorite: LiveData<Boolean> = _isFavorite
+    private val _isInFavorite = MutableLiveData<Boolean>(false)
+    val isInFavorite: LiveData<Boolean> = _isInFavorite
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
@@ -44,9 +46,13 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val _isAddToCartEnabled = MutableLiveData<Boolean>()
     val isAddToCartEnabled: LiveData<Boolean> get() = _isAddToCartEnabled
 
+    private val _isAddToFavoriteEnabled = MutableLiveData<Boolean>()
+    val isAddToFavoriteEnabled: LiveData<Boolean> get() = _isAddToFavoriteEnabled
+
     fun checkStockAvailability(shopItem: ShopItem) {
         _isAddToCartEnabled.value = shopItem.quantityInStock > 0
     }
+
 
     fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -54,7 +60,10 @@ class ShopItemDetailsViewModel @Inject constructor(
             try {
                 val item = getShopItemDetailsByIdUseCase(shopItemId)
                 _shopItem.postValue(item)
-                _isInCart.postValue(checkIfItemInCartUseCase(shopItemId))
+                val isFavorite = isItemInFavoriteUseCase(shopItemId)
+                _isInFavorite.postValue(isFavorite)
+                val isCart = checkIfItemInCartUseCase(shopItemId)
+                _isInCart.postValue(isCart)
                 checkStockAvailability(item)
             } catch (e: Exception) {
                 _errorMessage.postValue("Error fetching item to cart: ${e.message}")
@@ -82,6 +91,28 @@ class ShopItemDetailsViewModel @Inject constructor(
                 _isInCart.postValue(false)
             } catch (e: Exception) {
                 _errorMessage.postValue("Error removing item from cart: ${e.message}")
+            }
+        }
+    }
+
+    fun addItemToFavorite(shopItemId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                addItemToFavoriteUseCase(shopItemId)
+                _isInFavorite.postValue(true)
+            } catch (e: Exception) {
+                _errorMessage.postValue("Error adding item to favorite: ${e.message}")
+            }
+        }
+    }
+
+    fun removeItemFromFavorite(shopItemId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                removeItemFromFavoriteUseCase(shopItemId)
+                _isInFavorite.postValue(false)
+            } catch (e: Exception) {
+                _errorMessage.postValue("Error removing item from favorite: ${e.message}")
             }
         }
     }
