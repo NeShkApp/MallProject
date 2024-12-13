@@ -53,7 +53,7 @@ class OrderAdapter: ListAdapter<Order, OrderAdapter.OrderViewHolder>(OrderDiffCa
                 Log.d("OrderAdapter", "Product: ${it.name}, Quantity: ${it.selectedQuantity}")
                 it
             }
-            productAdapter.shopList = products
+            productAdapter.submitList(products)
 
             productAdapter.onShopItemClickListener = { shopItem ->
                 onShopItemClickListener?.invoke(shopItem)

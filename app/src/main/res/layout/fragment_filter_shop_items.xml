@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.home.FilterShopItemsFragment">
 
-    <!-- Категорія -->
     <TextView
         android:id="@+id/tv_category"
         android:layout_width="wrap_content"
@@ -46,15 +45,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:enabled="false" />
 
-    <!-- Кнопка застосування фільтру -->
+    <!-- Minimum Price Picker -->
+    <TextView
+        android:id="@+id/tv_min_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:text="Min Price"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_subcategory" />
+
+    <NumberPicker
+        android:id="@+id/number_picker_min_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_min_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <Button
         android:id="@+id/button_apply_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apply Filter"
-        app:layout_constraintTop_toBottomOf="@id/spinner_subcategory"
+        app:layout_constraintTop_toBottomOf="@id/number_picker_min_price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_margin="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

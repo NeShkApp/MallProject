@@ -40,6 +40,11 @@ class SubcategoriesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.etSearch.text?.clear()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
@@ -72,6 +77,8 @@ class SubcategoriesFragment : Fragment() {
                 false
             }
         }
+
+
 
         viewModel.subcategories.observe(viewLifecycleOwner) {
             it?.let {

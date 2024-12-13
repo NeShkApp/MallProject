@@ -4,21 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ItemShopEnabledBinding
 import org.bohdan.mallproject.domain.model.ShopItem
 
-class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemViewHolder>() {
+class HomeShopItemsAdapter : ListAdapter<ShopItem, HomeShopItemsAdapter.ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
-
-    // TODO: probably delete notifyDataSetChanged
-    var shopList = listOf<ShopItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     class ShopItemViewHolder(
         private val binding: ItemShopEnabledBinding
@@ -39,15 +33,13 @@ class HomeShopItemsAdapter : RecyclerView.Adapter<HomeShopItemsAdapter.ShopItemV
         return ShopItemViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return shopList.size
-    }
-
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-        val shopItem = shopList[position]
-        holder.bind(shopItem)
-        holder.itemView.setOnClickListener {
-            onShopItemClickListener?.invoke(shopItem)
+        val shopItem = getItem(position)
+        shopItem?.let{ item ->
+            holder.bind(item)
+            holder.itemView.setOnClickListener {
+                onShopItemClickListener?.invoke(item)
+            }
         }
     }
 
