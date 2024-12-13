@@ -26,9 +26,6 @@ import javax.inject.Inject
 class AllProductsViewModel @Inject constructor(
     private val sortShopItemsByFiltersUseCase: SortShopItemsByFiltersUseCase,
     private val getShopItemsByFiltersUseCase: GetShopItemsByFiltersUseCase,
-    private val getSubcategoriesByCategoryUseCase: GetSubcategoriesByCategoryUseCase,
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
-    private val getAllShopItemsUseCase: GetAllShopItemsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -48,14 +45,6 @@ class AllProductsViewModel @Inject constructor(
     val currentSortOrder: LiveData<SortBy?>
         get() = _currentSortOrder
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories: LiveData<List<Category>>
-        get() = _categories
-
-    private val _subcategories = MutableLiveData<List<Subcategory>>()
-    val subcategories: LiveData<List<Subcategory>>
-        get() = _subcategories
-
     private val _currentCategory = MutableLiveData<Category?>()
     val currentCategory: LiveData<Category?>
         get() = _currentCategory
@@ -70,39 +59,17 @@ class AllProductsViewModel @Inject constructor(
 
     init {
         loadShopItemsByFilters(category, subcategory, searchQuery)
+        updateCurrentFilters(category, subcategory, searchQuery)
     }
 
-    private fun loadCategories() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val categoriesList = getAllCategoriesUseCase()
-                _categories.postValue(categoriesList)
-            } catch (e: Exception) {
-                _categories.postValue(emptyList())
-            }
-        }
-    }
-
-    private fun loadSubcategories(category: Category) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val subcategoriesList = getSubcategoriesByCategoryUseCase(category)
-                _subcategories.postValue(subcategoriesList)
-            } catch (e: Exception) {
-                _subcategories.postValue(emptyList())
-            }
-        }
-    }
-
-    private fun loadShopItemsByFilters(
+    fun loadShopItemsByFilters(
         category: Category?,
         subcategory: Subcategory?,
         searchQuery: String?
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-//                val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
-                val items = getAllShopItemsUseCase()
+                val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
                 val sortedItems = sortShopItemsByFiltersUseCase(items, _currentSortOrder.value)
                 _shopItems.postValue(sortedItems)
             } catch (e: Exception) {
@@ -118,5 +85,14 @@ class AllProductsViewModel @Inject constructor(
         _shopItems.postValue(sortedItems)
     }
 
+    fun updateCurrentFilters(category: Category?, subcategory: Subcategory?, searchQuery: String?) {
+        _currentCategory.value = category
+        _currentSubcategory.value = subcategory
+        _currentSearchQuery.value = searchQuery
+    }
+
+    fun updateSearchQuery(query: String?) {
+        _currentSearchQuery.value = query
+    }
 
 }

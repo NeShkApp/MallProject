@@ -1,5 +1,6 @@
 package org.bohdan.mallproject.presentation.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,9 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
@@ -38,10 +42,34 @@ class CategoriesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.etSearch.text?.clear()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView(view)
+        setupRecyclerView()
+        setupSearch()
+        setupObservers()
+        setupListeners()
+    }
 
+    private fun setupListeners() {
+        adapter.onCategoryClickListener = {
+            launchSubcategoriesFragment(it)
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            categories?.let {
+                adapter.categories = it
+            }
+        }
+    }
+
+    private fun setupSearch() {
         binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {
@@ -70,17 +98,6 @@ class CategoriesFragment : Fragment() {
                 false
             }
         }
-
-
-        viewModel.categories.observe(viewLifecycleOwner) { categories ->
-            categories?.let {
-                adapter.categories = it
-            }
-        }
-
-        adapter.onCategoryClickListener = {
-            launchSubcategoriesFragment(it)
-        }
     }
 
     private fun launchAllProductFragment(
@@ -89,7 +106,7 @@ class CategoriesFragment : Fragment() {
         val currentDestination = findNavController().currentDestination?.id
         if (currentDestination == R.id.categoriesFragment) {
             //new
-            findNavController().popBackStack(R.id.categoriesFragment, true)
+//            findNavController().popBackStack(R.id.categoriesFragment, true)
             //new
             findNavController().navigate(
                 CategoriesFragmentDirections.actionCategoriesFragmentToAllProducts(
@@ -109,7 +126,7 @@ class CategoriesFragment : Fragment() {
         )
     }
 
-    private fun setupRecyclerView(view: View) {
+    private fun setupRecyclerView() {
         adapter = CategoriesAdapter()
         binding.rvCategories.adapter = adapter
     }
