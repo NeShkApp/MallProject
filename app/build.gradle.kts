@@ -95,6 +95,13 @@ dependencies {
     //stripe
     implementation("com.stripe:stripe-android:21.2.0")
 
+    //messaging
+    implementation("com.google.firebase:firebase-messaging")
+
+    //workmanager
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

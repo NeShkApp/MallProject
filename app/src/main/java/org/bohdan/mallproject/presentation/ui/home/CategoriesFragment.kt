@@ -1,20 +1,29 @@
 package org.bohdan.mallproject.presentation.ui.home
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.internal.ViewUtils.hideKeyboard
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
@@ -105,9 +114,6 @@ class CategoriesFragment : Fragment() {
     ) {
         val currentDestination = findNavController().currentDestination?.id
         if (currentDestination == R.id.categoriesFragment) {
-            //new
-//            findNavController().popBackStack(R.id.categoriesFragment, true)
-            //new
             findNavController().navigate(
                 CategoriesFragmentDirections.actionCategoriesFragmentToAllProducts(
                     null,
@@ -135,6 +141,5 @@ class CategoriesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

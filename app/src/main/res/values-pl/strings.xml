@@ -29,4 +29,9 @@
     <string name="total">Razem:</string>
     <string name="username">Username</string>
     <string name="orders">Orders</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Szukaj</string>
+    <string name="sort">Sortowanie</string>
+    <string name="filter">Filtr</string>
 </resources>
