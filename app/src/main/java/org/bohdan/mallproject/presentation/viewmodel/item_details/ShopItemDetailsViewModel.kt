@@ -1,5 +1,6 @@
 package org.bohdan.mallproject.presentation.viewmodel.item_details
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.bohdan.mallproject.domain.model.Comment
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.usecase.cart.AddItemToCartUseCase
 import org.bohdan.mallproject.domain.usecase.cart.CheckIfItemInCartUseCase
@@ -14,7 +16,10 @@ import org.bohdan.mallproject.domain.usecase.cart.RemoveItemFromCartUseCase
 import org.bohdan.mallproject.domain.usecase.favorite.AddItemToFavoriteUseCase
 import org.bohdan.mallproject.domain.usecase.favorite.IsItemInFavoriteUseCase
 import org.bohdan.mallproject.domain.usecase.favorite.RemoveItemFromFavoriteUseCase
+import org.bohdan.mallproject.domain.usecase.item_details.CanUserLeaveCommentUseCase
+import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemCommentsUseCase
 import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
+import org.bohdan.mallproject.domain.usecase.item_details.SubmitReviewUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +30,10 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val checkIfItemInCartUseCase: CheckIfItemInCartUseCase,
     private val addItemToFavoriteUseCase: AddItemToFavoriteUseCase,
     private val isItemInFavoriteUseCase: IsItemInFavoriteUseCase,
-    private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase
+    private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase,
+    private val getShopItemCommentsUseCase: GetShopItemCommentsUseCase,
+    private val canUserLeaveCommentUseCase: CanUserLeaveCommentUseCase,
+    private val submitReviewUseCase: SubmitReviewUseCase
 ) : ViewModel() {
 
     private val _shopItem = MutableLiveData<ShopItem>()
@@ -49,8 +57,20 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val _isAddToFavoriteEnabled = MutableLiveData<Boolean>()
     val isAddToFavoriteEnabled: LiveData<Boolean> get() = _isAddToFavoriteEnabled
 
+    private val _comments = MutableLiveData<List<Comment>>()
+    val comments: LiveData<List<Comment>>
+        get() = _comments
+
+    private val _canUserLeaveComment = MutableLiveData<Boolean>()
+    val canUserLeaveComment: LiveData<Boolean>
+        get() = _canUserLeaveComment
+
+    private val _isReviewSubmitted = MutableLiveData<Boolean>()
+    val isReviewSubmitted: LiveData<Boolean>
+        get() = _isReviewSubmitted
+
     fun checkStockAvailability(shopItem: ShopItem) {
-        _isAddToCartEnabled.value = shopItem.quantityInStock > 0
+        _isAddToCartEnabled.postValue(shopItem.quantityInStock > 0)
     }
 
 
@@ -117,6 +137,39 @@ class ShopItemDetailsViewModel @Inject constructor(
         }
     }
 
+    fun loadComments(shopItemId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                val comments = getShopItemCommentsUseCase(shopItemId)
+                _comments.postValue(comments)
+            }catch (e: Exception){
+                _errorMessage.postValue("Error getting comments from item: ${e.message}")
+            }
+        }
+    }
 
+    fun checkIfUserCanLeaveComment(shopItemId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = canUserLeaveCommentUseCase(shopItemId)
+                _canUserLeaveComment.postValue(result)
+            }catch (e: Exception){
+                _errorMessage.postValue("Error checking users ability leaving a comment: ${e.message}")
+            }
+        }
+    }
 
+    // TODO: calculate average rating after user submitting!!!
+    fun submitReview(shopItemId: String, rating: Float, text: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                submitReviewUseCase(shopItemId, rating, text)
+                _isReviewSubmitted.postValue(true)
+            }catch (e: Exception){
+                _errorMessage.postValue("Error submitting a comment for product: ${e.message}")
+            }
+            Log.d("ShopItemDetails", "Review submitted for $shopItemId: $rating stars, Text: $text")
+        }
+
+    }
 }

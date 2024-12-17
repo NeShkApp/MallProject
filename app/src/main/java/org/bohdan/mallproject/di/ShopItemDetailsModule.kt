@@ -1,5 +1,6 @@
 package org.bohdan.mallproject.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -16,8 +17,9 @@ object ShopItemDetailsModule {
     @Provides
     @Singleton
     fun provideShopItemDetailsRepository(
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
+        auth: FirebaseAuth
     ): ShopItemDetailsRepository{
-        return ShopItemDetailsRepositoryImpl(firestore)
+        return ShopItemDetailsRepositoryImpl(firestore, auth)
     }
 }

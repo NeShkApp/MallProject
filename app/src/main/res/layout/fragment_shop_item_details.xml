@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:padding="16dp">
 
@@ -108,7 +109,46 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/btn_remove_from_cart"
             app:layout_constraintStart_toEndOf="@+id/btn_remove_from_cart"
-            app:layout_constraintTop_toTopOf="@+id/btn_remove_from_cart" />
+            app:layout_constraintTop_toTopOf="@+id/btn_remove_from_cart"
+            app:layout_constraintVertical_bias="0.541" />
+
+        <TextView
+            android:id="@+id/tv_opinions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opinions"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_to_favorite"
+            />
+
+        <Button
+            android:id="@+id/btn_leave_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:text="Leave a review"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_opinions" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_comments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_leave_review"
+            tools:listitem="@layout/item_comment"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
