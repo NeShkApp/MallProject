@@ -6,7 +6,7 @@ import javax.inject.Inject
 class UpdateRatingUseCase @Inject constructor(
     private val shopItemDetailsRepository: ShopItemDetailsRepository
 ) {
-    suspend operator fun invoke(shopItemId: String, newRating: Float){
-        shopItemDetailsRepository.updateShopItemRating(shopItemId, newRating)
+    suspend operator fun invoke(shopItemId: String){
+        shopItemDetailsRepository.updateShopItemRating(shopItemId)
     }
 }

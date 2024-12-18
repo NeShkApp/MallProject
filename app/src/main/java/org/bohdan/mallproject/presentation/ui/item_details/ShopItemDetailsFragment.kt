@@ -39,8 +39,8 @@ class ShopItemDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadShopItemById(args.shopItemId)
-        viewModel.loadComments(args.shopItemId)
-        viewModel.checkIfUserCanLeaveComment(args.shopItemId)
+//        viewModel.loadComments(args.shopItemId)
+//        viewModel.checkIfUserCanLeaveComment(args.shopItemId)
 
         setupObservers()
         setupListeners()
@@ -170,8 +170,6 @@ class ShopItemDetailsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Comment is too long (max 200 characters)", Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.submitReview(shopItemId, rating, comment)
-                    viewModel.loadComments(shopItemId)
-                    viewModel.checkIfUserCanLeaveComment(shopItemId)
                     dialog.dismiss()
                 }
             }

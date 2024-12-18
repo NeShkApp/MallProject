@@ -31,41 +31,39 @@ class ShopItemDetailsRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun updateShopItemRating(shopItemId: String, newRating: Float) {
-        TODO("Not yet implemented")
+    override suspend fun updateShopItemRating(shopItemId: String) {
+        try {
+            val reviewsSnapshot = firestore.collection("reviews")
+                .whereEqualTo("productId", shopItemId)
+                .get()
+                .await()
+
+            // Підраховуємо середній рейтинг і кількість відгуків
+            val reviewCount = reviewsSnapshot.documents.size
+            val totalRating = reviewsSnapshot.documents.sumOf {
+                (it.getDouble("rating") ?: 0.0)
+            }
+            val averageRating = if (reviewCount > 0) totalRating / reviewCount else 0.0
+
+            // Оновлюємо документ продукту
+            firestore.collection("products")
+                .document(shopItemId)
+                .update(
+                    mapOf(
+                        "rating" to averageRating,
+                        "reviewCount" to reviewCount
+                    )
+                )
+                .await()
+
+            Log.d("ShopItemDetailsRepositoryImpl", "Rating updated successfully")
+        } catch (e: Exception) {
+            Log.e("ShopItemDetailsRepositoryImpl", "Error updating rating: ${e.message}")
+            throw e
+        }
     }
 
-//    override suspend fun getShopItemComments(shopItemId: String): List<Comment> {
-//        try{
-//            val comments = listOf(
-//                Comment(
-//                    id = "1",
-//                    usernameId = "user1",
-//                    productId = shopItemId,
-//                    text = "Great product! Highly recommend.",
-//                    rating = 4.5f
-//                ),
-//                Comment(
-//                    id = "2",
-//                    usernameId = "user2",
-//                    productId = shopItemId,
-//                    text = "Not bad, but could be improved.",
-//                    rating = 3.0f
-//                ),
-//                Comment(
-//                    id = "3",
-//                    usernameId = "user3",
-//                    productId = shopItemId,
-//                    text = "Worst purchase ever. Totally regret.",
-//                    rating = 1.0f
-//                )
-//            )
-//            return comments
-//        }catch (e: Exception){
-//            println("Error fetching comments items: ${e.message}")
-//        }
-//        return emptyList()
-//    }
+
 
     override suspend fun getShopItemComments(shopItemId: String): List<Comment> {
         return try {
