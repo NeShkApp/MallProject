@@ -35,7 +35,7 @@ class FavoriteViewModel @Inject constructor(
         loadFavoriteItems()
     }
 
-    private fun loadFavoriteItems() {
+    fun loadFavoriteItems() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
             try{

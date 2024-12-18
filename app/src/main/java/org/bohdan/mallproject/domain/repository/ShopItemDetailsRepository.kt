@@ -5,7 +5,7 @@ import org.bohdan.mallproject.domain.model.ShopItem
 
 interface ShopItemDetailsRepository {
     suspend fun getShopItemDetailsById(shopItemId: String): ShopItem
-    suspend fun updateShopItemRating(shopItemId: String, newRating: Float)
+    suspend fun updateShopItemRating(shopItemId: String)
     suspend fun getShopItemComments(shopItemId: String): List<Comment>
 
     suspend fun hasUserPurchasedProduct(shopItemId: String): Boolean

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.domain.model.Comment
 import org.bohdan.mallproject.domain.model.ShopItem
@@ -20,6 +21,7 @@ import org.bohdan.mallproject.domain.usecase.item_details.CanUserLeaveCommentUse
 import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemCommentsUseCase
 import org.bohdan.mallproject.domain.usecase.item_details.GetShopItemDetailsByIdUseCase
 import org.bohdan.mallproject.domain.usecase.item_details.SubmitReviewUseCase
+import org.bohdan.mallproject.domain.usecase.item_details.UpdateRatingUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +35,8 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase,
     private val getShopItemCommentsUseCase: GetShopItemCommentsUseCase,
     private val canUserLeaveCommentUseCase: CanUserLeaveCommentUseCase,
-    private val submitReviewUseCase: SubmitReviewUseCase
+    private val submitReviewUseCase: SubmitReviewUseCase,
+    private val updateRatingUseCase: UpdateRatingUseCase
 ) : ViewModel() {
 
     private val _shopItem = MutableLiveData<ShopItem>()
@@ -74,24 +77,62 @@ class ShopItemDetailsViewModel @Inject constructor(
     }
 
 
+//    fun loadShopItemById(shopItemId: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _isLoading.postValue(true)
+//            try {
+//                val item = getShopItemDetailsByIdUseCase(shopItemId)
+//                _shopItem.postValue(item)
+//                val isFavorite = isItemInFavoriteUseCase(shopItemId)
+//                _isInFavorite.postValue(isFavorite)
+//                val isCart = checkIfItemInCartUseCase(shopItemId)
+//                _isInCart.postValue(isCart)
+//                loadComments(shopItemId)
+//                checkIfUserCanLeaveComment(shopItemId)
+//                checkStockAvailability(item)
+//            } catch (e: Exception) {
+//                _errorMessage.postValue("Error fetching item to cart: ${e.message}")
+//            }finally {
+//                _isLoading.postValue(false)
+//            }
+//        }
+//    }
+
     fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
+            _isLoading.postValue(true) // Включаємо прогрес-бар
             try {
-                val item = getShopItemDetailsByIdUseCase(shopItemId)
+                // Завантажуємо всі необхідні дані паралельно
+                val itemDeferred = async { getShopItemDetailsByIdUseCase(shopItemId) }
+                val isFavoriteDeferred = async { isItemInFavoriteUseCase(shopItemId) }
+                val isCartDeferred = async { checkIfItemInCartUseCase(shopItemId) }
+                val commentsDeferred = async { getShopItemCommentsUseCase(shopItemId) }
+                val canLeaveCommentDeferred = async { canUserLeaveCommentUseCase(shopItemId) }
+
+                // Очікуємо завершення всіх завдань
+                val item = itemDeferred.await()
+                val isFavorite = isFavoriteDeferred.await()
+                val isCart = isCartDeferred.await()
+                val comments = commentsDeferred.await()
+                val canLeaveComment = canLeaveCommentDeferred.await()
+
+                // Публікуємо завантажені дані
                 _shopItem.postValue(item)
-                val isFavorite = isItemInFavoriteUseCase(shopItemId)
                 _isInFavorite.postValue(isFavorite)
-                val isCart = checkIfItemInCartUseCase(shopItemId)
                 _isInCart.postValue(isCart)
+                _comments.postValue(comments)
+                _canUserLeaveComment.postValue(canLeaveComment)
+
+                // Перевіряємо наявність товару в складі
                 checkStockAvailability(item)
             } catch (e: Exception) {
-                _errorMessage.postValue("Error fetching item to cart: ${e.message}")
-            }finally {
-                _isLoading.postValue(false)
+                _errorMessage.postValue("Error loading item details: ${e.message}")
+            } finally {
+                _isLoading.postValue(false) // Вимикаємо прогрес-бар
             }
         }
     }
+
 
     fun addItemToCart(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -159,11 +200,12 @@ class ShopItemDetailsViewModel @Inject constructor(
         }
     }
 
-    // TODO: calculate average rating after user submitting!!!
     fun submitReview(shopItemId: String, rating: Float, text: String){
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 submitReviewUseCase(shopItemId, rating, text)
+                updateRatingUseCase(shopItemId)
+                loadShopItemById(shopItemId)
                 _isReviewSubmitted.postValue(true)
             }catch (e: Exception){
                 _errorMessage.postValue("Error submitting a comment for product: ${e.message}")
@@ -172,4 +214,6 @@ class ShopItemDetailsViewModel @Inject constructor(
         }
 
     }
+
+
 }

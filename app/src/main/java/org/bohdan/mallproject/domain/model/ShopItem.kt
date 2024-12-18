@@ -13,6 +13,7 @@ data class ShopItem(
     val imageUrl: String = "",
     val id: String = "",
     val quantityInStock: Int = 0,
+    val reviewsCount: Int = 0,
     @get: Exclude
     var selectedQuantity: Int = 1
 ): Parcelable
