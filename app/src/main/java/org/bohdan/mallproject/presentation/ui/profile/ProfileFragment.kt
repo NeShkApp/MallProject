@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -107,8 +108,23 @@ class ProfileFragment : Fragment() {
 
 
     private fun showLanguageSelectionDialog() {
-        val languages = arrayOf("English", "Polski")
-        val languageCodes = arrayOf("en", "pl")
+//        val languages = arrayOf(
+//            "English",
+//            "Polski",
+//            "Українська"
+//        )
+
+        val languages = arrayOf(
+            HtmlCompat.fromHtml("&#127468;&#127463;", HtmlCompat.FROM_HTML_MODE_LEGACY).toString() + " English",
+            HtmlCompat.fromHtml("&#127477;&#127473;", HtmlCompat.FROM_HTML_MODE_LEGACY).toString() + " Polski",
+            HtmlCompat.fromHtml("&#127482;&#127462;", HtmlCompat.FROM_HTML_MODE_LEGACY).toString() + " Українська"
+        )
+
+        val languageCodes = arrayOf(
+            "en",
+            "pl",
+            "uk"
+        )
 
         AlertDialog.Builder(requireContext())
             .setTitle("Select Language")

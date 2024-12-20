@@ -1,13 +1,3 @@
-<!--<resources xmlns:tools="http://schemas.android.com/tools">-->
-<!--    &lt;!&ndash; Base application theme. &ndash;&gt;-->
-<!--    <style name="Base.Theme.MallProject" parent="Theme.Material3.DayNight.NoActionBar">-->
-<!--        &lt;!&ndash; Customize your dark theme here. &ndash;&gt;-->
-<!--        &lt;!&ndash; <item name="colorPrimary">@color/my_dark_primary</item> &ndash;&gt;-->
-<!--    </style>-->
-<!--</resources>-->
-
-
-
 <!--<resources>-->
 <!--    &lt;!&ndash; Dark theme &ndash;&gt;-->
 <!--    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">-->
@@ -30,11 +20,8 @@
 
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <style name="Base.Theme.MallProject" parent="Theme.Material3.Dark.NoActionBar">
-<!--    <style name="Base.Theme.MallProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
-<!--    <style name="Base.Theme.MallProject" parent="Theme.AppCompat.Light">-->
-        <!-- Основні кольори -->
+
         <item name="android:windowBackground">@color/darkBackground</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorPrimary">@color/yellow</item>
@@ -42,14 +29,16 @@
         <item name="colorSecondary">@color/lightBackground</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorAccent">@color/yellow</item>
-        <!-- Стиль для кнопок -->
+        <item name="colorOnSecondaryFixed">@color/green</item>
+
         <item name="android:buttonStyle">@style/ButtonStyle.Dark</item>
-        <!-- Навбар -->
         <item name="android:navigationBarColor">@color/black</item>
         <item name="android:navigationBarDividerColor">@color/yellow</item>
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/yellow</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/billy</item>
     </style>
 
-    <!-- Стиль для кнопок у темній темі -->
     <style name="ButtonStyle.Dark" parent="Widget.Material3.Button">
         <item name="android:backgroundTint">@color/yellow</item>
         <item name="android:textColor">@color/white</item>

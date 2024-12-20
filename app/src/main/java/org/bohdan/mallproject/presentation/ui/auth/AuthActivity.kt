@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
@@ -32,6 +33,15 @@ class AuthActivity : BaseActivity() {
 
     private var isLoginMode = true
 
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.checkIfUserLoggedIn()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,12 +50,9 @@ class AuthActivity : BaseActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.switchText.setOnClickListener {
-            toggleLoginRegisterMode()
-        }
-
         setupObservers()
         setupListeners()
+
 
     }
 
@@ -54,6 +61,9 @@ class AuthActivity : BaseActivity() {
             signInWithGoogle()
         }
 
+        binding.switchText.setOnClickListener {
+            toggleLoginRegisterMode()
+        }
 
         binding.registerButton.setOnClickListener {
             username = binding.usernameInput.text.toString().trim()
@@ -99,6 +109,10 @@ class AuthActivity : BaseActivity() {
                 }
             }
         }
+
+        viewModel.isLoading.observe(this){
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun initializeGoogleKey() {
@@ -110,11 +124,6 @@ class AuthActivity : BaseActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
-//    private fun navigateToMainActivity() {
-//        val intent = Intent(this, MainActivity::class.java)
-//        startActivity(intent)
-//        finish()
-//    }
 
     private fun registerUser(username: String, email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {

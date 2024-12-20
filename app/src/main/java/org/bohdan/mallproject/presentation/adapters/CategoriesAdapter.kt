@@ -3,46 +3,52 @@ package org.bohdan.mallproject.presentation.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.databinding.ItemCategoryBinding
 import org.bohdan.mallproject.domain.model.Category
 
-class CategoriesAdapter: RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
-    var onCategoryClickListener: ((Category) -> Unit)? = null
+class CategoriesAdapter : ListAdapter<Category, CategoriesAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
-    var categories = listOf<Category>()
-        set(value){
-            field = value
-            notifyDataSetChanged()
-        }
+    var onCategoryClickListener: ((Category) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_category,
-            parent,
-            false
+        val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CategoryViewHolder(
+            binding,
+            onCategoryClickListener
         )
-        return CategoryViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CategoriesAdapter.CategoryViewHolder, position: Int) {
-        val category = categories[position]
-//        holder.tvCategory.text = category.name
-        holder.tvCategory.text = category.name
-        holder.itemView.setOnClickListener {
-            onCategoryClickListener?.invoke(category)
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val category = getItem(position)
+        category?.let{
+            holder.bind(category)
         }
     }
 
-    override fun getItemCount(): Int {
-        return categories.size
-    }
 
-    class CategoryViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val tvCategory = view.findViewById<TextView>(R.id.tv_category)
+    class CategoryViewHolder(
+        private val binding: ItemCategoryBinding,
+        private val onCategoryClickListener: ((Category) -> Unit)? = null
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(category: Category) {
+            binding.tvCategory.text = category.name
+            Glide.with(binding.root.context)
+                .load(category.imageUrl)
+                .into(binding.ivCategory)
+
+            binding.root.setOnClickListener {
+                onCategoryClickListener?.invoke(category)
+            }
+        }
     }
 }

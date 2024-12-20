@@ -30,8 +30,12 @@
     <string name="username">Username</string>
     <string name="orders">Orders</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Szukaj</string>
     <string name="sort">Sortowanie</string>
     <string name="filter">Filtr</string>
+
+    <string name="home">Główna</string>
+    <string name="favorite">Ulubione</string>
+    <string name="cart">Koszyk</string>
+    <string name="oops">uups!</string>
 </resources>
