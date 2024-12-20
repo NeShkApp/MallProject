@@ -73,7 +73,7 @@ class CategoriesFragment : Fragment() {
     private fun setupObservers() {
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             categories?.let {
-                adapter.categories = it
+                adapter.submitList(it)
             }
         }
     }

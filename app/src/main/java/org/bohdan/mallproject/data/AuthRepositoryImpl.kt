@@ -135,4 +135,13 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun checkIfUserIsValid(): Boolean {
+        try{
+            return auth.currentUser != null
+        }catch (e: Exception){
+            throw RuntimeException("Checking validity was failed. Error: ${e.message}")
+        }
+    }
+
+
 }

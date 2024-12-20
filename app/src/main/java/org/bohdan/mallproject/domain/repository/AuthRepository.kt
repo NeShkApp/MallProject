@@ -16,6 +16,7 @@ interface AuthRepository {
         email: String,
         password: String
     ): Result<FirebaseUser>
+
     suspend fun signInWithGoogle(account: GoogleSignInAccount): Result<FirebaseUser>
     suspend fun createUserInFirestore(
         username: String,
@@ -23,6 +24,8 @@ interface AuthRepository {
         email: String,
 //        name: String? = null
     ): Result<Unit>
+
     suspend fun monitorEmailVerification(): Result<FirebaseUser>
     suspend fun logout()
+    fun checkIfUserIsValid(): Boolean
 }

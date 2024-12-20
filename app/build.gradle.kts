@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.navigation.safe.args)
-    alias(libs.plugins.google.services)
+//    alias(libs.plugins.google.services)
+    id("com.google.gms.google-services")
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
@@ -71,7 +72,8 @@ dependencies {
     //auth
     implementation("com.google.firebase:firebase-auth")
 
-    implementation("com.google.android.gms:play-services-auth:20.3.0")
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.gms:play-services-base:18.5.0")
 
 //    implementation(libs.gms.play.services.gcm)
 
@@ -92,14 +94,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
-    //stripe
-    implementation("com.stripe:stripe-android:21.2.0")
-
     //messaging
     implementation("com.google.firebase:firebase-messaging")
 
-    //workmanager
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
 
 
 

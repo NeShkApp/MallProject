@@ -1,31 +1,6 @@
-<!--<resources xmlns:tools="http://schemas.android.com/tools">-->
-<!--    <style name="Base.Theme.MallProject" parent="Theme.Material3.DayNight.NoActionBar">-->
-<!--        -->
-
-<!--    </style>-->
-
-<!--    <style name="Theme.MallProject" parent="Base.Theme.MallProject" />-->
-<!--</resources>-->
-
-<!--<resources>-->
-<!--    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">-->
-<!--        <item name="android:windowBackground">@color/lightBackground</item>-->
-<!--        <item name="android:textColorPrimary">@color/black</item>-->
-<!--        <item name="colorAccent">@color/yellow</item>-->
-<!--        <item name="android:buttonStyle">@style/ButtonStyle</item>-->
-<!--    </style>-->
-
-<!--    <style name="ButtonStyle">-->
-<!--        <item name="android:backgroundTint">@color/yellow</item>-->
-<!--        <item name="android:textColor">@color/black</item>-->
-<!--    </style>-->
-<!--</resources>-->
-
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.MallProject" parent="Theme.Material3.DayNight.NoActionBar">
-<!--    <style name="Base.Theme.MallProject" parent="Theme.AppCompat.Light">-->
-<!--    <style name="Base.Theme.MallProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+
         <item name="android:windowBackground">@color/lightBackground</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorPrimary">@color/yellow</item>
@@ -33,11 +8,19 @@
         <item name="colorSecondary">@color/darkBackground</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/yellow</item>
+        <item name="colorOnSecondaryFixed">@color/grey</item>
+
         <!-- Стиль для кнопок -->
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <!-- Стиль для навігаційної панелі -->
         <item name="android:navigationBarColor">@color/darkBackground</item>
         <item name="android:navigationBarDividerColor">@color/yellow</item>
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/yellow</item>
+
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/billy</item>
+
+
     </style>
 
     <!-- Стиль для кнопок -->

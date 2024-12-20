@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bohdan.mallproject.R
+import org.bohdan.mallproject.domain.usecase.auth.CheckIfUserIsValidUseCase
 import org.bohdan.mallproject.domain.usecase.auth.CreateUserInFirestoreUseCase
 import org.bohdan.mallproject.domain.usecase.auth.GoogleSignInUseCase
 import org.bohdan.mallproject.domain.usecase.auth.LoginUseCase
@@ -27,7 +28,8 @@ class AuthViewModel @Inject constructor(
     private val googleSignInUseCase: GoogleSignInUseCase,
     private val createUserInFirestoreUseCase: CreateUserInFirestoreUseCase,
     private val monitorEmailVerificationUseCase: MonitorEmailVerificationUseCase,
-    ) : ViewModel() {
+    private val checkIfUserIsValidUseCase: CheckIfUserIsValidUseCase
+) : ViewModel() {
 
     private val _user = MutableLiveData<FirebaseUser?>()
     val user: LiveData<FirebaseUser?> get() = _user
@@ -37,6 +39,9 @@ class AuthViewModel @Inject constructor(
 
     private val _navigateToMainActivity = MutableLiveData<Boolean>(false)
     val navigateToMainActivity: LiveData<Boolean> get() = _navigateToMainActivity
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun login(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -61,19 +66,37 @@ class AuthViewModel @Inject constructor(
     }
 
     init {
-        checkIfUserLoggedIn()
+//        checkIfUserLoggedIn()
     }
 
-    private fun checkIfUserLoggedIn() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            _navigateToMainActivity.postValue(true)
-        }
+//    private fun checkIfUserLoggedIn() {
+//        val currentUser = FirebaseAuth.getInstance().currentUser
+//        if (currentUser != null) {
+//            _navigateToMainActivity.postValue(true)
+//        }
+//    }
+
+//    private fun checkIfUserLoggedIn() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _isLoading.postValue(true)
+//            try{
+//                val currentUser = FirebaseAuth.getInstance().currentUser
+//                if (currentUser != null) {
+//                    _navigateToMainActivity.postValue(true)
+//                }
+//            }catch (e: Exception){
+//                _messageId.postValue(R.string.google_sign_in_error)
+//            }finally {
+//                _isLoading.postValue(false)
+//            }
+//
+//        }
+//    }
+
+    fun checkIfUserLoggedIn(): Boolean {
+        return checkIfUserIsValidUseCase()
     }
 
-    fun navigateToMainActivity() {
-        _navigateToMainActivity.postValue(true)
-    }
 
     fun register(username: String, email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -121,7 +144,7 @@ class AuthViewModel @Inject constructor(
             val result = monitorEmailVerificationUseCase()
             result.onSuccess { verifiedUser ->
                 _user.postValue(verifiedUser)
-                navigateToMainActivity()
+                _navigateToMainActivity.postValue(true)
             }.onFailure { error ->
 //                _message.postValue(error.message)
                 _messageId.postValue(R.string.verify_email_error)
@@ -131,4 +154,3 @@ class AuthViewModel @Inject constructor(
 
 
 }
-
