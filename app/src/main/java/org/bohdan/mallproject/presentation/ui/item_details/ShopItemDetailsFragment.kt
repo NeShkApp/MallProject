@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.DialogLeaveCommentBinding
 import org.bohdan.mallproject.databinding.FragmentShopItemDetailsBinding
 import org.bohdan.mallproject.presentation.adapters.CommentAdapter
@@ -40,7 +41,6 @@ class ShopItemDetailsFragment : Fragment() {
 
         viewModel.loadShopItemById(args.shopItemId)
 //        viewModel.loadComments(args.shopItemId)
-//        viewModel.checkIfUserCanLeaveComment(args.shopItemId)
 
         setupObservers()
         setupListeners()
@@ -86,13 +86,13 @@ class ShopItemDetailsFragment : Fragment() {
 
         viewModel.isInFavorite.observe(viewLifecycleOwner) { isInFavorite ->
             if (isInFavorite == true) {
-                binding.btnAddToFavorite.text = "Remove from Favorites"
+                binding.btnAddToFavorite.setImageResource(R.drawable.filled_favorite)
                 binding.btnAddToFavorite.setOnClickListener {
                     viewModel.removeItemFromFavorite(args.shopItemId)
                     Toast.makeText(requireContext(), "Item removed from favorites", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                binding.btnAddToFavorite.text = "Add to Favorites"
+                binding.btnAddToFavorite.setImageResource(R.drawable.outlined_favorite)
                 binding.btnAddToFavorite.setOnClickListener {
                     viewModel.addItemToFavorite(args.shopItemId)
                     Toast.makeText(requireContext(), "Item added to favorites", Toast.LENGTH_SHORT).show()
@@ -117,8 +117,12 @@ class ShopItemDetailsFragment : Fragment() {
             }
         }
 
-        viewModel.canUserLeaveComment.observe(viewLifecycleOwner){
-            binding.btnLeaveReview.visibility = if(it) View.VISIBLE else View.GONE
+        viewModel.canUserLeaveComment.observe(viewLifecycleOwner){canLeaveComment ->
+            if (canLeaveComment) {
+                binding.btnLeaveReview.visibility = View.VISIBLE
+            } else {
+                binding.btnLeaveReview.visibility = View.GONE
+            }
         }
 
         viewModel.isReviewSubmitted.observe(viewLifecycleOwner){

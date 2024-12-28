@@ -41,4 +41,13 @@
     <string name="favorite">Favorite</string>
     <string name="cart">Cart</string>
     <string name="oops">oops!</string>
+
+    <string name="reset_all_filters">Reset all filters</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="bag">Bag</string>
+    <string name="my_account">My account</string>
+    <string name="add_to_bag">Add to bag</string>
+    <string name="remove_from_bag">Remove from bag</string>
+    <string name="to_leave_a_comment_you_must_purchase_this_product">To leave a comment you must purchase this product</string>
+    <string name="opinions">Opinions</string>
 </resources>

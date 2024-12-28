@@ -58,7 +58,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="4.0"
-                android:stepSize="0.5" />
+                android:stepSize="0.1" />
 
             <LinearLayout
                 android:id="@+id/quantityLayout"
@@ -73,7 +73,6 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:clickable="true"
-                    android:contentDescription="Decrease Quantity"
                     android:focusable="true"
                     android:src="@drawable/ic_remove" />
 
@@ -92,7 +91,6 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:clickable="true"
-                    android:contentDescription="Increase Quantity"
                     android:focusable="true"
                     android:src="@drawable/ic_add" />
 

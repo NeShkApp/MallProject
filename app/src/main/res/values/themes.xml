@@ -14,11 +14,13 @@
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <!-- Стиль для навігаційної панелі -->
         <item name="android:navigationBarColor">@color/darkBackground</item>
-        <item name="android:navigationBarDividerColor">@color/yellow</item>
+        <item name="android:navigationBarDividerColor">@color/transparent</item>
 
-        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/yellow</item>
+        <item name="android:windowSplashScreenBackground"
+            tools:targetApi="s">@color/yellow</item>
 
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/billy</item>
+        <item name="android:windowSplashScreenAnimatedIcon"
+            tools:targetApi="s">@mipmap/billy</item>
 
 
     </style>

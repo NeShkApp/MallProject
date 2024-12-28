@@ -8,7 +8,7 @@
     <string name="switch_to_login">Вже зареєстровані? Увійти</string>
     <string name="google_sign_in_button">Увійти через Google</string>
 
-    <string name="login_error_empty_fields">Будь ласка, введіть електронну пошту, пароль та імя користувача</string>
+    <string name="login_error_empty_fields">Будь ласка, введіть електронну пошту, пароль та ім\'я користувача</string>
     <string name="login_error_invalid_credentials">Невірний пароль або електронна пошта</string>
     <string name="login_error_no_user">Користувача з цією електронною поштою не знайдено</string>
     <string name="login_error_general">Помилка входу</string>
@@ -30,7 +30,7 @@
     <string name="logout">Вийти</string>
     <string name="buy">Купити</string>
     <string name="total">Всього:</string>
-    <string name="username">Імя користувача</string>
+    <string name="username">Ім\'я користувача</string>
     <string name="orders">Замовлення</string>
 
     <string name="search">Пошук</string>
@@ -41,4 +41,14 @@
     <string name="favorite">Бажане</string>
     <string name="cart">Кошик</string>
     <string name="oops">Уупс!</string>
+
+    <string name="reset_all_filters">Скинути всі фільтри</string>
+    <string name="nothing_found">Нічого не знайдено</string>
+    <string name="bag">Сумка</string>
+    <string name="my_account">Мій акаунт</string>
+    <string name="add_to_bag">Додати до сумки</string>
+    <string name="remove_from_bag">Видалити з сумки</string>
+    <string name="to_leave_a_comment_you_must_purchase_this_product">Щоб залишити коментар, ви повинні придбати цей продукт</string>
+    <string name="opinions">Думки</string>
+
 </resources>

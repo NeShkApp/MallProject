@@ -15,6 +15,8 @@ import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.model.Subcategory
 import org.bohdan.mallproject.domain.repository.HomeRepository
+import org.bohdan.mallproject.domain.usecase.favorite.AddItemToFavoriteUseCase
+import org.bohdan.mallproject.domain.usecase.favorite.RemoveItemFromFavoriteUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemsByFiltersUseCase
@@ -26,6 +28,8 @@ import javax.inject.Inject
 class AllProductsViewModel @Inject constructor(
     private val sortShopItemsByFiltersUseCase: SortShopItemsByFiltersUseCase,
     private val getShopItemsByFiltersUseCase: GetShopItemsByFiltersUseCase,
+    private val addItemToFavoriteUseCase: AddItemToFavoriteUseCase,
+    private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -56,6 +60,9 @@ class AllProductsViewModel @Inject constructor(
     private val _currentSearchQuery = MutableLiveData<String?>()
     val currentSearchQuery: LiveData<String?>
         get() = _currentSearchQuery
+
+    private val _isInFavorite = MutableLiveData<Boolean>()
+    val isInFavorite: LiveData<Boolean> = _isInFavorite
 
     init {
         loadShopItemsByFilters(category, subcategory, searchQuery)

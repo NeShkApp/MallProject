@@ -82,7 +82,7 @@ class SubcategoriesFragment : Fragment() {
 
         viewModel.subcategories.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.subcategories = it
+                adapter.submitList(it)
             }
         }
 

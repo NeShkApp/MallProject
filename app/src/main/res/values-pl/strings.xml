@@ -38,4 +38,14 @@
     <string name="favorite">Ulubione</string>
     <string name="cart">Koszyk</string>
     <string name="oops">uups!</string>
+
+    <string name="reset_all_filters">Zresetuj wszystkie filtry</string>
+    <string name="nothing_found">Nic nie znaleziono</string>
+    <string name="bag">Torba</string>
+    <string name="my_account">Moje konto</string>
+    <string name="add_to_bag">Dodaj do torby</string>
+    <string name="remove_from_bag">Usuń z torby</string>
+    <string name="to_leave_a_comment_you_must_purchase_this_product">Aby zostawić komentarz, musisz zakupić ten produkt</string>
+    <string name="opinions">Opinie</string>
+
 </resources>
