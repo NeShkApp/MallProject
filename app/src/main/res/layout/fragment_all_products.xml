@@ -43,8 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:gravity="center"
         android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@id/btn_filter"
@@ -55,7 +54,6 @@
         android:id="@+id/rv_shop_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,14 +74,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="За такими фільтрами нічого не знайдено"
+            android:text="@string/nothing_found"
             android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_reset_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Скинути всі фільтри" />
+            android:text="@string/reset_all_filters" />
     </LinearLayout>
 
 

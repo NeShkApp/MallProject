@@ -57,9 +57,6 @@ class ShopItemDetailsViewModel @Inject constructor(
     private val _isAddToCartEnabled = MutableLiveData<Boolean>()
     val isAddToCartEnabled: LiveData<Boolean> get() = _isAddToCartEnabled
 
-    private val _isAddToFavoriteEnabled = MutableLiveData<Boolean>()
-    val isAddToFavoriteEnabled: LiveData<Boolean> get() = _isAddToFavoriteEnabled
-
     private val _comments = MutableLiveData<List<Comment>>()
     val comments: LiveData<List<Comment>>
         get() = _comments
@@ -75,28 +72,6 @@ class ShopItemDetailsViewModel @Inject constructor(
     fun checkStockAvailability(shopItem: ShopItem) {
         _isAddToCartEnabled.postValue(shopItem.quantityInStock > 0)
     }
-
-
-//    fun loadShopItemById(shopItemId: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _isLoading.postValue(true)
-//            try {
-//                val item = getShopItemDetailsByIdUseCase(shopItemId)
-//                _shopItem.postValue(item)
-//                val isFavorite = isItemInFavoriteUseCase(shopItemId)
-//                _isInFavorite.postValue(isFavorite)
-//                val isCart = checkIfItemInCartUseCase(shopItemId)
-//                _isInCart.postValue(isCart)
-//                loadComments(shopItemId)
-//                checkIfUserCanLeaveComment(shopItemId)
-//                checkStockAvailability(item)
-//            } catch (e: Exception) {
-//                _errorMessage.postValue("Error fetching item to cart: ${e.message}")
-//            }finally {
-//                _isLoading.postValue(false)
-//            }
-//        }
-//    }
 
     fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -123,12 +98,11 @@ class ShopItemDetailsViewModel @Inject constructor(
                 _comments.postValue(comments)
                 _canUserLeaveComment.postValue(canLeaveComment)
 
-                // Перевіряємо наявність товару в складі
                 checkStockAvailability(item)
             } catch (e: Exception) {
                 _errorMessage.postValue("Error loading item details: ${e.message}")
             } finally {
-                _isLoading.postValue(false) // Вимикаємо прогрес-бар
+                _isLoading.postValue(false)
             }
         }
     }

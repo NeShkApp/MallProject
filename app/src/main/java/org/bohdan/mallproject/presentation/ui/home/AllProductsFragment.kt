@@ -18,6 +18,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
@@ -82,9 +84,6 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
                     emptyStateLayout.visibility = View.GONE
                 }
             }
-            adapter.onShopItemClickListener = { shopItem ->
-                launchShopItemDetailsFragment(shopItem)
-            }
         }
 
         viewModel.currentCategory.observe(viewLifecycleOwner) { category ->
@@ -104,6 +103,7 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun updateFiltersDisplay() {
@@ -122,7 +122,6 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
             visibility = View.VISIBLE
         }
     }
-
 
     private fun setupSortButton() {
         binding.btnSort.setOnClickListener {
@@ -246,6 +245,14 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
 
     private fun setupRecyclerView() {
         adapter = HomeShopItemsAdapter()
+        adapter.onShopItemClickListener = { shopItem ->
+            launchShopItemDetailsFragment(shopItem)
+        }
+        adapter.onFavoriteClickListener = { shopItem ->
+
+            Toast.makeText(requireContext(), "onFavoriteClickListener clicked: ${shopItem.name}", Toast.LENGTH_LONG).show()
+        }
+        binding.rvShopList.layoutManager = GridLayoutManager(context,2)
         binding.rvShopList.adapter = adapter
     }
 

@@ -14,9 +14,8 @@ data class ShopItem(
     val id: String = "",
     val quantityInStock: Int = 0,
     val reviewsCount: Int = 0,
+    val new: Boolean = false,
+    val discount: Int = 0,
     @get: Exclude
     var selectedQuantity: Int = 1
 ): Parcelable
-
-
-
