@@ -2,25 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:paddingBottom="?attr/actionBarSize"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/tvCheckoutTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delivery Details"
-        android:textSize="20sp"
+        android:text="@string/checkout_details"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Full Name"
-        android:text="testName"
         android:inputType="textPersonName"
         app:layout_constraintTop_toBottomOf="@id/tvCheckoutTitle"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,6 @@
         android:layout_height="wrap_content"
         android:hint="Delivery Address"
         android:inputType="textPostalAddress"
-        android:text="testAddress"
         app:layout_constraintTop_toBottomOf="@id/etName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,25 +52,26 @@
             android:id="@+id/rbCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Credit/Debit Card"
+            android:text="@string/credit_debit_card"
             android:checked="true"/>
 
         <RadioButton
             android:id="@+id/rbCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cash on Delivery" />
+            android:text="@string/cash_on_delivery" />
     </RadioGroup>
 
     <Button
         android:id="@+id/btnContinueToOrderSummary"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Continue"
-        app:layout_constraintTop_toBottomOf="@id/rgPaymentMethod"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_continue"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.home.FilterShopItemsFragment">
+    tools:context=".presentation.ui.home.FilterShopItemsFragment"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/fragmentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/filter"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_category"
@@ -14,7 +26,7 @@
         android:textSize="18sp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragmentName"
         android:padding="10dp" />
 
     <Spinner
@@ -45,33 +57,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:enabled="false" />
 
-    <!-- Minimum Price Picker -->
-    <TextView
-        android:id="@+id/tv_min_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="10dp"
-        android:text="Min Price"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_subcategory" />
-
-    <NumberPicker
-        android:id="@+id/number_picker_min_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_min_price"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <Button
         android:id="@+id/button_apply_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apply Filter"
-        app:layout_constraintTop_toBottomOf="@id/number_picker_min_price"
+        app:layout_constraintTop_toBottomOf="@id/spinner_subcategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp" />

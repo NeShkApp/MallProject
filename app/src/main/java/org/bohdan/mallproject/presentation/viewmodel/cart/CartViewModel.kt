@@ -45,8 +45,13 @@ class CartViewModel @Inject constructor(
     private val _isCartEmpty = MutableLiveData<Boolean>(true)
     val isCartEmpty: LiveData<Boolean> get() = _isCartEmpty
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
     fun getCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
             try {
                 val items = getCartItemsUseCase()
                 val updatedItems = updateItemsQuantities(items)
@@ -55,6 +60,8 @@ class CartViewModel @Inject constructor(
                 _error.postValue(null)
             } catch (e: Exception) {
                 _error.postValue(e.message)
+            }finally {
+                _isLoading.postValue(false)
             }
         }
     }

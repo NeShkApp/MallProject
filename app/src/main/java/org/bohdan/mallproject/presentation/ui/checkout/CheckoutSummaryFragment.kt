@@ -35,9 +35,9 @@ class CheckoutSummaryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            tvName.text = "Name: ${args.clientName}"
-            tvAddress.text = "Address: ${args.address}"
-            tvPaymentMethod.text = "Payment Method: ${args.paymentMethod}"
+            tvName.text = "${tvName.text}\n${args.clientName}"
+            tvAddress.text = "${tvAddress.text}\n${args.address}"
+            tvPaymentMethod.text = "${tvPaymentMethod.text}\n${args.paymentMethod}"
         }
 
         setupListeners()
@@ -54,7 +54,6 @@ class CheckoutSummaryFragment : Fragment() {
             findNavController().navigate(
                 CheckoutSummaryFragmentDirections.actionOrderSummaryFragmentToCheckoutResultFragment(transactionResult)
             )
-            Toast.makeText(requireContext(), "transaction result: $transactionResult", Toast.LENGTH_SHORT).show()
         }
     }
 }

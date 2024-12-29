@@ -117,18 +117,22 @@
         android:id="@+id/cartFragment"
         android:name="org.bohdan.mallproject.presentation.ui.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" >
+        tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_shopItemDetailsFragment"
             app:destination="@id/shopItemDetailsFragment" />
         <action
             android:id="@+id/action_cartFragment_to_checkoutDetailsFragment"
             app:destination="@id/checkoutDetailsFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutDetailsFragment"
         android:name="org.bohdan.mallproject.presentation.ui.checkout.CheckoutDetailsFragment"
-        android:label="CheckoutDetailsFragment" >
+        android:label="CheckoutDetailsFragment"
+        tools:layout="@layout/fragment_checkout_details">
         <action
             android:id="@+id/action_checkoutDetailsFragment_to_orderSummaryFragment"
             app:destination="@id/checkoutSummaryFragment" />
@@ -162,7 +166,8 @@
     <fragment
         android:id="@+id/checkoutResultFragment"
         android:name="org.bohdan.mallproject.presentation.ui.checkout.CheckoutResultFragment"
-        android:label="CheckoutResultFragment" >
+        android:label="CheckoutResultFragment"
+        tools:layout="@layout/fragment_checkout_result">
         <argument
             android:name="transactionResult"
             app:argType="boolean" />
@@ -173,7 +178,8 @@
     <activity
         android:id="@+id/authActivity"
         android:name="org.bohdan.mallproject.presentation.ui.auth.AuthActivity"
-        android:label="AuthActivity" />
+        android:label="AuthActivity"
+        tools:layout="@layout/activity_auth"/>
     <fragment
         android:id="@+id/ordersFragment"
         android:name="org.bohdan.mallproject.presentation.orders.OrdersFragment"

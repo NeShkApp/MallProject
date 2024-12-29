@@ -1,5 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Mall Project</string>
+<resources>
+    <string name="app_name" translatable="false">Shoppe</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Login</string>
@@ -48,6 +48,26 @@
     <string name="my_account">My account</string>
     <string name="add_to_bag">Add to bag</string>
     <string name="remove_from_bag">Remove from bag</string>
+
     <string name="to_leave_a_comment_you_must_purchase_this_product">To leave a comment you must purchase this product</string>
     <string name="opinions">Opinions</string>
+    <string name="categories">Categories</string>
+    <string name="subcategories">Subcategories</string>
+
+    <string name="transaction_success">Transaction successful!\nThank you for your purchase.</string>
+    <string name="transaction_failure">Transaction failed.\nPlease try again later.</string>
+    <string name="checkout_details">Checkout Details</string>
+    <string name="credit_debit_card">Credit/Debit Card</string>
+    <string name="cash_on_delivery">Cash on Delivery</string>
+
+    <string name="button_continue">Continue</string>
+    <string name="pay">Pay</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="out_of_stock">Out of stock</string>
+
+    <string name="name_label">Name:</string>
+    <string name="address_label">Address:</string>
+    <string name="payment_method_label">Payment Method:</string>
+    <string name="welcome">Welcome</string>
+
 </resources>

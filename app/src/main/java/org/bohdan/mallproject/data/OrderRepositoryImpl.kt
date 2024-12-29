@@ -99,7 +99,7 @@ class OrderRepositoryImpl @Inject constructor(
                     shopItems = productsWithDetails,
                     formattedTimestamp = formatTimestamp(order.timestamp)
                 )
-            }
+            }.sortedByDescending { it.timestamp }
         } catch (e: Exception) {
             Log.e("OrdersRepository", "Error fetching orders with details: ${e.message}")
             emptyList()
@@ -107,8 +107,9 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
     override fun formatTimestamp(timestamp: Long): String {
-        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
+        val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault())
         return sdf.format(java.util.Date(timestamp))
     }
+
 
 }

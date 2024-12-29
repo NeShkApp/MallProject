@@ -48,4 +48,23 @@
     <string name="to_leave_a_comment_you_must_purchase_this_product">Aby zostawić komentarz, musisz zakupić ten produkt</string>
     <string name="opinions">Opinie</string>
 
+    <string name="categories">Kategorie</string>
+    <string name="subcategories">Podkategorie</string>
+
+    <string name="transaction_success">Transakcja zakończona sukcesem!\nDziękujemy za zakup.</string>
+    <string name="transaction_failure">Transakcja nie powiodła się.\nSpróbuj ponownie później.</string>
+    <string name="checkout_details">Szczegóły zamówienia</string>
+    <string name="credit_debit_card">Karta kredytowa/debetowa</string>
+    <string name="cash_on_delivery">Płatność przy odbiorze</string>
+
+    <string name="button_continue">Kontynuuj</string>
+    <string name="pay">Zapłać</string>
+    <string name="order_summary">Podsumowanie zamówienia</string>
+    <string name="out_of_stock">Brak w magazynie</string>
+
+    <string name="name_label">Imię:</string>
+    <string name="address_label">Adres:</string>
+    <string name="payment_method_label">Metoda płatności:</string>
+    <string name="welcome">Witamy</string>
+
 </resources>
