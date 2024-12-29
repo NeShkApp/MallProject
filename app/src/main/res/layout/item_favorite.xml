@@ -18,8 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="16dp"
-            android:contentDescription="img_shop_item"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/billy" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -69,9 +68,9 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="8dp"
             android:clickable="true"
-            android:contentDescription="Remove Item"
             android:focusable="true"
             android:src="@drawable/ic_cross" />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -103,7 +103,7 @@ class ShopItemDetailsFragment : Fragment() {
 
         viewModel.isAddToCartEnabled.observe(viewLifecycleOwner) { isEnabled ->
             binding.btnAddToCart.isEnabled = isEnabled
-            binding.btnAddToCart.text = if (isEnabled) "Add to Cart" else "Out of Stock"
+            binding.btnAddToCart.text = if (isEnabled) getString(R.string.add_to_bag) else getString(R.string.out_of_stock)
         }
 
 

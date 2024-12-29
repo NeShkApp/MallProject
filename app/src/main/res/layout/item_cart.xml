@@ -18,8 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="16dp"
-            android:contentDescription="img_shop_item"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/billy" />
 
         <LinearLayout
             android:layout_width="0dp"

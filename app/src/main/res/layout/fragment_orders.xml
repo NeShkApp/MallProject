@@ -8,11 +8,14 @@
     tools:context=".presentation.orders.OrdersFragment">
 
     <TextView
+        android:id="@+id/fragmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Orders"
-        android:textSize="20sp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/orders"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_orders"

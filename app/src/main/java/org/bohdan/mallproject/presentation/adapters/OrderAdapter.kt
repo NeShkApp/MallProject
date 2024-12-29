@@ -36,11 +36,15 @@ class OrderAdapter: ListAdapter<Order, OrderAdapter.OrderViewHolder>(OrderDiffCa
         private val binding: ItemOrderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val productAdapter = HomeShopItemsAdapter()
+        private val productAdapter = ItemOrderProductAdapter()
 
         init {
             binding.rvOrderItems.apply {
-                layoutManager = LinearLayoutManager(binding.root.context)
+                layoutManager = LinearLayoutManager(
+                    binding.root.context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
                 adapter = productAdapter
             }
         }
@@ -49,10 +53,7 @@ class OrderAdapter: ListAdapter<Order, OrderAdapter.OrderViewHolder>(OrderDiffCa
             binding.tvTimestamp.text = order.formattedTimestamp
             binding.tvTotalPrice.text = "${order.totalAmount} $"
 
-            val products = order.shopItems.map {
-                Log.d("OrderAdapter", "Product: ${it.name}, Quantity: ${it.selectedQuantity}")
-                it
-            }
+            val products = order.shopItems.map{it}
             productAdapter.submitList(products)
 
             productAdapter.onShopItemClickListener = { shopItem ->

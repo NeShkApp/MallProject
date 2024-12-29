@@ -30,7 +30,13 @@ class CheckoutResultFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvResult.text = args.transactionResult.toString()
+        if (args.transactionResult) {
+            binding.tvResult.text = getString(R.string.transaction_success)
+            binding.ivStatusImage.setImageResource(R.mipmap.success)
+        } else {
+            binding.tvResult.text = getString(R.string.transaction_failure)
+            binding.ivStatusImage.setImageResource(R.mipmap.failure)
+        }
 
         binding.btnBackToHome.setOnClickListener {
             findNavController().navigate(

@@ -15,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import org.bohdan.mallproject.databinding.FragmentCartBinding
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.presentation.adapters.CartAdapter
+import org.bohdan.mallproject.presentation.ui.favorite.FavoriteFragmentDirections
 import org.bohdan.mallproject.presentation.viewmodel.cart.CartViewModel
 
 @AndroidEntryPoint
@@ -87,12 +88,28 @@ class CartFragment : Fragment() {
             viewModel.checkAndStartCheckout()
         }
 
+        binding.goToShopButton.setOnClickListener {
+            findNavController().navigate(
+                CartFragmentDirections.actionCartFragmentToCategoriesFragment()
+            )
+        }
+
     }
 
     private fun setupObservers() {
 
         viewModel.cartItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+
+            with(binding) {
+                if (it.isNullOrEmpty()) {
+                    recyclerViewCart.visibility = View.GONE
+                    emptyStateLayout.visibility = View.VISIBLE
+                } else {
+                    recyclerViewCart.visibility = View.VISIBLE
+                    emptyStateLayout.visibility = View.GONE
+                }
+            }
             viewModel.updateCartEmptyState()
             viewModel.calculateTotalPrice()
         }
@@ -135,6 +152,18 @@ class CartFragment : Fragment() {
 
         viewModel.isCartEmpty.observe(viewLifecycleOwner) {
             binding.buttonCheckout.isEnabled = !it
+            binding.recyclerViewCart.visibility = if (it) View.GONE else View.VISIBLE
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            with(binding) {
+                progressBarCart.visibility = if (isLoading) View.VISIBLE else View.GONE
+                if (isLoading) {
+                    recyclerViewCart.visibility = View.GONE
+                }else{
+                    recyclerViewCart.visibility = View.VISIBLE
+                }
+            }
         }
 
     }

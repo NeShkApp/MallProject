@@ -11,7 +11,8 @@
         android:id="@+id/imageViewIcon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:src="@mipmap/billy"/>
 
     <TextView
         android:id="@+id/textViewTitle"
