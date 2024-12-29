@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="email_hint">Електронна пошта</string>
     <string name="password_hint">Пароль</string>
     <string name="login_button">Увійти</string>
@@ -67,5 +67,6 @@
     <string name="name_label">Ім\'я:</string>
     <string name="address_label">Адреса:</string>
     <string name="payment_method_label">Метод оплати:</string>
+    <string name="welcome">Ласкаво просимо</string>
 
 </resources>

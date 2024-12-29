@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">Shoppe</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
