@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentFilterShopItemsBinding
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
@@ -19,7 +21,9 @@ class FilterShopItemsFragment(
     private val listener: FilterOptionListener,
     private val selectedCategory: Category?,
     private val selectedSubcategory: Subcategory?,
-    private val selectedSearchQuery: String?
+    private val selectedSearchQuery: String?,
+    private val selectedOnlyDiscounts: Boolean,
+    private var selectedMinRating: Int
 ) : BottomSheetDialogFragment() {
 
     private val viewModel: FilterViewModel by viewModels()
@@ -30,7 +34,13 @@ class FilterShopItemsFragment(
     private lateinit var subcategoryAdapter: ArrayAdapter<String>
 
     interface FilterOptionListener {
-        fun onFilterApplied(category: Category?, subcategory: Subcategory?, searchQuery: String?)
+        fun onFilterApplied(
+            category: Category?,
+            subcategory: Subcategory?,
+            searchQuery: String?,
+            onlyDiscounts: Boolean,
+            minRating: Int
+        )
     }
 
     override fun onCreateView(
@@ -43,6 +53,8 @@ class FilterShopItemsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.checkBoxDiscount.isChecked = selectedOnlyDiscounts
 
         categoryAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -63,7 +75,16 @@ class FilterShopItemsFragment(
             val category = viewModel.categories.value?.find { it.name == selectedCategory }
             val subcategory = viewModel.subcategories.value?.find { it.name == selectedSubcategory }
 
-            listener.onFilterApplied(category, subcategory, selectedSearchQuery)
+            val onlyDiscounts = binding.checkBoxDiscount.isChecked
+            val minRating = binding.seekBarRating.progress
+
+            listener.onFilterApplied(
+                category,
+                subcategory,
+                selectedSearchQuery,
+                onlyDiscounts,
+                minRating
+            )
             dismiss()
         }
 
@@ -76,6 +97,17 @@ class FilterShopItemsFragment(
             override fun onNothingSelected(parentView: AdapterView<*>?) {
             }
         }
+
+        binding.seekBarRating.progress = selectedMinRating
+        binding.seekBarRating.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedMinRating = progress
+                binding.tvRating.text = "${getString(R.string.minimum_rating)}: $selectedMinRating"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
 

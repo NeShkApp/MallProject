@@ -69,4 +69,11 @@
     <string name="payment_method_label">Метод оплати:</string>
     <string name="welcome">Ласкаво просимо</string>
 
+    <string name="category">Категорія</string>
+    <string name="subcategory">Підкатегорія</string>
+    <string name="only_discounts">Тільки зі знижками</string>
+    <string name="apply_filter">Застосувати фільтр</string>
+    <string name="minimum_rating">Мінімальний рейтинг</string>
+
+
 </resources>

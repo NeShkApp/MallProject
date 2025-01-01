@@ -68,7 +68,14 @@ class ShopItemDetailsFragment : Fragment() {
         viewModel.shopItem.observe(viewLifecycleOwner){shopItem ->
             binding.tvItemName.text = shopItem.name
             binding.tvItemDescription.text = shopItem.description
-            binding.tvItemPrice.text = String.format("$%.2f", shopItem.price)
+
+            val finalPrice = if (shopItem.discount > 0) {
+                shopItem.price - (shopItem.price * shopItem.discount / 100)
+            } else {
+                shopItem.price
+            }
+            binding.tvItemPrice.text = String.format("$%.2f", finalPrice)
+
             binding.ratingBar.rating = shopItem.rating
             Glide.with(this).load(shopItem.imageUrl).into(binding.imageView)
             viewModel.checkStockAvailability(shopItem)

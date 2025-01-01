@@ -67,4 +67,10 @@
     <string name="payment_method_label">Metoda płatności:</string>
     <string name="welcome">Witamy</string>
 
+    <string name="category">Kategoria</string>
+    <string name="subcategory">Podkategoria</string>
+    <string name="only_discounts">Tylko zniżki</string>
+    <string name="apply_filter">Zastosuj filtr</string>
+    <string name="minimum_rating">Minimalna ocena</string>
+
 </resources>

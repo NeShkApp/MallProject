@@ -5,26 +5,19 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.FragmentAllProductsBinding
-import org.bohdan.mallproject.databinding.FragmentCategoriesBinding
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
@@ -69,6 +62,8 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
             binding.etSearch.text?.clear()
             viewModel.updateCurrentFilters(null, null, null)
             viewModel.loadShopItemsByFilters(null, null, null)
+            viewModel.setOnlyDiscounts(false)
+            viewModel.setMinRating(0)
         }
     }
 
@@ -100,9 +95,16 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             message?.let {
+                Log.e("AllProductsFragment", "Error: $it")
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
+
+//        viewModel.currentOnlyDiscounts.observe(viewLifecycleOwner){
+//            if(it){
+//                viewModel.filterByDiscount()
+//            }
+//        }
 
     }
 
@@ -138,12 +140,16 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
             val currentCategory = viewModel.currentCategory.value
             val currentSubcategory = viewModel.currentSubcategory.value
             val currentSearchQuery = viewModel.currentSearchQuery.value
+            val currentOnlyDiscounts = viewModel.currentOnlyDiscounts.value ?: false
+            val currentMinRating = viewModel.currentMinRating.value ?: 0
 
             val filterFragment = FilterShopItemsFragment(
                 this,
                 currentCategory,
                 currentSubcategory,
-                currentSearchQuery
+                currentSearchQuery,
+                currentOnlyDiscounts,
+                currentMinRating
             )
             filterFragment.show(parentFragmentManager, "FilterBottomSheetFragment")
         }
@@ -152,16 +158,18 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
     override fun onFilterApplied(
         category: Category?,
         subcategory: Subcategory?,
-        searchQuery: String?
+        searchQuery: String?,
+        onlyDiscounts: Boolean,
+        minRating: Int
     ) {
-        Log.d(
-            "FilterResult",
-            "Category: ${category?.name}," +
-                    " Subcategory: ${subcategory?.name}, " +
-                    "Search Query: $searchQuery"
-        )
+        Log.d("AllProductsFragment", "onFilterApplied called with category=$category, subcategory=$subcategory, searchQuery=$searchQuery, onlyDiscounts=$onlyDiscounts")
+
         viewModel.updateCurrentFilters(category, subcategory, searchQuery)
         viewModel.loadShopItemsByFilters(category, subcategory, searchQuery)
+
+        viewModel.setOnlyDiscounts(onlyDiscounts)
+        viewModel.setMinRating(minRating)
+
     }
 
     private fun launchShopItemDetailsFragment(shopItem: ShopItem) {
@@ -249,7 +257,6 @@ class AllProductsFragment : Fragment(), SortShopItemsFragment.SortOptionListener
             launchShopItemDetailsFragment(shopItem)
         }
         adapter.onFavoriteClickListener = { shopItem ->
-
             Toast.makeText(requireContext(), "onFavoriteClickListener clicked: ${shopItem.name}", Toast.LENGTH_LONG).show()
         }
         binding.rvShopList.layoutManager = GridLayoutManager(context,2)

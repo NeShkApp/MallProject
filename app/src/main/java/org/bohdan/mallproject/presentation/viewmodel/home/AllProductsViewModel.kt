@@ -1,6 +1,6 @@
 package org.bohdan.mallproject.presentation.viewmodel.home
 
-import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -9,18 +9,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.ShopItem
 import org.bohdan.mallproject.domain.model.SortBy
 import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.domain.repository.HomeRepository
-import org.bohdan.mallproject.domain.usecase.favorite.AddItemToFavoriteUseCase
-import org.bohdan.mallproject.domain.usecase.favorite.RemoveItemFromFavoriteUseCase
-import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
-import org.bohdan.mallproject.domain.usecase.home.GetAllShopItemsUseCase
 import org.bohdan.mallproject.domain.usecase.home.GetShopItemsByFiltersUseCase
-import org.bohdan.mallproject.domain.usecase.home.GetSubcategoriesByCategoryUseCase
 import org.bohdan.mallproject.domain.usecase.home.SortShopItemsByFiltersUseCase
 import javax.inject.Inject
 
@@ -28,8 +21,6 @@ import javax.inject.Inject
 class AllProductsViewModel @Inject constructor(
     private val sortShopItemsByFiltersUseCase: SortShopItemsByFiltersUseCase,
     private val getShopItemsByFiltersUseCase: GetShopItemsByFiltersUseCase,
-    private val addItemToFavoriteUseCase: AddItemToFavoriteUseCase,
-    private val removeItemFromFavoriteUseCase: RemoveItemFromFavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -61,29 +52,64 @@ class AllProductsViewModel @Inject constructor(
     val currentSearchQuery: LiveData<String?>
         get() = _currentSearchQuery
 
-    private val _isInFavorite = MutableLiveData<Boolean>()
-    val isInFavorite: LiveData<Boolean> = _isInFavorite
+    private val _currentOnlyDiscounts = MutableLiveData<Boolean>(false)
+    val currentOnlyDiscounts: LiveData<Boolean>
+        get() = _currentOnlyDiscounts
+
+
+    private val _currentMinRating = MutableLiveData<Int>(0)
+    val currentMinRating: LiveData<Int>
+        get() = _currentMinRating
 
     init {
         loadShopItemsByFilters(category, subcategory, searchQuery)
         updateCurrentFilters(category, subcategory, searchQuery)
+        Log.d(
+            "AllProductsViewModel", "INIT was called"
+        )
+
+    }
+
+    fun setOnlyDiscounts(isChecked: Boolean) {
+        _currentOnlyDiscounts.value = isChecked
+    }
+
+    fun setMinRating(minRating: Int) {
+        _currentMinRating.value = minRating
     }
 
     fun loadShopItemsByFilters(
         category: Category?,
         subcategory: Subcategory?,
-        searchQuery: String?
+        searchQuery: String?,
     ) {
+        Log.d(
+            "loadShopItemsByFilters",
+            "Loading items with filters: category=$category, subcategory=$subcategory, searchQuery=$searchQuery"
+        )
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val items = getShopItemsByFiltersUseCase(category, subcategory, searchQuery)
+                Log.d("loadShopItemsByFilters", "Loaded items: ${items.size}")
+
                 val sortedItems = sortShopItemsByFiltersUseCase(items, _currentSortOrder.value)
-                _shopItems.postValue(sortedItems)
+                Log.d("loadShopItemsByFilters", "Sorted items: ${sortedItems.size}")
+
+
+                val filteredByDiscount = filterByDiscount(sortedItems)
+                val finalFilteredItems = filterByMinRating(filteredByDiscount)
+
+                _shopItems.postValue(finalFilteredItems)
+
+//                filterByDiscount()
+//                filterByMinRating()
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
             }
         }
     }
+
 
     fun updateSortOrder(sortBy: SortBy) {
         _currentSortOrder.value = sortBy
@@ -101,5 +127,59 @@ class AllProductsViewModel @Inject constructor(
     fun updateSearchQuery(query: String?) {
         _currentSearchQuery.value = query
     }
+
+//    fun filterByDiscount() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val allItems = _shopItems.value
+//                allItems?.let {
+//                    val onlyDiscounts = _currentOnlyDiscounts.value ?: false
+//                    if (onlyDiscounts) {
+//                        val filteredItems = allItems.filter { it.discount > 0 }
+//                        _shopItems.postValue(filteredItems)
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                throw RuntimeException(e.message)
+//            }
+//        }
+//    }
+//
+//    fun filterByMinRating() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val allItems = _shopItems.value
+//                allItems?.let {
+//                    val minRating = _currentMinRating.value ?: 0
+//                    if (minRating > 0) {
+//                        val filteredItems = allItems.filter { it.rating >= minRating }
+//                        _shopItems.postValue(filteredItems)
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                throw RuntimeException(e.message)
+//            }
+//        }
+//    }
+
+    fun filterByDiscount(items: List<ShopItem>): List<ShopItem> {
+        val onlyDiscounts = _currentOnlyDiscounts.value ?: false
+        return if (onlyDiscounts) {
+            items.filter { it.discount > 0 }
+        } else {
+            items
+        }
+    }
+
+    fun filterByMinRating(items: List<ShopItem>): List<ShopItem> {
+        val minRating = _currentMinRating.value ?: 0
+        return if (minRating > 0) {
+            items.filter { it.rating >= minRating }
+        } else {
+            items
+        }
+    }
+
+
 
 }

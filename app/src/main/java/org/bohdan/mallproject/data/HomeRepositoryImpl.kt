@@ -93,11 +93,9 @@ class HomeRepositoryImpl @Inject constructor(
                         id = document.id)
                 }
             } ?: getAllShopItems()
-
             shopItems.forEach{
                 Log.d("HomeRepositoryImpl", "getShopItemsByFilters: ${it.toString()}")
             }
-
             actualQuery?.let { query ->
                 shopItems.filter { it.name.contains(query, ignoreCase = true) }
             } ?: shopItems
