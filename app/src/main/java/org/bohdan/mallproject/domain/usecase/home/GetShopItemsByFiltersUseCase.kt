@@ -12,7 +12,7 @@ class GetShopItemsByFiltersUseCase @Inject constructor(
     suspend operator fun invoke(
         category: Category?,
         subcategory: Subcategory?,
-        searchQuery: String?
+        searchQuery: String?,
     ): List<ShopItem>
     {
         return homeRepository.getShopItemsByFilters(category, subcategory, searchQuery)

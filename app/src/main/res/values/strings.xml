@@ -70,4 +70,10 @@
     <string name="payment_method_label">Payment Method:</string>
     <string name="welcome">Welcome</string>
 
+    <string name="category">Category</string>
+    <string name="subcategory">Subcategory</string>
+    <string name="only_discounts">Only discounts</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="minimum_rating">Minimum Rating</string>
+
 </resources>

@@ -1,14 +1,11 @@
 package org.bohdan.mallproject.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ItemShopEnabledBinding
 import org.bohdan.mallproject.domain.model.ShopItem
 
@@ -24,16 +21,13 @@ class HomeShopItemsAdapter : ListAdapter<ShopItem, HomeShopItemsAdapter.ShopItem
             false
         )
         return ShopItemViewHolder(
-            binding,
-            onFavoriteClickListener
+            binding
         )
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopItem = getItem(position)
         shopItem?.let{ item ->
-            Log.d("Semen", "isNew ${shopItem.name}: ${shopItem.new}")
-            Log.d("Semen", "Discount ${shopItem.name}: ${shopItem.discount}")
             holder.bind(item)
             holder.itemView.setOnClickListener {
                 onShopItemClickListener?.invoke(item)
@@ -42,8 +36,7 @@ class HomeShopItemsAdapter : ListAdapter<ShopItem, HomeShopItemsAdapter.ShopItem
     }
 
     class ShopItemViewHolder(
-        private val binding: ItemShopEnabledBinding,
-        private val onFavoriteClickListener: ((ShopItem) -> Unit)?
+        private val binding: ItemShopEnabledBinding
     ) :RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shopItem: ShopItem){
@@ -70,18 +63,12 @@ class HomeShopItemsAdapter : ListAdapter<ShopItem, HomeShopItemsAdapter.ShopItem
             } else {
                 shopItem.price
             }
-
-//            binding.tvPrice.text = "$%.2f".format(finalPrice)
-            binding.tvPrice.text = finalPrice.toString()
+            binding.tvPrice.text = String.format("$%.2f", finalPrice)
 
             Glide.with(binding.ivProductImage.context)
                 .load(shopItem.imageUrl)
                 .centerCrop()
                 .into(binding.ivProductImage)
-
-//            binding.btnFavorite.setOnClickListener {
-//                onFavoriteClickListener?.invoke(shopItem)
-//            }
         }
     }
 
