@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
@@ -48,7 +47,8 @@ class AuthViewModel @Inject constructor(
             try {
                 val result = loginUseCase(email, password)
                 if (result.isSuccess) {
-                    _user.postValue(result.getOrNull())
+//                    _user.postValue(result.getOrNull())
+                    _messageId.postValue(R.string.sign_in_successful)
                     _navigateToMainActivity.postValue(true)
                 } else {
                     val exception = result.exceptionOrNull()
@@ -65,34 +65,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    init {
-//        checkIfUserLoggedIn()
-    }
-
-//    private fun checkIfUserLoggedIn() {
-//        val currentUser = FirebaseAuth.getInstance().currentUser
-//        if (currentUser != null) {
-//            _navigateToMainActivity.postValue(true)
-//        }
-//    }
-
-//    private fun checkIfUserLoggedIn() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _isLoading.postValue(true)
-//            try{
-//                val currentUser = FirebaseAuth.getInstance().currentUser
-//                if (currentUser != null) {
-//                    _navigateToMainActivity.postValue(true)
-//                }
-//            }catch (e: Exception){
-//                _messageId.postValue(R.string.google_sign_in_error)
-//            }finally {
-//                _isLoading.postValue(false)
-//            }
-//
-//        }
-//    }
-
     fun checkIfUserLoggedIn(): Boolean {
         return checkIfUserIsValidUseCase()
     }
@@ -106,7 +78,9 @@ class AuthViewModel @Inject constructor(
                 _user.postValue(firebaseUser)
 
                 firebaseUser?.let { user ->
-                    createUserInFirestore(user.displayName.toString(), user.uid, user.email ?: "")
+                    createUserInFirestore(user.displayName.toString(),
+                        user.uid,
+                        user.email ?: "")
                     _messageId.postValue(R.string.verification_email_sent)
                     monitorEmailVerification()
                 }
@@ -133,7 +107,6 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = createUserInFirestoreUseCase(username, userId, email)
             if (result.isFailure) {
-//                _message.value = result.exceptionOrNull()?.message
                 _messageId.value = R.string.create_user_error
             }
         }

@@ -1,15 +1,14 @@
 package org.bohdan.mallproject.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.bohdan.mallproject.databinding.ItemCartBinding
 import org.bohdan.mallproject.databinding.ItemOrderBinding
 import org.bohdan.mallproject.domain.model.Order
 import org.bohdan.mallproject.domain.model.ShopItem
+import org.bohdan.mallproject.presentation.adapters.diffcallback.OrderDiffCallback
 
 class OrderAdapter: ListAdapter<Order, OrderAdapter.OrderViewHolder>(OrderDiffCallback()) {
 

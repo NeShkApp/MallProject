@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.bohdan.mallproject.databinding.ItemOrderProductBinding
 import org.bohdan.mallproject.domain.model.ShopItem
+import org.bohdan.mallproject.presentation.adapters.diffcallback.ShopItemDiffCallback
 
-class ItemOrderProductAdapter : ListAdapter<ShopItem, ItemOrderProductAdapter.ItemOrderProductViewHolder>(ShopItemDiffCallback()){
+class ItemOrderProductAdapter : ListAdapter<ShopItem, ItemOrderProductAdapter.ItemOrderProductViewHolder>(
+    ShopItemDiffCallback()
+){
 
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 

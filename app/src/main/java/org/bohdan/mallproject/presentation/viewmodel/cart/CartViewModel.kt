@@ -122,11 +122,11 @@ class CartViewModel @Inject constructor(
             try {
                 updateSelectedQuantityUseCase(shopItemId, quantity)
 
-//                _cartItems.postValue(
-//                    _cartItems.value?.map {
-//                        if (it.id == shopItemId) it.copy(selectedQuantity = quantity) else it
-//                    }
-//                )
+                _cartItems.postValue(
+                    _cartItems.value?.map {
+                        if (it.id == shopItemId) it.copy(selectedQuantity = quantity) else it
+                    }
+                )
 
             } catch (e: Exception) {
                 Log.e("ViewModelDebug", "Error updating item quantity", e)

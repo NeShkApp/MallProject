@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.data
+package org.bohdan.mallproject.data.repositoryimpl
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue

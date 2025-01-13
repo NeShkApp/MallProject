@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.presentation.orders
+package org.bohdan.mallproject.presentation.ui.orders
 
 import android.os.Bundle
 import android.util.Log

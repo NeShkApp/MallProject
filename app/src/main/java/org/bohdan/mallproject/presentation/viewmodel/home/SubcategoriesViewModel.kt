@@ -1,6 +1,5 @@
 package org.bohdan.mallproject.presentation.viewmodel.home
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +9,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
-import org.bohdan.mallproject.domain.repository.HomeRepository
 import org.bohdan.mallproject.domain.usecase.home.GetSubcategoriesByCategoryUseCase
 import javax.inject.Inject
 

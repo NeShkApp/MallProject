@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.utils
+package org.bohdan.mallproject.data.sharedpreferences
 
 import android.content.Context
 import android.util.Log

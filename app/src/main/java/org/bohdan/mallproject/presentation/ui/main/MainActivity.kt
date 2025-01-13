@@ -1,23 +1,20 @@
-package org.bohdan.mallproject.presentation.ui.home
+package org.bohdan.mallproject.presentation.ui.main
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.WriteBatch
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.presentation.ui.base.BaseActivity
-import org.bohdan.mallproject.utils.FCMTokenPreferences
+import org.bohdan.mallproject.data.sharedpreferences.FCMTokenPreferences
 
 
 @AndroidEntryPoint

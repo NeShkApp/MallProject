@@ -6,15 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ItemCartBinding
 import org.bohdan.mallproject.domain.model.ShopItem
+import org.bohdan.mallproject.presentation.adapters.diffcallback.ShopItemDiffCallback
 
 class CartAdapter : ListAdapter<ShopItem, CartAdapter.CartViewHolder>(ShopItemDiffCallback()) {
 
@@ -65,10 +62,16 @@ class CartAdapter : ListAdapter<ShopItem, CartAdapter.CartViewHolder>(ShopItemDi
             } else {
                 binding.itemName.text = shopItem.name
                 binding.itemDescription.text = shopItem.description
-                binding.itemPrice.text = "${shopItem.price}"
                 binding.itemRating.rating = shopItem.rating
                 binding.itemQuantity.text = shopItem.selectedQuantity.toString()
                 binding.itemRemainingQuantity.text = shopItem.quantityInStock.toString()
+//                binding.itemPrice.text = "${shopItem.price}"
+                val finalPrice = if (shopItem.discount > 0) {
+                    shopItem.price - (shopItem.price * shopItem.discount / 100)
+                } else {
+                    shopItem.price
+                }
+                binding.itemPrice.text = String.format("$%.2f", finalPrice)
 
                 Glide.with(binding.root.context)
                     .load(shopItem.imageUrl)

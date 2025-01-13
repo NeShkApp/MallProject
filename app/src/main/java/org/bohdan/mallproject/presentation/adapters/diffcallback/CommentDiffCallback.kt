@@ -1,8 +1,7 @@
-package org.bohdan.mallproject.presentation.adapters
+package org.bohdan.mallproject.presentation.adapters.diffcallback
 
 import androidx.recyclerview.widget.DiffUtil
 import org.bohdan.mallproject.domain.model.Comment
-import org.bohdan.mallproject.domain.model.ShopItem
 
 class CommentDiffCallback: DiffUtil.ItemCallback<Comment>() {
     override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {

@@ -1,7 +1,6 @@
-package org.bohdan.mallproject.presentation.adapters
+package org.bohdan.mallproject.presentation.adapters.diffcallback
 
 import androidx.recyclerview.widget.DiffUtil
-import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
 
 class SubcategoryDiffCallback : DiffUtil.ItemCallback<Subcategory>() {

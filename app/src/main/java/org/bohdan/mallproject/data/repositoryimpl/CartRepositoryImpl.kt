@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.data
+package org.bohdan.mallproject.data.repositoryimpl
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -114,7 +114,13 @@ class CartRepositoryImpl @Inject constructor(
                 var totalPrice = 0.0
                 val items = getCartItems()
                 items.forEach {
-                    totalPrice += it.price * it.selectedQuantity
+//                    totalPrice += it.price * it.selectedQuantity
+                    val finalPrice = if (it.discount > 0) {
+                        it.price - (it.price * it.discount / 100)
+                    } else {
+                        it.price
+                    }
+                    totalPrice += finalPrice * it.selectedQuantity
                 }
                 return totalPrice
             } catch (e: Exception) {

@@ -5,15 +5,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.provider.Settings
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.utils.AirplaneModeReceiver
-import org.bohdan.mallproject.utils.LanguagePreferences.getLanguage
-import org.bohdan.mallproject.utils.LanguagePreferences.updateLocale
-import org.bohdan.mallproject.utils.ThemePreferences.setAppTheme
+import org.bohdan.mallproject.data.receivers.AirplaneModeReceiver
+import org.bohdan.mallproject.data.sharedpreferences.LanguagePreferences.getLanguage
+import org.bohdan.mallproject.data.sharedpreferences.LanguagePreferences.updateLocale
+import org.bohdan.mallproject.data.sharedpreferences.ThemePreferences.setAppTheme
 
 open class BaseActivity : AppCompatActivity() {
 

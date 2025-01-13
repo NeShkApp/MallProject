@@ -131,24 +131,51 @@ class CartFragment : Fragment() {
             binding.totalPriceNumber.text = String.format("$%.2f", it)
         }
 
+//        viewModel.navigateToCheckout.observe(viewLifecycleOwner) {
+//            if (it == true) {
+//                viewModel.getCartItems()
+//                val items = viewModel.cartItems.value?.let {
+//                    viewModel.getAvailableCartItems(
+//                        it
+//                    )
+//                }
+//                if (items != null) {
+//                    viewModel.reserveCartItems(items)
+//                    findNavController().navigate(
+//                        CartFragmentDirections.actionCartFragmentToCheckoutDetailsFragment(items.toTypedArray())
+//                    )
+//                }
+//                viewModel.resetNavigateToCheckout()
+//            }
+//        }
         viewModel.navigateToCheckout.observe(viewLifecycleOwner) {
             if (it == true) {
                 viewModel.getCartItems()
-                val items = viewModel.cartItems.value?.let {
-                    viewModel.getAvailableCartItems(
-                        it
-                    )
+                val items = viewModel.cartItems.value?.let { cartItems ->
+                    viewModel.getAvailableCartItems(cartItems)
                 }
-                if (items != null) {
-                    viewModel.reserveCartItems(items)
+
+                if (!items.isNullOrEmpty()) {
+                    // Логування обраної кількості товарів
+                    items.forEach { item ->
+                        Log.d("CartFragment", "Item ID: ${item.id}, Selected Quantity: ${item.selectedQuantity}")
+                    }
+
+                    viewModel.reserveCartItems(items) // Резервуємо вибрані товари
+
+                    // Навігація до CheckoutDetailsFragment
                     findNavController().navigate(
                         CartFragmentDirections.actionCartFragmentToCheckoutDetailsFragment(items.toTypedArray())
                     )
+                } else {
+                    // Лог для випадку, коли немає вибраних товарів
+                    Log.e("CartFragment", "No items selected for checkout.")
                 }
+
                 viewModel.resetNavigateToCheckout()
-//                viewModel.resetToastMessage()
             }
         }
+
 
         viewModel.isCartEmpty.observe(viewLifecycleOwner) {
             binding.buttonCheckout.isEnabled = !it

@@ -8,9 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.bohdan.mallproject.data.HomeRepositoryImpl
 import org.bohdan.mallproject.domain.model.Category
-import org.bohdan.mallproject.domain.repository.HomeRepository
 import org.bohdan.mallproject.domain.usecase.home.GetAllCategoriesUseCase
 import javax.inject.Inject
 
