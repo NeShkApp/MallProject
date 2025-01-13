@@ -41,6 +41,11 @@ android {
     buildFeatures{
         viewBinding = true
     }
+    testOptions{
+        unitTests{
+
+        }
+    }
 }
 kapt {
     correctErrorTypes = true
@@ -85,6 +90,7 @@ dependencies {
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.androidx.junit.ktx)
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     //BottomSheetFragment
@@ -97,7 +103,16 @@ dependencies {
     //messaging
     implementation("com.google.firebase:firebase-messaging")
 
-
+    //testing
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.mockito.kotlin)
+    androidTestImplementation(libs.androidx.espresso.core.v350)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.runner)
 
 
     testImplementation(libs.junit)

@@ -31,7 +31,7 @@ class OrdersViewModel @Inject constructor(
         loadOrders()
     }
 
-    private fun loadOrders() {
+    fun loadOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val ordersList = getOrdersFromFirestoreUseCase()
