@@ -1,5 +1,8 @@
 [versions]
 agp = "8.5.2"
+androidxEspressoCore = "3.5.0"
+androidxJunit = "1.1.5"
+coreTesting = "2.2.0"
 firebaseBom = "33.5.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -8,17 +11,28 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesPlayServices = "1.7.1"
+kotlinxCoroutinesTest = "1.6.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.1.4"
 
 #navigation
+mockitoCore = "4.0.0"
+mockitoInline = "4.0.0"
+mockitoKotlin = "5.0.0"
 navigationFragmentKtx = "2.8.3"
 navigationUiKtx = "2.8.3"
 firebaseFirestoreKtx = "25.1.1"
+robolectric = "4.10"
+junitKtx = "1.2.1"
+runner = "1.6.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+androidx-espresso-core-v350 = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxEspressoCore" }
+androidx-junit-v115 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 gms-play-services-gcm = { module = "com.google.android.gms:play-services-gcm" }
@@ -27,6 +41,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -34,7 +49,12 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 play-services-gcm = { module = "com.google.android.gms:play-services-gcm" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
