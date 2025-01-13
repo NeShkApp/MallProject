@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.bohdan.mallproject.data.ShopItemDetailsRepositoryImpl
+import org.bohdan.mallproject.data.repositoryimpl.ShopItemDetailsRepositoryImpl
 import org.bohdan.mallproject.domain.repository.ShopItemDetailsRepository
 import javax.inject.Singleton
 

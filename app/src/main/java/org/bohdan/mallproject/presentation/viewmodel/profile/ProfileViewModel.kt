@@ -9,9 +9,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.bohdan.mallproject.utils.LanguagePreferences
+import org.bohdan.mallproject.data.sharedpreferences.LanguagePreferences
 import org.bohdan.mallproject.R
-import org.bohdan.mallproject.utils.ThemePreferences
+import org.bohdan.mallproject.data.sharedpreferences.ThemePreferences
 import org.bohdan.mallproject.domain.model.ProfileOption
 import org.bohdan.mallproject.domain.usecase.auth.LogoutUseCase
 import javax.inject.Inject

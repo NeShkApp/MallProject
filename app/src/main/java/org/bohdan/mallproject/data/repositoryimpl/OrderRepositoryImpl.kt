@@ -1,4 +1,4 @@
-package org.bohdan.mallproject.data
+package org.bohdan.mallproject.data.repositoryimpl
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +23,16 @@ class OrderRepositoryImpl @Inject constructor(
                     .document(userId)
                     .collection("orders")
                     .document().id
-                val totalAmount = shopItems.sumOf { it.price * it.selectedQuantity }
+
+//                val totalAmount = shopItems.sumOf { it.price * it.selectedQuantity }
+                val totalAmount = shopItems.sumOf { item ->
+                    val finalPrice = if (item.discount > 0) {
+                        item.price - (item.price * item.discount / 100)
+                    } else {
+                        item.price
+                    }
+                    finalPrice * item.selectedQuantity
+                }
 
                 val productsWithQuantities = shopItems.filter { it.selectedQuantity > 0 }
                     .map {
@@ -52,24 +61,6 @@ class OrderRepositoryImpl @Inject constructor(
             println("User not authenticated")
         }
     }
-
-//    override suspend fun getOrdersFromFirestore(): List<Order> {
-//        val userId = auth.currentUser?.uid ?: throw IllegalStateException("User not authenticated")
-//        return try {
-//            val snapshot = firestore.collection("users")
-//                .document(userId)
-//                .collection("orders")
-//                .get()
-//                .await()
-//
-//            val orders = snapshot.documents.mapNotNull { it.toObject(Order::class.java) }
-//            Log.d("OrdersRepository", "Fetched orders: ${orders.size}")
-//            orders
-//        } catch (e: Exception) {
-//            Log.e("OrdersRepository", "Error fetching orders: ${e.message}")
-//            emptyList()
-//        }
-//    }
 
     override suspend fun getOrdersFromFirestore(): List<Order> {
         val userId = auth.currentUser?.uid ?: throw IllegalStateException("User not authenticated")

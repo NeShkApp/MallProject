@@ -182,7 +182,7 @@
         tools:layout="@layout/activity_auth"/>
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="org.bohdan.mallproject.presentation.orders.OrdersFragment"
+        android:name="org.bohdan.mallproject.presentation.ui.orders.OrdersFragment"
         android:label="fragment_orders"
         tools:layout="@layout/fragment_orders" >
         <action

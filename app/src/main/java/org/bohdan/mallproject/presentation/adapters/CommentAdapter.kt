@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bohdan.mallproject.databinding.ItemCommentBinding
 import org.bohdan.mallproject.domain.model.Comment
+import org.bohdan.mallproject.presentation.adapters.diffcallback.CommentDiffCallback
 
 class CommentAdapter: ListAdapter<Comment, CommentAdapter.CommentViewHolder>(CommentDiffCallback()) {
 

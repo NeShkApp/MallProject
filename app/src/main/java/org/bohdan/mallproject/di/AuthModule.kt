@@ -1,6 +1,6 @@
 package org.bohdan.mallproject.di
 
-import AuthRepositoryImpl
+import org.bohdan.mallproject.data.repositoryimpl.AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module

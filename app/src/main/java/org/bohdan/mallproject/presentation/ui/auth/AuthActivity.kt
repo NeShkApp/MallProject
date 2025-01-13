@@ -10,12 +10,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.bohdan.mallproject.presentation.ui.base.BaseActivity
 import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ActivityAuthBinding
-import org.bohdan.mallproject.presentation.ui.home.MainActivity
+import org.bohdan.mallproject.presentation.ui.main.MainActivity
 import org.bohdan.mallproject.presentation.viewmodel.auth.AuthViewModel
 
 @AndroidEntryPoint
@@ -44,7 +43,6 @@ class AuthActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initializeGoogleKey()
 
         binding = ActivityAuthBinding.inflate(layoutInflater)
@@ -52,8 +50,6 @@ class AuthActivity : BaseActivity() {
 
         setupObservers()
         setupListeners()
-
-
     }
 
     private fun setupListeners() {
@@ -110,7 +106,7 @@ class AuthActivity : BaseActivity() {
             }
         }
 
-        viewModel.isLoading.observe(this){
+        viewModel.isLoading.observe(this) {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
     }
@@ -124,20 +120,24 @@ class AuthActivity : BaseActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
-
     private fun registerUser(username: String, email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty()) {
             viewModel.register(username, email, password)
         } else {
-            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                getString(R.string.login_error_empty_fields),
+                Toast.LENGTH_LONG)
+                .show()
         }
     }
 
-    private fun loginUser(email: String, password: String){
-        if(email.isNotEmpty() && password.isNotEmpty()){
+    private fun loginUser(email: String, password: String) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password)
-        }else{
-            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -167,7 +167,11 @@ class AuthActivity : BaseActivity() {
                     viewModel.signInWithGoogle(it)
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, getString(R.string.google_sign_in_error, e.message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.google_sign_in_error, e.message),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

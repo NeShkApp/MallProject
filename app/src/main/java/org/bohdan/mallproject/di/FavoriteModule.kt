@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.bohdan.mallproject.data.FavoriteRepositoryImpl
+import org.bohdan.mallproject.data.repositoryimpl.FavoriteRepositoryImpl
 import org.bohdan.mallproject.domain.repository.FavoriteRepository
 import javax.inject.Singleton
 

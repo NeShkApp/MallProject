@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.bohdan.mallproject.databinding.ItemFavoriteBinding
 import org.bohdan.mallproject.domain.model.ShopItem
+import org.bohdan.mallproject.presentation.adapters.diffcallback.ShopItemDiffCallback
 
-class FavoriteAdapter : ListAdapter<ShopItem, FavoriteAdapter.FavoriteViewHolder>(ShopItemDiffCallback()) {
+class FavoriteAdapter : ListAdapter<ShopItem, FavoriteAdapter.FavoriteViewHolder>(
+    ShopItemDiffCallback()
+) {
 
     var onFavoriteItemClickListener: ((ShopItem) -> Unit)? = null
     var onRemoveClickListener: ((ShopItem) -> Unit)? = null
@@ -24,8 +27,14 @@ class FavoriteAdapter : ListAdapter<ShopItem, FavoriteAdapter.FavoriteViewHolder
         fun bind(shopItem: ShopItem){
             binding.itemName.text = shopItem.name
             binding.itemDescription.text = shopItem.description
-            binding.itemPrice.text = "${shopItem.price}"
             binding.itemRating.rating = shopItem.rating
+//            binding.itemPrice.text = "${shopItem.price}"
+            val finalPrice = if (shopItem.discount > 0) {
+                shopItem.price - (shopItem.price * shopItem.discount / 100)
+            } else {
+                shopItem.price
+            }
+            binding.itemPrice.text = String.format("$%.2f", finalPrice)
 
             Glide.with(binding.root.context)
                 .load(shopItem.imageUrl)

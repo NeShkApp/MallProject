@@ -1,18 +1,17 @@
 package org.bohdan.mallproject.presentation.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.bohdan.mallproject.R
 import org.bohdan.mallproject.databinding.ItemSubcategoryBinding
-import org.bohdan.mallproject.domain.model.Category
 import org.bohdan.mallproject.domain.model.Subcategory
+import org.bohdan.mallproject.presentation.adapters.diffcallback.SubcategoryDiffCallback
 
-class SubcategoriesAdapter: ListAdapter<Subcategory, SubcategoriesAdapter.SubcategoryViewHolder>(SubcategoryDiffCallback()) {
+class SubcategoriesAdapter: ListAdapter<Subcategory, SubcategoriesAdapter.SubcategoryViewHolder>(
+    SubcategoryDiffCallback()
+) {
 
     var onSubcategoryClickListener: ((Subcategory) -> Unit)? = null
 
