@@ -28,7 +28,7 @@
     <string name="buy">Do kasy</string>
     <string name="total">Razem:</string>
     <string name="username">Username</string>
-    <string name="orders">Orders</string>
+    <string name="orders">Zamówienia</string>
 
     <string name="search">Szukaj</string>
     <string name="sort">Sortowanie</string>
@@ -41,7 +41,7 @@
 
     <string name="reset_all_filters">Zresetuj wszystkie filtry</string>
     <string name="nothing_found">Nic nie znaleziono</string>
-    <string name="bag">Torba</string>
+    <string name="bag">Koszyk</string>
     <string name="my_account">Moje konto</string>
     <string name="add_to_bag">Dodaj do torby</string>
     <string name="remove_from_bag">Usuń z torby</string>
@@ -72,5 +72,9 @@
     <string name="only_discounts">Tylko zniżki</string>
     <string name="apply_filter">Zastosuj filtr</string>
     <string name="minimum_rating">Minimalna ocena</string>
+    <string name="register_with_google">Zarejestruj się przez Google</string>
+    <string name="your_favorite_list_is_empty_go_shop_for_something_you_love">Twoja lista ulubionych jest pusta. Dodaj to, co lubisz!</string>
+    <string name="go_to_shop">Do sklepu</string>
+    <string name="your_bag_is_empty_go_shop_for_something_you_love">Twój koszyk jest pusty. Dodaj to, co lubisz!</string>
 
 </resources>

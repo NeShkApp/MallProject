@@ -75,5 +75,9 @@
     <string name="only_discounts">Only discounts</string>
     <string name="apply_filter">Apply Filter</string>
     <string name="minimum_rating">Minimum Rating</string>
+    <string name="register_with_google">Sign up with Google</string>
+    <string name="your_favorite_list_is_empty_go_shop_for_something_you_love">Your favorite list is empty. Go shop for something you love!</string>
+    <string name="go_to_shop">Go to Shop</string>
+    <string name="your_bag_is_empty_go_shop_for_something_you_love">Your bag is empty. Go shop for something you love!</string>
 
 </resources>

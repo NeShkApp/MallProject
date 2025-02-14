@@ -38,14 +38,14 @@ class ShopItemDetailsRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            // Підраховуємо середній рейтинг і кількість відгуків
+            // Obliczamy średnią ocenę i liczbę recenzji
             val reviewCount = reviewsSnapshot.documents.size
             val totalRating = reviewsSnapshot.documents.sumOf {
                 (it.getDouble("rating") ?: 0.0)
             }
             val averageRating = if (reviewCount > 0) totalRating / reviewCount else 0.0
 
-            // Оновлюємо документ продукту
+            // Aktualizujemy dokument produktu
             firestore.collection("products")
                 .document(shopItemId)
                 .update(
@@ -72,12 +72,12 @@ class ShopItemDetailsRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            // Отримати відгуки
+            // Otrzymać opinie
             val comments = documents.mapNotNull {
                 it.toObject(Comment::class.java).copy(id = it.id)
             }
 
-            // Для кожного коментаря отримати name користувача
+            // Otrzymać pole name użytkownika dla każdego komentarza
             val commentsWithUsernames = comments.map { comment ->
                 val userDocument = firestore.collection("users")
                     .document(comment.usernameId)
@@ -104,7 +104,7 @@ class ShopItemDetailsRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            // Перевіряємо, чи є productId у масиві productsWithQuantities
+            // Sprawdzamy, czy identyfikator produktu znajduje się w tablicy ProductsWithQuantities
             for (order in ordersSnapshot.documents) {
                 val productsWithQuantities = order["productsWithQuantities"] as? List<Map<String, Any>>
                 productsWithQuantities?.forEach { product ->

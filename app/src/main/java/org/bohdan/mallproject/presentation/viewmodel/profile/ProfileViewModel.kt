@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadOptions() {
         _options.value = listOf(
-            ProfileOption(ProfileOption.PROFILE, R.string.profile, R.drawable.ic_info),
+//            ProfileOption(ProfileOption.PROFILE, R.string.profile, R.drawable.ic_info),
             ProfileOption(ProfileOption.THEME, R.string.theme, R.drawable.ic_settings),
             ProfileOption(ProfileOption.CHANGE_LANGUAGE, R.string.language, R.drawable.ic_language),
             ProfileOption(ProfileOption.ORDERS, R.string.orders, R.drawable.ic_orders),

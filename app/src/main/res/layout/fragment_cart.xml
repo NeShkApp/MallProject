@@ -58,14 +58,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="Your bag is empty. Go shop for something you love!"
+                    android:text="@string/your_bag_is_empty_go_shop_for_something_you_love"
                     android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/goToShopButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Go to Shop" />
+                    android:text="@string/go_to_shop" />
 
             </LinearLayout>
 

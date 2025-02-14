@@ -136,8 +136,9 @@ class AuthActivity : BaseActivity() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password)
         } else {
-            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this,
+                getString(R.string.login_error_empty_fields),
+                Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -148,11 +149,13 @@ class AuthActivity : BaseActivity() {
             binding.loginButton.visibility = View.VISIBLE
             binding.registerButton.visibility = View.GONE
             binding.switchText.text = getString(R.string.switch_to_register)
+            binding.googleSignInButton.text = getString(R.string.google_sign_in_button)
         } else {
             binding.usernameInput.visibility = View.VISIBLE
             binding.loginButton.visibility = View.GONE
             binding.registerButton.visibility = View.VISIBLE
             binding.switchText.text = getString(R.string.switch_to_login)
+            binding.googleSignInButton.text = getString(R.string.register_with_google)
         }
     }
 

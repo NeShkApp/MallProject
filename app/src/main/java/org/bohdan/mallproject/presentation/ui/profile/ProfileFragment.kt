@@ -70,9 +70,8 @@ class ProfileFragment : Fragment() {
 
     private fun handleOptionClick(option: ProfileOption) {
         when (option.id) {
-            ProfileOption.PROFILE -> {
-                // Реалізуйте обробку перегляду профілю
-            }
+//            ProfileOption.PROFILE -> {
+//            }
             ProfileOption.THEME -> {
                 viewModel.toggleTheme(requireContext())
                 requireActivity().recreate()
@@ -108,12 +107,6 @@ class ProfileFragment : Fragment() {
 
 
     private fun showLanguageSelectionDialog() {
-//        val languages = arrayOf(
-//            "English",
-//            "Polski",
-//            "Українська"
-//        )
-
         val languages = arrayOf(
             HtmlCompat.fromHtml("&#127468;&#127463;", HtmlCompat.FROM_HTML_MODE_LEGACY).toString() + " English",
             HtmlCompat.fromHtml("&#127477;&#127473;", HtmlCompat.FROM_HTML_MODE_LEGACY).toString() + " Polski",

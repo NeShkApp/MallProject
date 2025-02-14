@@ -50,7 +50,8 @@ class OrderAdapter: ListAdapter<Order, OrderAdapter.OrderViewHolder>(OrderDiffCa
 
         fun bind(order: Order) {
             binding.tvTimestamp.text = order.formattedTimestamp
-            binding.tvTotalPrice.text = "${order.totalAmount} $"
+            binding.tvTotalPrice.text = String.format("%.2f $", order.totalAmount)
+//            binding.tvTotalPrice.text = "${order.totalAmount} $"
 
             val products = order.shopItems.map{it}
             productAdapter.submitList(products)

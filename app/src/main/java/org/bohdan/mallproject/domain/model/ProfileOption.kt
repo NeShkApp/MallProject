@@ -7,7 +7,7 @@ data class ProfileOption(
     val title: String = "",
 ) {
     companion object {
-        const val PROFILE = 1
+//        const val PROFILE = 1
         const val THEME = 2
         const val CHANGE_LANGUAGE = 3
         const val ORDERS = 4

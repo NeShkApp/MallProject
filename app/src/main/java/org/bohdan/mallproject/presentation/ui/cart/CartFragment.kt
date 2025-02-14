@@ -39,7 +39,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: fix unnecessary calls of releaseCartItems!!! 
         if (viewModel.isRestored) {
             viewModel.getCartItems()
             val items = viewModel.cartItems.value?.let {
@@ -156,19 +155,20 @@ class CartFragment : Fragment() {
                 }
 
                 if (!items.isNullOrEmpty()) {
-                    // Логування обраної кількості товарів
+                    // Logowanie wybranej liczby produktów
                     items.forEach { item ->
                         Log.d("CartFragment", "Item ID: ${item.id}, Selected Quantity: ${item.selectedQuantity}")
                     }
 
-                    viewModel.reserveCartItems(items) // Резервуємо вибрані товари
+                    // Rezerwowanie wybranych towarów
+                    viewModel.reserveCartItems(items)
 
-                    // Навігація до CheckoutDetailsFragment
+                    // Nawigacja do CheckoutDetailsFragment
                     findNavController().navigate(
                         CartFragmentDirections.actionCartFragmentToCheckoutDetailsFragment(items.toTypedArray())
                     )
                 } else {
-                    // Лог для випадку, коли немає вибраних товарів
+                    // Logowanie przypadku, gdy nie ma wybranych produktów
                     Log.e("CartFragment", "No items selected for checkout.")
                 }
 

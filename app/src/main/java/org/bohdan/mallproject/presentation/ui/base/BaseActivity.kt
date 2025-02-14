@@ -38,7 +38,7 @@ open class BaseActivity : AppCompatActivity() {
 
         registerReceiver(airplaneModeReceiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
 
-        //first time show
+        // Pierwszy pokaz
         val isAirplaneModeOn = Settings.Global.getInt(
             contentResolver,
             Settings.Global.AIRPLANE_MODE_ON

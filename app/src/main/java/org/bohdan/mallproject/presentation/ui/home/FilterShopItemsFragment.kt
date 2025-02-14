@@ -88,10 +88,11 @@ class FilterShopItemsFragment(
             dismiss()
         }
 
-        // Слухач для зміни вибраної категорії
+        // Listener, aby zmienić wybraną kategorię
         binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updateSubcategories()  // Оновлюємо підкатегорії після зміни категорії
+                // Aktualizowanie podkategorie po zmianie kategorii
+                updateSubcategories()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -142,17 +143,18 @@ class FilterShopItemsFragment(
     }
 
     private fun updateSubcategories() {
-        // Оновлюємо підкатегорії, якщо вибрана категорія не "всі категорії"
+        // Zaktualizować podkategorie, jeśli wybrana kategoria nie jest „wszystkie kategorie”
         val selectedCategory = binding.spinnerCategory.selectedItem as? String
         if (selectedCategory != "All Categories") {
             val category = viewModel.categories.value?.find { it.name == selectedCategory }
             category?.let {
-                // Завантажуємо підкатегорії для вибраної категорії
+                // Pobieranie podkategorii dla wybranej kategorii
                 viewModel.loadSubcategories(it)
-                binding.spinnerSubcategory.isEnabled = true // робимо спінер підкатегорій доступним
+                // robimy spinner podkategorii widocznym
+                binding.spinnerSubcategory.isEnabled = true
             }
         } else {
-            // Якщо вибрано "всі категорії", робимо спінер підкатегорій недоступним
+            // Jeśli wybrano „wszystkie kategorie”, spinner podkategorii będzie niedostępny
             binding.spinnerSubcategory.isEnabled = false
             subcategoryAdapter.clear()
             subcategoryAdapter.add("All Subcategories")

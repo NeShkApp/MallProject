@@ -38,30 +38,30 @@ class AuthRepositoryTest {
 
     @Before
     fun setUp() {
-        // Ініціалізація моків
+        // Inicjalizacja mocków
         MockitoAnnotations.openMocks(this)
 
-        // Створення екземпляра AuthRepository вручну з мока
+        // Ręczne tworzenie instancji AuthRepository z mockami
         authRepository = AuthRepositoryImpl(mockAuth, mockFirestore)
     }
 
     @Test
     fun `loginWithEmail should return FirebaseUser on success`() = runBlocking {
-        // Налаштування мока для Task<AuthResult>
+        // Ustawianie mocka dla Task<AuthResult>
         val email = "test@example.com"
         val password = "password123"
 
-        // Створюємо мок для AuthResult
+        // Tworzymy mocka dla AuthResult
         `when`(mockAuthResult.user).thenReturn(mockFirebaseUser)
 
-        // Створюємо мок для Task
+        // Tworzymy mocka dla Task
         val task = Tasks.forResult(mockAuthResult)
         `when`(mockAuth.signInWithEmailAndPassword(email, password)).thenReturn(task)
 
-        // Виклик методу
+        // Wywołanie metody
         val result = authRepository.loginWithEmail(email, password)
 
-        // Перевірка, чи повертається успішний результат
+        // Sprawdzamy, czy zwrócony wynik jest sukcesem
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull())
         assertTrue(result.getOrNull() is FirebaseUser)
@@ -69,19 +69,19 @@ class AuthRepositoryTest {
 
     @Test
     fun `loginWithEmail should return failure when an error occurs`() = runBlocking {
-        // Налаштування мока для Task<AuthResult>, щоб виникла помилка
+        // Ustawianie mocka dla Task<AuthResult>, aby wystąpił błąd
         val email = "test@example.com"
         val password = "wrongpassword"
 
-        // Мок для Task, який кидає виключення
+        // Mock dla Task, który rzuca wyjątek
         val exception = Exception("Login failed")
         val task = Tasks.forException<AuthResult>(exception)
         `when`(mockAuth.signInWithEmailAndPassword(email, password)).thenReturn(task)
 
-        // Виклик методу
+        // Wywołanie metody
         val result = authRepository.loginWithEmail(email, password)
 
-        // Перевірка, чи повертається помилка
+        // Sprawdzamy, czy wynik to błąd
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is Exception)
         assertTrue(result.exceptionOrNull()?.message == "Login failed")

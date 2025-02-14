@@ -78,14 +78,14 @@ class OrderRepositoryImpl @Inject constructor(
                     val shopItemId = productData["shopItemId"].toString()
                     val selectedQuantity = productData["quantity"] as? Long ?: 0
 
-                    // Отримуємо деталі товару
+                    // Otrzymujemy szczegóły produktu
                     val shopItem = shopItemDetailsRepository.getShopItemDetailsById(shopItemId)
 
-                    // Додаємо кількість
+                    // Dodajemy ilość
                     shopItem.copy(selectedQuantity = selectedQuantity.toInt())
                 }
 
-                // Форматуємо дату і повертаємо оновлене замовлення
+                // Formatujemy datę i zwracamy zaktualizowane zamówienie
                 order.copy(
                     shopItems = productsWithDetails,
                     formattedTimestamp = formatTimestamp(order.timestamp)

@@ -16,9 +16,6 @@ import javax.inject.Inject
 class CategoriesViewModel @Inject constructor(
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
 ) : ViewModel() {
-
-
-
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>>
         get() = _categories

@@ -69,8 +69,6 @@ class MainActivity : BaseActivity() {
         val navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
 
-
-//         TODO: FIX THE NAVIGATION BUG
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.categoriesFragment -> {
