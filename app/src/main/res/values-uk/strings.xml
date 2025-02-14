@@ -74,6 +74,10 @@
     <string name="only_discounts">Тільки зі знижками</string>
     <string name="apply_filter">Застосувати фільтр</string>
     <string name="minimum_rating">Мінімальний рейтинг</string>
+    <string name="register_with_google">Зареєструватися через Google</string>
+    <string name="your_favorite_list_is_empty_go_shop_for_something_you_love">Твій список улюблених порожній. Додай те, що любиш!</string>
+    <string name="go_to_shop">До продуктів</string>
+    <string name="your_bag_is_empty_go_shop_for_something_you_love">Твій кошик порожній. Додай те, що любиш!</string>
 
 
 </resources>

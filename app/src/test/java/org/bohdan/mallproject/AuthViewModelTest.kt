@@ -37,7 +37,7 @@ import org.mockito.MockitoAnnotations
 @ExperimentalCoroutinesApi
 class AuthViewModelTest {
 
-    // Використовуємо правило для тестування LiveData
+    // Używamy reguły do testowania LiveData
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -72,7 +72,7 @@ class AuthViewModelTest {
         MockitoAnnotations.initMocks(this)
         Dispatchers.setMain(testDispatcher)
 
-        // Створюємо ViewModel з моком LoginUseCase
+        // Tworzymy ViewModel z mockiem LoginUseCase
         authViewModel = AuthViewModel(
             mockLoginUseCase,
             mockRegisterUseCase,
@@ -85,7 +85,7 @@ class AuthViewModelTest {
 
     @After
     fun tearDown() {
-        // Після кожного тесту скидаємо диспетчер
+        // Po każdym teście resetujemy dispatcher
         Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
     }
@@ -95,32 +95,32 @@ class AuthViewModelTest {
         val email = "test@example.com"
         val password = "password123"
 
-        // Створюємо мок користувача для успішного входу
+        // Tworzymy mock użytkownika do udanego logowania
         val mockFirebaseUser = mock(FirebaseUser::class.java)
 
-        // Налаштовуємо мок для loginUseCase, щоб він повертав успішний результат
+        // Konfigurujemy mock dla loginUseCase, aby zwrócił sukces
         `when`(mockLoginUseCase.invoke(email, password)).thenReturn(Result.success(mockFirebaseUser))
 
-        // Створюємо обсервер для LiveData
+        // Tworzymy obserwatora dla LiveData
         val messageObserver = mock(Observer::class.java) as Observer<Int>
         authViewModel.messageId.observeForever(messageObserver)
 
         val navigateObserver = mock(Observer::class.java) as Observer<Boolean>
         authViewModel.navigateToMainActivity.observeForever(navigateObserver)
 
-        // Викликаємо метод login() на ViewModel
+        // Wywołujemy metodę login() na ViewModel
         authViewModel.login(email, password)
 
-        // Перевіряємо, чи завершені всі корутини
+        // Sprawdzamy, czy wszystkie korutyny zakończone
         advanceUntilIdle()
 
-        // Перевіряємо, що LiveData отримує правильне повідомлення про успіх
+        // Sprawdzamy, czy LiveData otrzymuje odpowiednią wiadomość o sukcesie
         verify(messageObserver).onChanged(R.string.sign_in_successful)
 
-        // Перевіряємо, чи відбулося перенаправлення до головної активності
+        // Sprawdzamy, czy nastąpiła nawigacja do głównej aktywności
         verify(navigateObserver).onChanged(true)
 
-        // Видаляємо обсервери після завершення тесту
+        // Usuwamy obserwatorów po zakończeniu testu
         authViewModel.messageId.removeObserver(messageObserver)
         authViewModel.navigateToMainActivity.removeObserver(navigateObserver)
     }
@@ -130,32 +130,32 @@ class AuthViewModelTest {
 //        val email = "test@example.com"
 //        val password = "password123"
 //
-//        // Налаштовуємо мок для loginUseCase, щоб він кидав неперевірену помилку (RuntimeException)
+//        // Konfigurujemy mock dla loginUseCase, aby rzucił błąd (RuntimeException)
 //        `when`(mockLoginUseCase.invoke(email, password)).thenThrow(RuntimeException("General error"))
 //
-//        // Створюємо обсервер для LiveData
+//        // Tworzymy obserwatora dla LiveData
 //        val messageObserver = mock(Observer::class.java) as Observer<Int>
 //        authViewModel.messageId.observeForever(messageObserver)
 //
 //        val navigateObserver = mock(Observer::class.java) as Observer<Boolean>
 //        authViewModel.navigateToMainActivity.observeForever(navigateObserver)
 //
-//        // Викликаємо метод login() на ViewModel
+//        // Wywołujemy metodę login() na ViewModel
 //        authViewModel.login(email, password)
 //
-//        // Очікуємо завершення всіх корутин
+//        // Czekamy na zakończenie wszystkich korutyn
 //        advanceUntilIdle()
 //
-//        // Перевіряємо, що відобразилось загальне повідомлення про помилку
+//        // Sprawdzamy, czy wyświetlił się ogólny komunikat o błędzie
 //        verify(messageObserver).onChanged(R.string.login_error_general)
 //
-//        // Перевіряємо, що користувач не перенаправляється
+//        // Sprawdzamy, czy użytkownik nie zostaje przekierowany
 //        verify(navigateObserver, never()).onChanged(true)
 //
-//        // Видаляємо обсервери після завершення тесту
+//        // Usuwamy obserwatorów po zakończeniu testu
 //        authViewModel.messageId.removeObserver(messageObserver)
 //        authViewModel.navigateToMainActivity.removeObserver(navigateObserver)
 //    }
 
-
 }
+

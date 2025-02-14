@@ -75,23 +75,24 @@ class ShopItemDetailsViewModel @Inject constructor(
 
     fun loadShopItemById(shopItemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true) // Включаємо прогрес-бар
+            // Właczamy progress bar
+            _isLoading.postValue(true)
             try {
-                // Завантажуємо всі необхідні дані паралельно
+                // Pobieramy równoleglie wszystkie niezbędne dane
                 val itemDeferred = async { getShopItemDetailsByIdUseCase(shopItemId) }
                 val isFavoriteDeferred = async { isItemInFavoriteUseCase(shopItemId) }
                 val isCartDeferred = async { checkIfItemInCartUseCase(shopItemId) }
                 val commentsDeferred = async { getShopItemCommentsUseCase(shopItemId) }
                 val canLeaveCommentDeferred = async { canUserLeaveCommentUseCase(shopItemId) }
 
-                // Очікуємо завершення всіх завдань
+                // Czekamy na zakończenie wszystkich zadań
                 val item = itemDeferred.await()
                 val isFavorite = isFavoriteDeferred.await()
                 val isCart = isCartDeferred.await()
                 val comments = commentsDeferred.await()
                 val canLeaveComment = canLeaveCommentDeferred.await()
 
-                // Публікуємо завантажені дані
+                // Publikujemy pobrane dane
                 _shopItem.postValue(item)
                 _isInFavorite.postValue(isFavorite)
                 _isInCart.postValue(isCart)

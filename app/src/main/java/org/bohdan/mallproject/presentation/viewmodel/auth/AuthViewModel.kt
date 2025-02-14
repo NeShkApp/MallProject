@@ -41,13 +41,12 @@ class AuthViewModel @Inject constructor(
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-
     fun login(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = loginUseCase(email, password)
                 if (result.isSuccess) {
-//                    _user.postValue(result.getOrNull())
+                    //_user.postValue(result.getOrNull())
                     _messageId.postValue(R.string.sign_in_successful)
                     _navigateToMainActivity.postValue(true)
                 } else {

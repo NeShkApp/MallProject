@@ -15,51 +15,51 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class AuthActivityTest {
 
-    // Тестуємо початковий стан активності
+    // Testujemy początkowy stan aktywności
     @Test
     fun testInitialViewState() {
-        // Запускаємо AuthActivity
+        // Uruchamiamy AuthActivity
         val scenario = ActivityScenario.launch(AuthActivity::class.java)
 
-        // Перевіряємо, що елементи для входу (поля для email і пароля, кнопка входу) відображаються
-        onView(withId(R.id.emailInput)).check(matches(isDisplayed()))  // Поле для email має бути видимим
-        onView(withId(R.id.passwordInput)).check(matches(isDisplayed()))  // Поле для пароля має бути видимим
-        onView(withId(R.id.loginButton)).check(matches(isDisplayed()))  // Кнопка входу має бути видимою
+        // Sprawdzamy, czy elementy do logowania (pola na email i hasło, przycisk logowania) są widoczne
+        onView(withId(R.id.emailInput)).check(matches(isDisplayed()))  // Pole na email powinno być widoczne
+        onView(withId(R.id.passwordInput)).check(matches(isDisplayed()))  // Pole na hasło powinno być widoczne
+        onView(withId(R.id.loginButton)).check(matches(isDisplayed()))  // Przycisk logowania powinien być widoczny
 
-        // Перевіряємо, що кнопка реєстрації на старті не має бути видимою
-        onView(withId(R.id.registerButton)).check(matches(not(isDisplayed())))  // Кнопка реєстрації має бути прихована
+        // Sprawdzamy, czy przycisk rejestracji nie jest widoczny na początku
+        onView(withId(R.id.registerButton)).check(matches(not(isDisplayed())))  // Przycisk rejestracji powinien być ukryty
     }
 
-    // Тестуємо, чи відбувається зміна видимості елементів при перемиканні на режим реєстрації
+    // Testujemy, czy zmienia się widoczność elementów po przejściu w tryb rejestracji
     @Test
     fun testSwitchToRegisterMode() {
-        // Запускаємо AuthActivity
+        // Uruchamiamy AuthActivity
         val scenario = ActivityScenario.launch(AuthActivity::class.java)
 
-        // Натискаємо на текст для перемикання в режим реєстрації
+        // Klikamy na tekst, aby przełączyć się w tryb rejestracji
         onView(withId(R.id.switchText)).perform(click())
 
-        // Перевіряємо, що після перемикання в режим реєстрації кнопка реєстрації та поле username стали видимими
-        onView(withId(R.id.usernameInput)).check(matches(isDisplayed()))  // Поле для username має бути видимим
-        onView(withId(R.id.registerButton)).check(matches(isDisplayed()))  // Кнопка реєстрації має бути видимою
-        onView(withId(R.id.loginButton)).check(matches(not(isDisplayed())))  // Кнопка входу має бути прихована
+        // Sprawdzamy, czy po przełączeniu w tryb rejestracji przycisk rejestracji i pole username stały się widoczne
+        onView(withId(R.id.usernameInput)).check(matches(isDisplayed()))  // Pole na username powinno być widoczne
+        onView(withId(R.id.registerButton)).check(matches(isDisplayed()))  // Przycisk rejestracji powinien być widoczny
+        onView(withId(R.id.loginButton)).check(matches(not(isDisplayed())))  // Przycisk logowania powinien być ukryty
     }
 
-    // Тестуємо, чи кнопка входу не відображається після переходу до режиму реєстрації
+    // Testujemy, czy przycisk logowania nie jest widoczny po przejściu do trybu rejestracji
     @Test
     fun testLoginButtonVisibilityInRegisterMode() {
-        // Запускаємо AuthActivity
+        // Uruchamiamy AuthActivity
         val scenario = ActivityScenario.launch(AuthActivity::class.java)
 
-        // Спочатку перевіряємо, що кнопка входу видима, а кнопка реєстрації прихована
-        onView(withId(R.id.loginButton)).check(matches(isDisplayed()))  // Кнопка входу має бути видимою
-        onView(withId(R.id.registerButton)).check(matches(not(isDisplayed())))  // Кнопка реєстрації має бути прихована
+        // Najpierw sprawdzamy, czy przycisk logowania jest widoczny, a przycisk rejestracji ukryty
+        onView(withId(R.id.loginButton)).check(matches(isDisplayed()))  // Przycisk logowania powinien być widoczny
+        onView(withId(R.id.registerButton)).check(matches(not(isDisplayed())))  // Przycisk rejestracji powinien być ukryty
 
-        // Натискаємо на текст для перемикання в режим реєстрації
+        // Klikamy na tekst, aby przełączyć się w tryb rejestracji
         onView(withId(R.id.switchText)).perform(click())
 
-        // Перевіряємо, що після перемикання кнопка реєстрації стала видимою, а кнопка входу прихована
-        onView(withId(R.id.registerButton)).check(matches(isDisplayed()))  // Кнопка реєстрації має бути видимою
+        // Sprawdzamy, czy po przełączeniu przycisk rejestracji stał się widoczny, a przycisk logowania ukryty
+        onView(withId(R.id.registerButton)).check(matches(isDisplayed()))  // Przycisk rejestracji powinien być widoczny
     }
 
 }

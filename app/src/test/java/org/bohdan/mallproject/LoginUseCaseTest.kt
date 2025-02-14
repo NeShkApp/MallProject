@@ -31,13 +31,13 @@ class LoginUseCaseTest {
         val email = "test@example.com"
         val password = "password123"
 
-        // Налаштовуємо мок для репозиторію, щоб він повертав успішний результат
+        // Konfigurujemy mock dla repozytorium, aby zwróciło wynik sukcesu
         `when`(mockAuthRepository.loginWithEmail(email, password)).thenReturn(Result.success(mockFirebaseUser))
 
-        // Викликаємо метод LoginUseCase
+        // Wywołujemy metodę LoginUseCase
         val result = loginUseCase(email, password)
 
-        // Перевірка, чи повертається успішний результат
+        // Sprawdzamy, czy zwrócono wynik sukcesu
         assertTrue(result.isSuccess)
         assertTrue(result.getOrNull() is FirebaseUser)
     }
@@ -47,14 +47,14 @@ class LoginUseCaseTest {
         val email = "test@example.com"
         val password = "wrongpassword"
 
-        // Налаштовуємо мок для репозиторію, щоб він повертав помилку
+        // Konfigurujemy mock dla repozytorium, aby zwróciło błąd
         val exception = Exception("Login failed")
         `when`(mockAuthRepository.loginWithEmail(email, password)).thenReturn(Result.failure(exception))
 
-        // Викликаємо метод LoginUseCase
+        // Wywołujemy metodę LoginUseCase
         val result = loginUseCase(email, password)
 
-        // Перевірка, чи повертається помилка
+        // Sprawdzamy, czy zwrócono błąd
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is Exception)
         assertTrue(result.exceptionOrNull()?.message == "Login failed")

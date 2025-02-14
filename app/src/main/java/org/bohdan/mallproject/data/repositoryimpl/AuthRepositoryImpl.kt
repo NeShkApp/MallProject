@@ -24,8 +24,12 @@ class AuthRepositoryImpl @Inject constructor(
         password: String
     ): Result<FirebaseUser> {
         return try {
-            val result = auth.signInWithEmailAndPassword(email, password).await()
-            Result.success(result.user ?: throw Exception("User not found"))
+            val result = auth
+                .signInWithEmailAndPassword(email, password)
+                .await()
+            Result
+                .success(result.user
+                    ?: throw Exception("User not found"))
         } catch (e: Exception) {
             Result.failure(e)
         }
