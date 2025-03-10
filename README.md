@@ -1,6 +1,6 @@
 # 📱 Mobile Retail Application
 
-![App Logo](images/logo.png)
+![App Logo](images/logo.png){:width="=200px"}
 
 ## 🛒 About the Project
 This mobile application seamlessly integrates traditional retail with e-commerce, allowing users to:  
@@ -16,56 +16,54 @@ This mobile application seamlessly integrates traditional retail with e-commerce
 ### 🔍 Product Catalog
 Users can browse an extensive catalog of products, search by category, subcategory, and view product details.
 
-![Product Catalog](images/product_catalog.gif)
+![Product Catalog](images/product_catalog.gif){:width="400px"}
 
 ### 🛍️ Shopping Cart & Checkout
 Items can be added to the cart, where users can adjust quantities before proceeding to secure checkout.  
 
-![Shopping Cart](images/shopping_cart.gif)
-![Checkout](images/checkout.gif)
+![Shopping Cart](images/shopping_cart.gif){:width="400px"}
+![Checkout](images/checkout.gif){:width="400px"}
 
 ### 🔑 User Authentication
 Two registration options:  
 1️⃣ **Email registration & verification**  
 2️⃣ **Google Sign-In**
 
-![Login Screen](images/login.gif)  
+![Login Screen](images/login.gif){:width="400px"}
 
 ### 📊 Order Tracking & History
 Users can track their order status and view their purchase history.  
-📌 **Suggested screenshot:** An order history screen displaying past purchases.
 
-![Order History](images/order_history.png)  
+![Order History](images/order_history.png){:width="400px"}
 
 ### 🔔 Push Notifications
-Stay updated with promotions, order status changes, and personalized offers.  
-📌 **Suggested GIF:** A notification pop-up appearing on the phone.
+Stay updated with promotions, order status changes, and personalized offers.
 
-![Push Notifications](images/push_notifications.png)
+![Push Notifications](images/push_notifications.png){:width="400px"}
 
 ### 🌍 Language & Theme Support
 The app supports both language and theme customization:
 
-- Language: Users can switch between different languages (e.g., English, Ukrainian, Polish).
+- Language: Users can switch between different languages (English, Ukrainian, Polish).
 - Theme: Choose between a Light or Dark theme for a personalized viewing experience.
 
-![UI](images/ui.png)
+![UI](images/ui.png){:width="400px"}
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### 📌 Libraries Used:
-- **Hilt/Dagger** – Dependency injection
-- **Navigation & Safe Args** – Seamless screen transitions
-- **Material Design** – Modern UI components
-- **Glide** – Image loading
-- **JUnit & Espresso** – Testing
-- **Coroutines** – Efficient async operations
-- **Mockito** – Unit testing
+- **Hilt/Dagger**
+- **Navigation & Safe Args**
+- **Material Design**
+- **Glide**
+- **JUnit & Espresso**
+- **Coroutines**
+- **Mockito**
 
 ### 🔗 Technologies:
-- **Kotlin** – Primary programming language
+- **Kotlin**
 - **Firebase:**
     - Firestore Database
     - Authentication
@@ -92,19 +90,19 @@ The app is designed and tested on:
 ## 2️⃣ Sign In or Register
 To access all features, you need to create an account.  
 You can sign up using:  
-✅ **Email registration & verification**  
-✅ **Google Sign-In**
+- **Email registration & verification**  
+- **Google Sign-In**
 
 ## 3️⃣ Skip Registration (Test Access)
 If you just want to explore the app, you can log in using a test account:
 
-Email: testaccount@gmail.com
-Password: Test1234!
+- Email: testaccount@gmail.com
+- Password: Test1234!
 
 ## 4️⃣ Enjoy the App! 🎉
 
 ## 🔬 Testing
 The project includes both unit and UI tests:
 
-✅ JUnit – Unit testing
-✅ Espresso – UI testing
+- JUnit – Unit testing
+- Espresso – UI testing
