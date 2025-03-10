@@ -1,6 +1,7 @@
 # 📱 Mobile Retail Application
 
-![App Logo](images/logo.png){:width="=200px"}
+<img src="images/logo.png" width="200px" />
+<!-- ![App Logo](images/logo.png){:width="=200px"} -->
 
 ## 🛒 About the Project
 This mobile application seamlessly integrates traditional retail with e-commerce, allowing users to:  
@@ -16,30 +17,37 @@ This mobile application seamlessly integrates traditional retail with e-commerce
 ### 🔍 Product Catalog
 Users can browse an extensive catalog of products, search by category, subcategory, and view product details.
 
-![Product Catalog](images/product_catalog.gif){:width="400px"}
+<img src="images/product_catalog.gif" width="300px" />
+<!-- ![Product Catalog](images/product_catalog.gif){:width="400px"} -->
 
 ### 🛍️ Shopping Cart & Checkout
 Items can be added to the cart, where users can adjust quantities before proceeding to secure checkout.  
 
-![Shopping Cart](images/shopping_cart.gif){:width="400px"}
-![Checkout](images/checkout.gif){:width="400px"}
+<img src="images/shopping_cart.gif" width="300px" />
+<img src="images/checkout.gif" width="300px" />
+
+<!-- ![Shopping Cart](images/shopping_cart.gif){:width="400px"}
+![Checkout](images/checkout.gif){:width="400px"} -->
 
 ### 🔑 User Authentication
 Two registration options:  
 1️⃣ **Email registration & verification**  
 2️⃣ **Google Sign-In**
 
-![Login Screen](images/login.gif){:width="400px"}
+<img src="images/login.gif" width="300px" />
+<!-- ![Login Screen](images/login.gif){:width="400px"} -->
 
 ### 📊 Order Tracking & History
 Users can track their order status and view their purchase history.  
 
-![Order History](images/order_history.png){:width="400px"}
+<img src="images/order_history.png" width="300px" />
+<!-- ![Order History](images/order_history.png){:width="400px"} -->
 
 ### 🔔 Push Notifications
 Stay updated with promotions, order status changes, and personalized offers.
 
-![Push Notifications](images/push_notifications.png){:width="400px"}
+<img src="images/push_notifications.png" width="300px" />
+<!-- ![Push Notifications](images/push_notifications.png){:width="400px"} -->
 
 ### 🌍 Language & Theme Support
 The app supports both language and theme customization:
@@ -47,7 +55,8 @@ The app supports both language and theme customization:
 - Language: Users can switch between different languages (English, Ukrainian, Polish).
 - Theme: Choose between a Light or Dark theme for a personalized viewing experience.
 
-![UI](images/ui.png){:width="400px"}
+<img src="images/ui.png" width="300px" />
+<!-- ![UI](images/ui.png){:width="400px"} -->
 
 ---
 
