@@ -1,48 +1,110 @@
-# Aplikacja Mobilna do Handlu Detalicznego
+# 📱 Mobile Retail Application
 
-## Opis projektu
-Ten projekt to autorska aplikacja mobilna, która łączy funkcje tradycyjnego sklepu detalicznego z e-commerce. Umożliwia użytkownikom przeglądanie produktów, składanie zamówień, realizację płatności oraz zarządzanie swoimi danymi. Aplikacja automatyzuje procesy sprzedaży, poprawiając wygodę zakupów i wspierając właścicieli sklepów w efektywnym zarządzaniu biznesem.
+![App Logo](images/logo.png)
 
-## Wykorzystane biblioteki
+## 🛒 About the Project
+This mobile application seamlessly integrates traditional retail with e-commerce, allowing users to:  
+✅ Browse products 🛍️  
+✅ Place orders 🛒  
+✅ Make payments 💳  
+✅ Manage their data 👤
 
-W projekcie zostały wykorzystane następujące biblioteki:
+---
 
-- Hilt/Dagger
-- Navigation & Safe Args
-- Material Design
-- Glide
-- JUnit
-- Espresso
-- Coroutines
-- Mockito
+## 🚀 Key Features
 
-## Wykorzystane technologie
+### 🔍 Product Catalog
+Users can browse an extensive catalog of products, search by category, subcategory, and view product details.
 
-W projekcie zostały wykorzystane następujące technologie:
+![Product Catalog](images/product_catalog.gif)
 
-- Kotlin
-- Firebase
+### 🛍️ Shopping Cart & Checkout
+Items can be added to the cart, where users can adjust quantities before proceeding to secure checkout.  
+
+![Shopping Cart](images/shopping_cart.gif)
+![Checkout](images/checkout.gif)
+
+### 🔑 User Authentication
+Two registration options:  
+1️⃣ **Email registration & verification**  
+2️⃣ **Google Sign-In**
+
+![Login Screen](images/login.gif)  
+
+### 📊 Order Tracking & History
+Users can track their order status and view their purchase history.  
+📌 **Suggested screenshot:** An order history screen displaying past purchases.
+
+![Order History](images/order_history.png)  
+
+### 🔔 Push Notifications
+Stay updated with promotions, order status changes, and personalized offers.  
+📌 **Suggested GIF:** A notification pop-up appearing on the phone.
+
+![Push Notifications](images/push_notifications.png)
+
+### 🌍 Language & Theme Support
+The app supports both language and theme customization:
+
+- Language: Users can switch between different languages (e.g., English, Ukrainian, Polish).
+- Theme: Choose between a Light or Dark theme for a personalized viewing experience.
+
+![UI](images/ui.png)
+
+---
+
+## 🛠️ Tech Stack
+
+### 📌 Libraries Used:
+- **Hilt/Dagger** – Dependency injection
+- **Navigation & Safe Args** – Seamless screen transitions
+- **Material Design** – Modern UI components
+- **Glide** – Image loading
+- **JUnit & Espresso** – Testing
+- **Coroutines** – Efficient async operations
+- **Mockito** – Unit testing
+
+### 🔗 Technologies:
+- **Kotlin** – Primary programming language
+- **Firebase:**
     - Firestore Database
     - Authentication
     - Firebase Analytics
     - Firebase Messaging
-- MVVM
-- Clean Architecture
-- Git
+- **Architecture:** MVVM + Clean Architecture  
 
-## Wersje
+---
 
-Aplikacja została zaprojektowana i przetestowana na wersjach Androida 9.0 (API 28) - 14 (API 34). Wykorzystano Android Studio Koala 2024.1.1, AGP = 8.5.2. 
+## 📲 Supported Versions
 
-## Wdrażanie
+The app is designed and tested on:  
+1. **Android 9.0 (API 28) – Android 15 (API 35)**  
+2. Developed using **Android Studio Koala 2024.1.1** and **AGP 8.5.2**
+3. Gradle 8.9
 
-Aby korzystać z pełnej funkcjonalności aplikacji, użytkownik musi się zarejestrować. Można to zrobić na dwa sposoby:
+---
 
-1. **rejestracja i podtwierdzenie za pomocą e-maila**,
-2. **rejestracja i logowanie za pomocą konta Google**.
+# 📲 How to Run the App on Your Phone
 
-Po pomyślnej rejestracji wszystkie funkcje aplikacji staną się dostępne, w tym możliwość przeglądania produktów, składania zamówień i zarządzania danymi użytkownika.
+## 1️⃣ Download & Install
+- Install the APK file on your Android device.
 
-## Testowanie
+## 2️⃣ Sign In or Register
+To access all features, you need to create an account.  
+You can sign up using:  
+✅ **Email registration & verification**  
+✅ **Google Sign-In**
 
-Projekt zawiera testy jednostkowe oraz testy UI, napisane przy użyciu narzędzi **JUnit** oraz **Espresso**. Można je uruchomić w Android Studio lub za pomocą terminala.
+## 3️⃣ Skip Registration (Test Access)
+If you just want to explore the app, you can log in using a test account:
+
+Email: testaccount@gmail.com
+Password: Test1234!
+
+## 4️⃣ Enjoy the App! 🎉
+
+## 🔬 Testing
+The project includes both unit and UI tests:
+
+✅ JUnit – Unit testing
+✅ Espresso – UI testing
